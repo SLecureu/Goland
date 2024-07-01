@@ -45,9 +45,9 @@ func NewAPI(addr string) (*API, error) {
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { // Frontend setup
-		http.ServeFile(w, r, "static/index.html")
+		http.ServeFile(w, r, "index.html")
 	})
-	router.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	router.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
 	server.Server.Handler = router
 
