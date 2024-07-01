@@ -20,7 +20,8 @@ function Header() {
             method: `GET`,
             headers: {
                 "Content-Type": `application/json`
-            }
+            },
+            credentials: "include"
         })
         .then((resp) => {
             if (!resp.ok) return null;
