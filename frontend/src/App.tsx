@@ -1,10 +1,11 @@
-import './App.scss'
+import './App.css'
+import {Header} from "./component/Header.tsx";
 
 function App() {
 
-  // HTML FRAGMENT
   return (
     <>
+      <Header/>
     </>
   )
 }
