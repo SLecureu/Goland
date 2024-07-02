@@ -1,0 +1,9 @@
+header {
+  display: flex;
+  background-color: lightsteelblue;
+}
+
+.txt_deco_none {
+  text-decoration: none;
+  color: black;
+}
