@@ -10,7 +10,7 @@ function Header() {
 
   return (
     <header>
-      <Link to="/">
+      <Link className="txt_deco_none" to="/">
         <h1>GOLAND</h1>
       </Link>
       <div>{user ? user.firstName : `login`}</div>
