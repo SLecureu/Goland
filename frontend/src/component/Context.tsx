@@ -23,13 +23,8 @@ const initialValue = {
 
 export const UserContext = createContext<InitialType>(initialValue);
 
-export const UserContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const useFetchUser = () => {
   const [user, setUser] = useState<User | null>(null);
-
   useEffect(() => {
     fetch(`/api/auth`, {
       method: `GET`,
@@ -39,15 +34,24 @@ export const UserContextProvider = ({
       credentials: "include",
     })
       .then((resp) => {
-        if (!resp.ok) return null;
+        if (!resp.ok) {
+          throw new Error(`Failed to fetch user: ${resp.status}`);
+        }
         return resp.json();
       })
-      .then((data) => {
-        setUser(data);
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
+      .then(setUser)
+      .catch(console.log);
   }, []);
+  return { user, setUser };
+};
+
+export const UserContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const { user, setUser } = useFetchUser();
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}
