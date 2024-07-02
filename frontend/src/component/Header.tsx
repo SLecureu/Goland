@@ -1,6 +1,7 @@
 import { useContext } from "react";
 
 import { UserContext } from "./Context.tsx";
+import { Link } from "react-router-dom";
 
 import "./Header.css";
 
@@ -9,7 +10,9 @@ function Header() {
 
   return (
     <header>
-      <h1>GOLAND</h1>
+      <Link to="/">
+        <h1>GOLAND</h1>
+      </Link>
       <div>{user ? user.firstName : `login`}</div>
     </header>
   );
