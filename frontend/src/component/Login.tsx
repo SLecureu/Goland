@@ -15,11 +15,12 @@ function Login() {
         Object.fromEntries(new FormData(e.target as HTMLFormElement).entries())
       ),
     }).then(async (resp) => {
-      if (resp.ok) {
+      const data = await resp.json();
+      if (!resp.ok) seterror(data.message);
+      else {
+        setUser(data);
         navigate("/");
-        setUser(await resp.json());
       }
-      resp.json().then((data) => seterror(data.message));
     });
   };
 
