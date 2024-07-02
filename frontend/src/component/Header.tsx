@@ -17,9 +17,14 @@ function Header() {
         {user ? (
           <p>Welcome {user.firstName}!</p>
         ) : (
-          <Link className="txt_deco_none" to="/login">
-            <button>Login</button>
-          </Link>
+          <>
+            <Link className="txt_deco_none" to="/login">
+              Login
+            </Link>
+            <Link className="txt_deco_none" to="/register">
+              Register
+            </Link>
+          </>
         )}
       </div>
     </header>

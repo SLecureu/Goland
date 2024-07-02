@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 export type User = {
   id: number;
@@ -18,13 +18,14 @@ type InitialType = {
 
 const initialValue = {
   user: null,
-  setUser: () => {},
+  setUser: console.log,
 };
 
 export const UserContext = createContext<InitialType>(initialValue);
 
-export const useFetchUser = () => {
+export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
     fetch(`/api/auth`, {
       method: `GET`,
@@ -42,15 +43,6 @@ export const useFetchUser = () => {
       .then(setUser)
       .catch(console.log);
   }, []);
-  return { user, setUser };
-};
-
-export const UserContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const { user, setUser } = useFetchUser();
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
