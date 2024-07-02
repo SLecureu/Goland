@@ -13,7 +13,15 @@ function Header() {
       <Link className="txt_deco_none" to="/">
         <h1>GOLAND</h1>
       </Link>
-      <div>{user ? user.firstName : `login`}</div>
+      <div>
+        {user ? (
+          <p>Welcome {user.firstName}!</p>
+        ) : (
+          <Link className="txt_deco_none" to="/login">
+            <button>Login</button>
+          </Link>
+        )}
+      </div>
     </header>
   );
 }
