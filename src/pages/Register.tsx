@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../component/Context";
+import { UserContext } from "../components/Context";
 
 function Register() {
   const [error, seterror] = useState("");

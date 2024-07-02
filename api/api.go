@@ -44,8 +44,7 @@ func NewAPI(addr string) (*API, error) {
 	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 
-	router.Handle("/", http.FileServer(http.Dir("static")))
-	router.Handle("/assets/", http.FileServer(http.Dir("static")))
+	router.Handle("/", http.FileServer(http.Dir("dist")))
 
 	server.Server.Handler = router
 

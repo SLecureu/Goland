@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 
 import { Login } from "./pages/Login.tsx";
-import { UserContextProvider } from "./component/Context.tsx";
+import { UserContextProvider } from "./components/Context.tsx";
 
 import "./App.css";
-import { Header } from "./component/Header.tsx";
+import { Header } from "./components/Header.tsx";
 import { Register } from "./pages/Register.tsx";
 
 function App() {
