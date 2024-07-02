@@ -2,7 +2,7 @@ import { FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../components/Context";
 
-function Login() {
+export default () => {
   const [error, seterror] = useState("");
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -32,6 +32,4 @@ function Login() {
       <button type="submit">Login</button>
     </form>
   );
-}
-
-export { Login };
+};
