@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "./Context";
+import { UserContext } from "../component/Context";
 
 function Login() {
   const [error, seterror] = useState("");
@@ -9,7 +9,7 @@ function Login() {
 
   const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetch("/api/login", {
+    await fetch("/api/login", {
       method: "POST",
       body: JSON.stringify(
         Object.fromEntries(new FormData(e.target as HTMLFormElement).entries())
