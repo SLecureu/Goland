@@ -35,7 +35,7 @@ function Register() {
         <option value="F">F</option>
         <option value="other">Other</option>
       </select>
-      <input name="age" type="text" placeholder="age" />
+      <input name="dateOfBirth" type="date" placeholder="age" />
       <input name="firstName" type="text" placeholder="first name" />
       <input name="lastName" type="text" placeholder="last name" />
       <button type="submit">Register</button>

@@ -142,7 +142,7 @@ func (server *API) Register(writer http.ResponseWriter, request *http.Request) e
 		registerReq.Name == "" ||
 		registerReq.Password == "" ||
 		registerReq.Gender == "" ||
-		registerReq.Age == "" ||
+		registerReq.DateOfBirth == "" ||
 		registerReq.FirstName == "" ||
 		registerReq.LastName == "" {
 
