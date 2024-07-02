@@ -1,18 +1,23 @@
+// Node libraries
 import { Route, Routes } from "react-router-dom";
-
-import { Login } from "./pages/Login.tsx";
 import { UserContextProvider } from "./components/Context.tsx";
 
+// Components / Pages
+import Login from "./pages/Login.tsx";
+import Header from "./components/Header.tsx";
+import Register from "./pages/Register.tsx";
+import Home from "./pages/Home.tsx";
+
+// CSS
 import "./App.css";
-import { Header } from "./components/Header.tsx";
-import { Register } from "./pages/Register.tsx";
 
 function App() {
   return (
     <UserContextProvider>
       <Header />
       <Routes>
-        <Route path="/" />
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<p>Not found</p>} />
