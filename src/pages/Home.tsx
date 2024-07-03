@@ -1,20 +1,18 @@
 import "./Home.scss";
 
 export default () => {
+  const block1 = () => <>test</>;
+  const block2 = () => <>Mes couilles</>;
+  const block3 = () => <>test</>;
+  const blocks = [block1, block2, block3];
+
   return (
     <main className="home_container">
-      <div className="block1">
-        <div className="inside_block"></div>
-      </div>
-      <div className="block2">
-        <div className="inside_block">
-          <p>test</p>
-          <p>test</p>
+      {blocks.map((b, i) => (
+        <div className={`block${i}`}>
+          <div className="inside_block">{b()}</div>
         </div>
-      </div>
-      <div className="block3">
-        <div className="inside_block"></div>
-      </div>
+      ))}
     </main>
   );
 };
