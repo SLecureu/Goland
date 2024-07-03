@@ -13,7 +13,7 @@ export type User = {
 
 type InitialType = {
   user: User | null;
-  setUser: (newUser: User) => void;
+  setUser: (newUser: User | null) => void;
 };
 
 const initialValue = {
@@ -41,7 +41,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         return resp.json();
       })
       .then(setUser)
-      .catch(console.log);
+      .catch(console.error);
   }, []);
 
   return (

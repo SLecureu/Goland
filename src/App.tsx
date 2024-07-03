@@ -11,6 +11,7 @@ import Home from "./pages/Home.tsx";
 // CSS
 import "./App.css";
 import User from "./pages/User.tsx";
+import Overview from "./pages/Overview.tsx";
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
       <Routes>
         <Route path="/user/">
           <Route path=":id" element={<User />} />
+          <Route path="" element={<p>Not found</p>} />
         </Route>
+        <Route path="overview" element={<Overview />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/" element={<Home />} />

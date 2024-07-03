@@ -7,21 +7,23 @@ import "./Header.scss";
 
 export default () => {
   const { user } = useContext(UserContext);
+  const links = {
+    dst1: "login",
+    dst2: "register",
+  };
+
+  user && (links.dst1 = links.dst2 = `/overview`);
 
   return (
     <header>
-      <Link to="/">
-        <h1>GOLAND</h1>
-      </Link>
+      <h1>
+        <Link to="/">GOLAND</Link>
+      </h1>
       <div className="user-box">
-        {user ? (
-          <span>Welcome {user.firstName}!</span>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
+        <Link to={links.dst1}>
+          {user ? <img src="/assets/vite.svg" alt="deez nuts" /> : "Login"}
+        </Link>
+        <Link to={links.dst2}>{user ? user.name : "Register"}</Link>
       </div>
     </header>
   );
