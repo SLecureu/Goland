@@ -1,0 +1,33 @@
+.home_container {
+  display: grid;
+  grid-template-columns: 400px 1fr 400px;
+  width: 100%;
+  grid-gap: 10px;
+  margin-top: 10px;
+  grid-auto-rows: 100%;
+}
+
+.home_container > .block1,
+.home_container > .block2,
+.home_container > .block3 {
+  grid-column: span 1;
+  background-color: lightsteelblue;
+}
+
+.inside_block {
+  height: 100%;
+  width: 100%;
+  margin: 10px;
+}
+
+@media (max-width: 1320px) {
+  .home_container {
+    grid-template-columns: 60px 1fr 400px;
+  }
+}
+
+@media (max-width: 980px) {
+  .home_container {
+    grid-template-columns: 60px 1fr 60px;
+  }
+}
