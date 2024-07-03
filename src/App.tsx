@@ -10,16 +10,19 @@ import Home from "./pages/Home.tsx";
 
 // CSS
 import "./App.css";
+import User from "./pages/User.tsx";
 
 function App() {
   return (
     <UserContextProvider>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/profile/">
+          <Route path=":id" element={<User />} />
+        </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route element={<Home />} />
         <Route path="*" element={<p>Not found</p>} />
       </Routes>
     </UserContextProvider>

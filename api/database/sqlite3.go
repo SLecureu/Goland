@@ -180,6 +180,31 @@ func (store *Sqlite3Store) GetUsers(ctx context.Context, limit, offset int) (use
 	return users, tx.Commit()
 }
 
+func (store *Sqlite3Store) GetUsersById(ctx context.Context, id string) (*models.User, error) {
+	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+	user := new(models.User)
+	err = tx.QueryRowContext(ctx,
+		`SELECT id, email, name, gender,date_of_birth, first_name, last_name, created  FROM users WHERE id = ?;`, id).Scan(
+		&user.ID,
+		&user.Email,
+		&user.Name,
+		&user.Gender,
+		&user.DateOfBirth,
+		&user.FirstName,
+		&user.LastName,
+		&user.Created,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, tx.Commit()
+}
+
 func (store *Sqlite3Store) CreatePost(req *models.PostRequest) (post models.Post, err error) {
 	tx, err := store.BeginTx(req.Ctx, nil)
 	if err != nil {

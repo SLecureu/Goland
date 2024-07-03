@@ -38,13 +38,17 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/api/auth", server.Protected(server.ReadSession))
 
 	// router.HandleFunc("/api/users", server.Protected(server.GetUsers))
+	router.HandleFunc("/api/user/{id}", HandleFunc(server.GetUsersById))
 	// router.HandleFunc("/api/posts", server.Protected(server.GetPosts))
 	// router.HandleFunc("/api/post", server.Protected(server.Post))
 	// router.HandleFunc("/api/post/{id}", server.Protected(server.GetPostByID))
 	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 
-	router.Handle("/", http.FileServer(http.Dir("dist")))
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w,r, "dist/index.html")
+	})
+	router.Handle("/assets/", http.FileServer(http.Dir("dist")))
 
 	server.Server.Handler = router
 
@@ -263,6 +267,19 @@ func (server *API) GetUsers(writer http.ResponseWriter, request *http.Request) e
 			})
 	}
 	return writeJSON(writer, http.StatusOK, users)
+}
+
+func (server *API) GetUsersById(writer http.ResponseWriter, request *http.Request) error {
+	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
+	defer cancel()
+
+	user, err := server.Storage.GetUsersById(ctx, request.PathValue("id"))
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return writeJSON(writer, http.StatusOK, user)
 }
 
 func (server *API) ReadSession(writer http.ResponseWriter, request *http.Request) error {
