@@ -6,11 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-<<<<<<< HEAD:frontend/package.json
-    "clean": "rm -r ../index.html ../assets",
-=======
-    "clean": "rm -r static",
->>>>>>> master:package.json
+    "clean": "rm -r dist",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
