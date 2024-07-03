@@ -6,25 +6,25 @@ import (
 )
 
 type User struct {
-	ID        string    `json:"id"`
-	Email     string    `json:"email"`
-	Name      string    `json:"name"`
-	Gender    string    `json:"gender"`
-	Age       string    `json:"age"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
-	Created   time.Time `json:"created"`
+	ID          string    `json:"id"`
+	Email       string    `json:"email"`
+	Name        string    `json:"name"`
+	Gender      string    `json:"gender"`
+	DateOfBirth time.Time `json:"dateOfBirth"`
+	FirstName   string    `json:"firstName"`
+	LastName    string    `json:"lastName"`
+	Created     time.Time `json:"created"`
 }
 
 type RegisterRequest struct {
-	Email     string `json:"email"`
-	Name      string `json:"name"`
-	Password  string `json:"password"`
-	Gender    string `json:"gender"`
-	Age       string `json:"age"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Ctx       context.Context
+	Email       string `json:"email"`
+	Name        string `json:"name"`
+	Password    string `json:"password"`
+	Gender      string `json:"gender"`
+	DateOfBirth string `json:"dateOfBirth"`
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
+	Ctx         context.Context
 }
 
 type LoginRequest struct {

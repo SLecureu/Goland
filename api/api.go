@@ -44,10 +44,7 @@ func NewAPI(addr string) (*API, error) {
 	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { // Frontend setup
-		http.ServeFile(w, r, "index.html")
-	})
-	router.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+	router.Handle("/", http.FileServer(http.Dir("dist")))
 
 	server.Server.Handler = router
 
@@ -142,7 +139,7 @@ func (server *API) Register(writer http.ResponseWriter, request *http.Request) e
 		registerReq.Name == "" ||
 		registerReq.Password == "" ||
 		registerReq.Gender == "" ||
-		registerReq.Age == "" ||
+		registerReq.DateOfBirth == "" ||
 		registerReq.FirstName == "" ||
 		registerReq.LastName == "" {
 
