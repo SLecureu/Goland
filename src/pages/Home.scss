@@ -1,16 +1,15 @@
 $tablet-width: 980px;
 $desktop-width: 1320px;
 
-.home_container {
+.home-container {
   display: grid;
   grid-template-columns: 350px 1fr 250px;
+  grid-template-rows: repeat(3, 100px);
   gap: 10px;
   padding: 10px;
-  grid-auto-rows: 100%;
 
   @for $i from 0 through 2 {
-    > .block#{$i} {
-      grid-column: span 1;
+    > .block-#{$i} {
       background-color: lightsteelblue;
       overflow: hidden;
     }
