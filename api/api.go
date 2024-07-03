@@ -275,7 +275,6 @@ func (server *API) GetUsersById(writer http.ResponseWriter, request *http.Reques
 
 	user, err := server.Storage.GetUsersById(ctx, request.PathValue("id"))
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 

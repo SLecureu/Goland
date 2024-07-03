@@ -3,27 +3,23 @@ import { useContext } from "react";
 import { UserContext } from "./Context.tsx";
 import { Link } from "react-router-dom";
 
-import "./Header.css";
+import "./Header.scss";
 
 export default () => {
   const { user } = useContext(UserContext);
 
   return (
     <header>
-      <Link className="txt_deco_none" to="/">
+      <Link to="/">
         <h1>GOLAND</h1>
       </Link>
-      <div>
+      <div className="user-box">
         {user ? (
-          <p>Welcome {user.firstName}!</p>
+          <span>Welcome {user.firstName}!</span>
         ) : (
           <>
-            <Link className="txt_deco_none" to="/login">
-              Login
-            </Link>
-            <Link className="txt_deco_none" to="/register">
-              Register
-            </Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
           </>
         )}
       </div>

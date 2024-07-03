@@ -23,5 +23,9 @@ export default () => {
       .then(setUser)
       .catch(console.log);
   }, []);
-  return <>{user?.name}</>;
+  return (
+    <main>
+      <h2>{user?.name}</h2>
+    </main>
+  );
 };

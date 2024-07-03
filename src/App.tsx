@@ -17,12 +17,12 @@ function App() {
     <UserContextProvider>
       <Header />
       <Routes>
-        <Route path="/profile/">
+        <Route path="/user/">
           <Route path=":id" element={<User />} />
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="*" element={<p>Not found</p>} />
       </Routes>
     </UserContextProvider>
