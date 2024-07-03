@@ -1,0 +1,36 @@
+$button_img_size: 40px;
+
+.home_container {
+  display: grid;
+  grid-template-columns: 350px 1fr 250px;
+  width: 100%;
+  grid-gap: 10px;
+  margin-top: 10px;
+  grid-auto-rows: 100%;
+
+  @for $i from 1 through 3 {
+    > .block#{$i} {
+      grid-column: span 1;
+      background-color: lightsteelblue;
+    }
+  }
+
+  $inside_size: calc(100% - 10px);
+  .inside_block {
+    height: $inside_size;
+    width: $inside_size;
+    margin: 5px;
+  }
+}
+
+@media (max-width: 1320px) {
+  .home_container {
+    grid-template-columns: 400px 1fr 0px;
+  }
+}
+
+@media (max-width: 980px) {
+  .home_container {
+    grid-template-columns: 0px 1fr 0px;
+  }
+}
