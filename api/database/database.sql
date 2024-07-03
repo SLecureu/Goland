@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
     name TEXT,
     password BLOB,
     gender TEXT,
-    age INTEGER,
+    date_of_birth DATE,
     first_name TEXT,
     last_name TEXT,
     created DATE

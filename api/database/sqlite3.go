@@ -92,7 +92,7 @@ func (store *Sqlite3Store) RegisterUser(req *models.RegisterRequest) (user model
 	user.Email = req.Email
 	user.Name = req.Name
 	user.Gender = req.Gender
-	user.Age = (req.Age)
+	user.DateOfBirth, err = time.Parse("2006-05-01", req.DateOfBirth)
 	user.FirstName = req.FirstName
 	user.LastName = req.LastName
 	user.Created = time.Now().UTC()
@@ -103,7 +103,7 @@ func (store *Sqlite3Store) RegisterUser(req *models.RegisterRequest) (user model
 		user.Name,
 		crypt,
 		user.Gender,
-		user.Age,
+		user.DateOfBirth,
 		user.FirstName,
 		user.LastName,
 		user.Created,
@@ -131,7 +131,7 @@ func (store *Sqlite3Store) LogUser(req *models.LoginRequest) (user models.User, 
 		&user.Name,
 		&password,
 		&user.Gender,
-		&user.Age,
+		&user.DateOfBirth,
 		&user.FirstName,
 		&user.LastName,
 		&user.Created,
@@ -153,7 +153,7 @@ func (store *Sqlite3Store) GetUsers(ctx context.Context, limit, offset int) (use
 		return nil, err
 	}
 	defer tx.Rollback()
-	rows, err := tx.QueryContext(ctx, "SELECT id, email, name, gender, age, first_name, last_name, created FROM users ORDER BY created LIMIT ? OFFSET ?;",
+	rows, err := tx.QueryContext(ctx, "SELECT id, email, name, gender, date_of_birth, first_name, last_name, created FROM users ORDER BY created LIMIT ? OFFSET ?;",
 		limit,
 		offset)
 	if err != nil {
@@ -167,7 +167,7 @@ func (store *Sqlite3Store) GetUsers(ctx context.Context, limit, offset int) (use
 			&user.Email,
 			&user.Name,
 			&user.Gender,
-			&user.Age,
+			&user.DateOfBirth,
 			&user.FirstName,
 			&user.LastName,
 			&user.Created,
