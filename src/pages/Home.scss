@@ -9,7 +9,7 @@ $desktop-width: 1320px;
   padding: 10px;
 
   @for $i from 0 through 2 {
-    > .block-#{$i} {
+    & > .block-#{$i} {
       background-color: lightsteelblue;
       overflow: hidden;
     }
