@@ -1,16 +1,18 @@
 // Node libraries
 import { Route, Routes } from "react-router-dom";
 
-// Components / Pages
-import Login from "./pages/Login.tsx";
-import Header from "./components/Header.tsx";
-import Register from "./pages/Register.tsx";
-import Home from "./pages/Home.tsx";
+import {
+    Header,
+    Register,
+    Login,
+    Home,
+    Footer,
+    User,
+    Overview,
+} from "./Imports.ts";
 
 // CSS
 import "./App.css";
-import User from "./pages/User.tsx";
-import Overview from "./pages/Overview.tsx";
 
 import UserContextProvider from "./components/ContextProvider.tsx";
 
@@ -29,6 +31,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<p>Not found</p>} />
             </Routes>
+            <Footer />
         </UserContextProvider>
     );
 }
