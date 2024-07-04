@@ -11,7 +11,8 @@ import Home from "./pages/Home.tsx";
 import "./App.css";
 import User from "./pages/User.tsx";
 import Overview from "./pages/Overview.tsx";
-import { UserContextProvider } from "./components/Context.tsx";
+
+import UserContextProvider from "./components/ContextProvider.tsx";
 
 function App() {
     return (

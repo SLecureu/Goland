@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
-
 import { UserContext, User } from "./Context.ts";
 
-export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+function UserContextProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -27,4 +26,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </UserContext.Provider>
     );
-};
+}
+
+export default UserContextProvider;
