@@ -39,14 +39,14 @@ func NewAPI(addr string) (*API, error) {
 
 	// router.HandleFunc("/api/users", server.Protected(server.GetUsers))
 	router.HandleFunc("/api/user/{id}", HandleFunc(server.GetUsersById))
-	// router.HandleFunc("/api/posts", server.Protected(server.GetPosts))
-	// router.HandleFunc("/api/post", server.Protected(server.Post))
+	router.HandleFunc("/api/posts", server.Protected(server.GetPosts))
+	router.HandleFunc("/api/post", server.Protected(server.Post))
 	// router.HandleFunc("/api/post/{id}", server.Protected(server.GetPostByID))
 	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w,r, "dist/index.html")
+		http.ServeFile(w, r, "dist/index.html")
 	})
 	router.Handle("/assets/", http.FileServer(http.Dir("dist")))
 
@@ -318,9 +318,9 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 	if postReq.Content == "" {
 		return writeJSON(writer, http.StatusBadRequest,
 			APIerror{
-				Status:  http.StatusServiceUnavailable,
-				Error:   "Service Unavailable",
-				Message: "Unable to retrieve Session",
+				Status:  http.StatusBadRequest,
+				Error:   "Bad Request",
+				Message: "Post content is required",
 			})
 	}
 

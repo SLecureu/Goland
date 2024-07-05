@@ -1,25 +1,36 @@
-$tablet-width: 980px;
-$desktop-width: 1320px;
+@use "../variables";
 
 .home-container {
-  display: grid;
-  grid-template-columns: 350px 1fr 250px;
-  grid-template-rows: repeat(3, 100px);
-  gap: 10px;
-  padding: 10px;
+    display: grid;
+    grid-template-columns: 350px 1fr 250px;
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    padding: 10px;
 
-  @for $i from 0 through 2 {
-    > .block-#{$i} {
-      background-color: lightsteelblue;
-      overflow: hidden;
+    @for $i from 0 through 2 {
+        & > .block-#{$i} {
+            background-color: lightsteelblue;
+        }
     }
-  }
 
-  @media screen and (max-width: $desktop-width) {
-    grid-template-columns: 400px 1fr 0px;
-  }
+    a {
+        text-decoration: none;
+        color: black;
+    }
 
-  @media screen and (max-width: $tablet-width) {
-    grid-template-columns: 0px 1fr 0px;
-  }
+    .inside-block {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        gap: 10px;
+    }
+
+    @media screen and (max-width: variables.$desktop-width) {
+        grid-template-columns: 350px 1fr 0px;
+    }
+
+    @media screen and (max-width: variables.$tablet-width) {
+        grid-template-columns: 0px 1fr 0px;
+        gap: 0;
+    }
 }

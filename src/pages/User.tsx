@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { User } from "../components/Context";
 
-export default () => {
+function UserPage() {
   const { id } = useParams();
   const [user, setUser] = useState<User | null>(null);
 
@@ -28,4 +28,6 @@ export default () => {
       <h2>{user?.name}</h2>
     </main>
   );
-};
+}
+
+export default UserPage;

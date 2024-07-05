@@ -1,17 +1,33 @@
 import "./Home.scss";
+import { Link } from "react-router-dom";
 
-export default () => {
-  const block1 = () => <>Block 1</>;
-  const block2 = () => <>Block 2</>;
-  const block3 = () => <>Block 3</>;
+import { Icons } from "../Imports";
 
-  return (
-    <main className="home-container">
-      {[block1, block2, block3].map((b, i) => (
-        <div key={i} className={`block-${i}`}>
-          <div className="inside-block">{b()}</div>
-        </div>
-      ))}
-    </main>
-  );
-};
+export default function Home() {
+    return (
+        <main className="home-container">
+            <div className="block-0">
+                <div className="inside-block">
+                    <img
+                        src={Icons.home}
+                        alt="Home Icon"
+                        className="icons"
+                        width="50px"
+                    />
+                    <span>All posts</span>
+                </div>
+                <Link to="/post" className="inside-block">
+                    <img
+                        src={Icons.post}
+                        alt="Home Icon"
+                        className="icons"
+                        width="50px"
+                    />
+                    <span>Create a Post</span>
+                </Link>
+            </div>
+            <div className="block-1"></div>
+            <div className="block-2 "></div>
+        </main>
+    );
+}
