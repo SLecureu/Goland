@@ -6,6 +6,7 @@ import {
     Register,
     Login,
     Home,
+    Post,
     Footer,
     User,
     Overview,
@@ -28,6 +29,7 @@ function App() {
                 <Route path="overview" element={<Overview />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
+                <Route path="post" element={<Post />} />
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<p>Not found</p>} />
             </Routes>

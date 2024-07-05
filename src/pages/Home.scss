@@ -10,8 +10,19 @@
     @for $i from 0 through 2 {
         & > .block-#{$i} {
             background-color: lightsteelblue;
-            overflow: hidden;
         }
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .inside-block {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        gap: 10px;
     }
 
     @media screen and (max-width: variables.$desktop-width) {

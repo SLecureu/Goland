@@ -7,7 +7,7 @@ function Register() {
     const navigate = useNavigate();
     const { setUser } = useContext(UserContext);
 
-    const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const HandleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await fetch("/api/register", {
             method: "POST",
