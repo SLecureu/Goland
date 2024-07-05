@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Post from "./pages/Post";
 import Footer from "./components/Footer";
+import Protected from "./components/Protected";
 
 import User from "./pages/User";
 import Overview from "./pages/Overview";
@@ -15,11 +16,22 @@ import linkedin from "./assets/icons/linkedin.svg";
 import react from "./assets/icons/react.svg";
 
 const Icons = {
-  home,
-  github,
-  react,
-  post,
-  linkedin,
+    home,
+    github,
+    react,
+    post,
+    linkedin,
 };
 
-export { Header, Login, Register, Home, Post, Footer, User, Overview, Icons };
+export {
+    Header,
+    Login,
+    Register,
+    Home,
+    Post,
+    Footer,
+    User,
+    Overview,
+    Protected,
+    Icons,
+};
