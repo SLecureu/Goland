@@ -8,9 +8,11 @@ import User from "./pages/User";
 import Overview from "./pages/Overview";
 
 import home from "./assets/icons/home.svg";
+import github from "./assets/icons/github.svg";
 
 const Icons = {
-    home,
+  home,
+  github,
 };
 
 export { Header, Login, Register, Home, Footer, User, Overview, Icons };
