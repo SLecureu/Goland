@@ -3,6 +3,7 @@ import { UserContext, User } from "./Context.ts";
 
 function UserContextProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch(`/api/auth`, {
@@ -17,12 +18,18 @@ function UserContextProvider({ children }: { children: ReactNode }) {
                     throw new Error(`Failed to fetch user: ${resp.status}`);
                 return resp.json();
             })
-            .then(setUser)
-            .catch(console.error);
+            .then((data) => {
+                setUser(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setLoading(false);
+            });
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, loading }}>
             {children}
         </UserContext.Provider>
     );

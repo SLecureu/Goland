@@ -1,4 +1,3 @@
-// Node libraries
 import { Route, Routes } from "react-router-dom";
 
 import {
@@ -27,17 +26,13 @@ function App() {
                     <Route path=":id" element={<User />} />
                     <Route path="" element={<p>Not found</p>} />
                 </Route>
-                <Route path="overview" element={<Overview />} />
+                <Route
+                    path="overview"
+                    element={<Protected child={<Overview />} />}
+                />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
-                <Route
-                    path="post"
-                    element={
-                        <Protected>
-                            <Post />
-                        </Protected>
-                    }
-                />
+                <Route path="post" element={<Protected child={<Post />} />} />
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<p>Not found</p>} />
             </Routes>

@@ -14,11 +14,13 @@ export type User = {
 type InitialType = {
     user: User | null;
     setUser: (newUser: User | null) => void;
+    loading: boolean;
 };
 
 const initialValue = {
     user: null,
     setUser: console.log,
+    loading: true,
 };
 
 export const UserContext = createContext<InitialType>(initialValue);
