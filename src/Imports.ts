@@ -11,11 +11,13 @@ import Overview from "./pages/Overview";
 import home from "./assets/icons/home.svg";
 import post from "./assets/icons/post.svg";
 import github from "./assets/icons/github.svg";
+import react from "./assets/icons/react.svg";
 
 const Icons = {
-  home,
-  github,
-  post,
+    home,
+    github,
+    react,
+    post,
 };
 
 export { Header, Login, Register, Home, Post, Footer, User, Overview, Icons };

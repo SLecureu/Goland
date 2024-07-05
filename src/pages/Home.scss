@@ -3,7 +3,6 @@
 .home-container {
     display: grid;
     grid-template-columns: 350px 1fr 250px;
-    grid-template-rows: repeat(3, 100px);
     gap: 10px;
     padding: 10px;
 
@@ -21,8 +20,28 @@
     .inside-block {
         display: flex;
         align-items: center;
-        height: 50px;
         gap: 10px;
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+
+        .post {
+            height: 200px;
+            margin: 10px 0;
+
+            & h2 {
+                padding: 10px;
+            }
+
+            & p {
+                background-color: red;
+                height: fit-content;
+                text-overflow: ellipsis;
+            }
+        }
     }
 
     @media screen and (max-width: variables.$desktop-width) {

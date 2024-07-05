@@ -39,7 +39,7 @@ func NewAPI(addr string) (*API, error) {
 
 	// router.HandleFunc("/api/users", server.Protected(server.GetUsers))
 	router.HandleFunc("/api/user/{id}", HandleFunc(server.GetUsersById))
-	router.HandleFunc("/api/posts", server.Protected(server.GetPosts))
+	router.HandleFunc("/api/posts", HandleFunc(server.GetPosts))
 	router.HandleFunc("/api/post", server.Protected(server.Post))
 	// router.HandleFunc("/api/post/{id}", server.Protected(server.GetPostByID))
 	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
