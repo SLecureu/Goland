@@ -1,66 +1,67 @@
 @use "../variables";
 
 .home-container {
-  display: grid;
-  grid-template-columns: 350px 1fr 250px;
-  gap: 10px;
-  padding: 10px;
-
-  @for $i from 0 through 2 {
-    .block-#{$i} {
-      background-color: lightsteelblue;
-      overflow: hidden;
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: black;
-  }
-
-  .block-0 {
-    display: flex;
-    align-items: start;
-  }
-
-  .inside-block {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 350px 1fr 250px;
     gap: 10px;
-    width: 175px;
-  }
+    padding: 10px;
 
-  .posts {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-
-    .post {
-      height: 200px;
-      margin: 10px 0;
-
-      h2 {
-        padding: 10px;
-      }
-
-      p {
-        background-color: red;
-        height: fit-content;
-        text-overflow: ellipsis;
-      }
+    @for $i from 0 through 2 {
+        .block-#{$i} {
+            background-color: lightsteelblue;
+            overflow: hidden;
+        }
     }
-  }
 
-  @media screen and (max-width: variables.$desktop-width) {
-    grid-template-columns: 350px 1fr 0px;
-  }
-
-  @media screen and (max-width: variables.$tablet-width) {
-    grid-template:
-      "1"
-      "2";
-    .block-2 {
-      width: 0px;
+    a {
+        text-decoration: none;
+        color: black;
     }
-  }
+
+    .block-0 {
+        display: flex;
+        align-items: start;
+    }
+
+    .inside-block {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 175px;
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        overflow-wrap: break-word;
+
+        .post {
+            height: 200px;
+            margin: 10px 0;
+
+            h2 {
+                padding: 10px;
+            }
+
+            p {
+                height: fit-content;
+                padding: 10px;
+                height: calc(100% - width);
+            }
+        }
+    }
+
+    @media screen and (max-width: variables.$desktop-width) {
+        grid-template-columns: 350px 1fr 0px;
+    }
+
+    @media screen and (max-width: variables.$tablet-width) {
+        grid-template:
+            "1"
+            "2";
+        .block-2 {
+            width: 0px;
+        }
+    }
 }

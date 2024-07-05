@@ -1,20 +1,22 @@
 import { useContext } from "react";
 
 import { UserContext } from "./Context.ts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Icons } from "../Imports.ts";
 
 import "./Header.scss";
 
 function Header() {
-    const { user } = useContext(UserContext);
-    const links = {
-        dst1: "login",
-        dst2: "register",
-    };
+    const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    user && (links.dst1 = `/overview`);
+    const handleLogout = () => {
+        fetch("/api/logout", { credentials: "include" }).then((resp) => {
+            if (resp.ok) navigate("/");
+            setUser(null);
+        });
+    };
 
     return (
         <header>
@@ -26,8 +28,20 @@ function Header() {
                 </Link>
             </h1>
             <div className="user-box">
-                <Link to={links.dst1}>{user ? user.firstName : "Login"}</Link>
-                <Link to={links.dst2}>{user ? "logout" : "Register"}</Link>
+                <Link to={user ? "overview" : "login"}>
+                    {user ? user.firstName : "Login"}
+                </Link>
+                {user ? (
+                    <img
+                        className="logout"
+                        src={Icons.logout}
+                        alt="Logout"
+                        title="Log Out"
+                        onClick={handleLogout}
+                    />
+                ) : (
+                    <Link to="register">Register</Link>
+                )}
             </div>
         </header>
     );

@@ -58,6 +58,7 @@ func (store *SessionStore) NewSession(w http.ResponseWriter, r *http.Request) *S
 		Value:    session.ID,
 		Expires:  time.Now().Add(session_timeout),
 		Path:     "/",
+		SameSite: http.SameSiteDefaultMode,
 		HttpOnly: false,
 	}
 	session.Expires = cookie.Expires
@@ -81,11 +82,20 @@ func (store *SessionStore) GetSession(r *http.Request) (s *Session, err error) {
 	return s, nil
 }
 
-func (store *SessionStore) EndSession(r *http.Request) error {
+func (store *SessionStore) EndSession(w http.ResponseWriter, r *http.Request) error {
 	session, err := store.GetSession(r)
 	if err != nil {
 		return err
 	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     cookie_name,
+		Value:    session.ID,
+		Expires:  time.Now(),
+		Path:     "/",
+		SameSite: http.SameSiteDefaultMode,
+		HttpOnly: false,
+	})
 
 	store.mx.Lock()
 	delete(store.sessions, session.ID)

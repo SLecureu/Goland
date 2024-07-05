@@ -14,6 +14,7 @@ import post from "./assets/icons/post.svg";
 import github from "./assets/icons/github.svg";
 import linkedin from "./assets/icons/linkedin.svg";
 import react from "./assets/icons/react.svg";
+import logout from "./assets/icons/logout.svg";
 
 const Icons = {
     home,
@@ -21,6 +22,7 @@ const Icons = {
     react,
     post,
     linkedin,
+    logout,
 };
 
 export {

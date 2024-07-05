@@ -245,7 +245,7 @@ func (server *API) Login(writer http.ResponseWriter, request *http.Request) erro
 }
 
 func (server *API) Logout(writer http.ResponseWriter, request *http.Request) error {
-	err := server.Sessions.EndSession(request)
+	err := server.Sessions.EndSession(writer, request)
 	if err != nil {
 		return err
 	}

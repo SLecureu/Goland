@@ -248,6 +248,8 @@ func (store *Sqlite3Store) GetPosts(ctx context.Context, limit, offset int) (pos
 	}
 	defer tx.Rollback()
 
+	posts = []models.Post{}
+
 	rows, err := tx.QueryContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
 			FROM posts JOIN users ON posts.userid = users.id ORDER BY posts.created DESC LIMIT ? OFFSET ?;`,
