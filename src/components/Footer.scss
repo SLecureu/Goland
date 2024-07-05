@@ -21,8 +21,11 @@ footer {
     & > .icons {
       display: flex;
 
-      a {
+      div {
         margin: auto;
+      }
+
+      a {
         width: 0px;
       }
 

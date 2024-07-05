@@ -15,12 +15,22 @@ function Footer() {
         </section>
 
         <section className="icons">
-          <a href="https://github.com/cramanan">
-            <img src={Icons.github} alt="github logo" title="Cramanan" />
-          </a>
-          <a href="https://github.com/SLecureu">
-            <img src={Icons.github} alt="github logo" title="SLecureu" />
-          </a>
+          <div>
+            <a href="https://github.com/cramanan">
+              <img src={Icons.github} alt="github logo" title="Cramanan" />
+            </a>
+            <a href="https://www.linkedin.com/in/cyril-ramananjaona-837555304/">
+              <img src={Icons.linkedin} alt="linkedin logo" title="Cramanan" />
+            </a>
+          </div>
+          <div>
+            <a href="https://github.com/SLecureu">
+              <img src={Icons.github} alt="github logo" title="SLecureu" />
+            </a>
+            <a>
+              <img src={Icons.linkedin} alt="linkedin logo" title="SLecureu" />
+            </a>
+          </div>
         </section>
       </div>
 
