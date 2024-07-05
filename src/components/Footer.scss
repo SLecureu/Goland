@@ -1,0 +1,42 @@
+$footer-background: lightsteelblue;
+
+footer {
+  text-align: center;
+  color: black;
+
+  & > .container {
+    background-color: $footer-background;
+    margin: auto;
+
+    & > .text {
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+
+      & > p {
+        width: 80%;
+      }
+    }
+
+    & > .icons {
+      display: flex;
+
+      a {
+        margin: auto;
+        width: 0px;
+      }
+
+      img {
+        width: 40px;
+        height: 40px;
+        margin: 10px;
+      }
+    }
+  }
+
+  & > .copyright {
+    text-align: center;
+    padding: 5px;
+    background-color: $footer-background;
+  }
+}
