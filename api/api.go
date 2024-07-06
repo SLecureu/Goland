@@ -234,7 +234,7 @@ func (server *API) Login(writer http.ResponseWriter, request *http.Request) erro
 			APIerror{
 				Status:  http.StatusBadRequest,
 				Error:   "Bad Request",
-				Message: "Invalid Email address",
+				Message: "Invalid Email or Password",
 			})
 	}
 
