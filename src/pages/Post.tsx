@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
 
 type Inputs = {
     content: string;
@@ -23,10 +24,12 @@ export default function Post() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="content">Post Content</label>
-            <textarea id="content" {...register("content")} />
-            <button type="submit">Post</button>
-        </form>
+        <Layout>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label htmlFor="content">Post Content</label>
+                <textarea id="content" {...register("content")} />
+                <button type="submit">Post</button>
+            </form>
+        </Layout>
     );
 }

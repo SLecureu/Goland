@@ -23,7 +23,7 @@ function Header() {
             <h1>
                 <Link to="/" className="logo">
                     <span>G</span>
-                    <img src={Icons.react} width="44px" />
+                    <img src={Icons.logo} width="38px" />
                     <span>LAND</span>
                 </Link>
             </h1>

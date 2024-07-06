@@ -1,12 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 
 import {
-    Header,
     Register,
     Login,
     Home,
     Post,
-    Footer,
     User,
     Overview,
     Protected,
@@ -16,11 +14,11 @@ import {
 import "./App.css";
 
 import UserContextProvider from "./components/ContextProvider.tsx";
+import _404 from "./pages/404.tsx";
 
 function App() {
     return (
         <UserContextProvider>
-            <Header />
             <Routes>
                 <Route path="/user/">
                     <Route path=":id" element={<User />} />
@@ -34,9 +32,8 @@ function App() {
                 <Route path="register" element={<Register />} />
                 <Route path="post" element={<Protected child={<Post />} />} />
                 <Route path="/" element={<Home />} />
-                <Route path="*" element={<p>Not found</p>} />
+                <Route path="*" element={<_404 />} />
             </Routes>
-            <Footer />
         </UserContextProvider>
     );
 }

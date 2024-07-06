@@ -1,11 +1,12 @@
-import Login from "./pages/Login";
 import Header from "./components/Header";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import Post from "./pages/Post";
 import Footer from "./components/Footer";
 import Protected from "./components/Protected";
 
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import Post from "./pages/Post";
+import _404 from "./pages/404";
 import User from "./pages/User";
 import Overview from "./pages/Overview";
 
@@ -13,13 +14,17 @@ import home from "./assets/icons/home.svg";
 import post from "./assets/icons/post.svg";
 import github from "./assets/icons/github.svg";
 import linkedin from "./assets/icons/linkedin.svg";
-import react from "./assets/icons/react.svg";
+import logo from "./assets/icons/logo.svg";
 import logout from "./assets/icons/logout.svg";
+
+export type WrapProps = {
+    wrap: boolean;
+};
 
 const Icons = {
     home,
     github,
-    react,
+    logo,
     post,
     linkedin,
     logout,
