@@ -1,52 +1,86 @@
-import { FormEvent, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../components/Context.ts";
 import "./Forms.scss";
+import { SubmitHandler, useForm } from "react-hook-form";
 // import { Icons } from "../Imports.ts";
 
+type RegisterForm = {
+    name: string;
+    email: string;
+    password: string;
+    gender: string;
+    dateOfBirth: string;
+    firstName: string;
+    lastName: string;
+};
+
 function Register() {
-    const [error, seterror] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm<RegisterForm>();
     const navigate = useNavigate();
     const { setUser } = useContext(UserContext);
 
-    const HandleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        await fetch("/api/register", {
+    const onSubmit: SubmitHandler<RegisterForm> = (data) =>
+        fetch("/api/register", {
+            credentials: "include",
             method: "POST",
-            body: JSON.stringify(
-                Object.fromEntries(
-                    new FormData(e.target as HTMLFormElement).entries()
-                )
-            ),
-        }).then(async (resp) => {
-            const data = await resp.json();
-            if (!resp.ok) seterror(data.message);
-            else {
-                setUser(data);
+            body: JSON.stringify(data),
+        })
+            .then(async (resp) => {
+                if (!resp.ok)
+                    return setError("root", {
+                        type: "server",
+                        message: (await resp.json()).message,
+                    });
                 navigate("/");
-            }
-        });
-    };
-
+                return setUser(await resp.json());
+            })
+            .catch(() =>
+                setError("root", {
+                    type: "server",
+                    message:
+                        "Sorry, we were unable to log you in. Try again later.",
+                })
+            );
     return (
-        <form onSubmit={HandleSubmit} className="register-form">
+        <form onSubmit={handleSubmit(onSubmit)} className="register-form">
             {/* <img
-                src={Icons.logo}
-                alt="Background Logo"
-                className="spinning-background"
-            /> */}
-            {error && <p>{error}</p>}
-            <input name="name" type="text" placeholder="username" />
-            <input name="email" type="email" placeholder="email" />
-            <input name="password" type="password" placeholder="password" />
-            <select name="gender">
-                <option value="M">M</option>
-                <option value="F">F</option>
-                <option value="other">Other</option>
+                            src={Icons.logo}
+                            alt="Background Logo"
+                            className="spinning-background"
+                        /> */}
+            <span>{errors.root?.message}</span>
+            <input type="text" placeholder="username" {...register("name")} />
+            <input type="email" placeholder="email" {...register("email")} />
+            <input
+                type="password"
+                placeholder="password"
+                {...register("password")}
+            />
+            <select {...register("gender")}>
+                <option value="Male">M</option>
+                <option value="Female">F</option>
+                <option value="Other">Other</option>
             </select>
-            <input name="dateOfBirth" type="date" placeholder="age" />
-            <input name="firstName" type="text" placeholder="first name" />
-            <input name="lastName" type="text" placeholder="last name" />
+            <input type="date" placeholder="age" {...register("dateOfBirth")} />
+            <input
+                type="text"
+                placeholder="first name"
+                {...register("firstName")}
+            />
+            <input
+                type="text"
+                placeholder="last name"
+                {...register("lastName")}
+            />
+            <span>
+                Already have an account ?<Link to="/login">Login</Link>
+            </span>
             <button type="submit">Register</button>
         </form>
     );
