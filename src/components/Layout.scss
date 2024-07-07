@@ -1,11 +1,38 @@
-$footer-background: lightsteelblue;
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: lightsteelblue;
+
+    .logo {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .user-box {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 200px;
+
+        .logout {
+            cursor: pointer;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
 
 footer {
     text-align: center;
     color: black;
 
     & > .container {
-        background-color: $footer-background;
+        background-color: lightsteelblue;
         margin: auto;
 
         & > .text {
@@ -40,6 +67,6 @@ footer {
     & > .copyright {
         text-align: center;
         padding: 5px;
-        background-color: $footer-background;
+        background-color: lightsteelblue;
     }
 }

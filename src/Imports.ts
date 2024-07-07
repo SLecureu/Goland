@@ -1,5 +1,3 @@
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Protected from "./components/Protected";
 
 import Login from "./pages/Login";
@@ -30,15 +28,4 @@ const Icons = {
     logout,
 };
 
-export {
-    Header,
-    Login,
-    Register,
-    Home,
-    Post,
-    Footer,
-    User,
-    Overview,
-    Protected,
-    Icons,
-};
+export { Login, Register, Home, Post, User, Overview, Protected, Icons };

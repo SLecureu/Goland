@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+
 	server, err := api.NewAPI(":8080")
 	if err != nil {
 		log.Fatalln(err)

@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext } from "../components/Context.ts";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import "./Login.scss";
+import "./Forms.scss";
+// import { Icons } from "../Imports.ts";
 
 type LoginForm = {
     email: string;
@@ -36,19 +37,35 @@ function Login() {
                 navigate("/");
                 return setUser(await resp.json());
             })
-            .catch(console.error);
+            .catch(() =>
+                setError("root", {
+                    type: "server",
+                    message:
+                        "Sorry, we were unable to log you in. Try again later.",
+                })
+            );
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-            {errors.root && (
-                <span className="form-error">{errors.root.message}</span>
-            )}
+            {/* <img
+                src={Icons.logo}
+                alt="Background Logo"
+                className="spinning-background"
+            /> */}
+            <h2>Login</h2>
+            <span className="form-error">{errors.root?.message}</span>
+            <label htmlFor="email">E-mail</label>
             <input type="email" placeholder="email" {...register("email")} />
+            <label htmlFor="password">Password</label>
             <input
                 type="password"
                 placeholder="password"
                 {...register("password")}
             />
+            <span>
+                or
+                <Link to="/register">Register</Link>
+            </span>
             <button type="submit">Login</button>
         </form>
     );

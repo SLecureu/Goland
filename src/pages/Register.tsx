@@ -1,6 +1,8 @@
 import { FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../components/Context.ts";
+import "./Forms.scss";
+// import { Icons } from "../Imports.ts";
 
 function Register() {
     const [error, seterror] = useState("");
@@ -27,7 +29,12 @@ function Register() {
     };
 
     return (
-        <form onSubmit={HandleSubmit}>
+        <form onSubmit={HandleSubmit} className="register-form">
+            {/* <img
+                src={Icons.logo}
+                alt="Background Logo"
+                className="spinning-background"
+            /> */}
             {error && <p>{error}</p>}
             <input name="name" type="text" placeholder="username" />
             <input name="email" type="email" placeholder="email" />
