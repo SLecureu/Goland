@@ -63,9 +63,9 @@ function Register() {
                 {...register("password")}
             />
             <select {...register("gender")}>
-                <option value="Male">M</option>
-                <option value="Female">F</option>
-                <option value="Other">Other</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
+                <option value="O">Other</option>
             </select>
             <input type="date" placeholder="age" {...register("dateOfBirth")} />
             <input

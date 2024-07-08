@@ -3,15 +3,17 @@ package models
 import (
 	"context"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type Post struct {
-	ID         string    `json:"id"`
-	UserID     string    `json:"userID"`
-	Username   string    `json:"username"`
-	Categories []string  `json:"categories"`
-	Content    string    `json:"content"`
-	Created    time.Time `json:"created"`
+	ID         string         `json:"id"`
+	UserID     string         `json:"userID"`
+	Username   string         `json:"username"`
+	Categories pq.StringArray `json:"categories"`
+	Content    string         `json:"content"`
+	Created    time.Time      `json:"created"`
 }
 
 type PostRequest struct {

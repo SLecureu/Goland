@@ -1,27 +1,21 @@
+BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS users (
-    id TEXT PRIMARY KEY,
-    email TEXT UNIQUE,
-    name TEXT,
-    password BLOB,
-    gender TEXT,
-    date_of_birth DATE,
-    first_name TEXT,
-    last_name TEXT,
-    created DATE
+    id VARCHAR(36) PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    name VARCHAR(50) NOT NULL,
+    password BYTEA NOT NULL,
+    gender VARCHAR(1) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    created DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS posts (
-    id TEXT PRIMARY KEY,
-    userid TEXT REFERENCES users(id),
-    categories BLOB,
+    id VARCHAR(5) PRIMARY KEY,
+    userid VARCHAR(40) REFERENCES users(id),
+    categories TEXT ARRAY,
     content TEXT,
     created DATE
 );
-
-CREATE TABLE IF NOT EXISTS comments (
-    id TEXT PRIMARY KEY,
-    postid TEXT REFERENCES posts(id),
-    userid TEXT REFERENCES users(id),
-    content TEXT,
-    created DATE
-);
+COMMIT

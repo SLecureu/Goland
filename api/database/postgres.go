@@ -3,8 +3,8 @@ package database
 import (
 	"context"
 	"database/sql"
-	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"math/rand"
 	"os"
@@ -13,7 +13,8 @@ import (
 	"goland/api/models"
 
 	"github.com/gofrs/uuid"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -21,7 +22,14 @@ const TransactionTimeout = 3 * time.Second
 
 var ErrConflict = errors.New("Conflict")
 
-type Sqlite3Store struct{ *sql.DB }
+type PostgreSQLStore struct{ *sql.DB }
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Err could not load env file: %s", err)
+	}
+}
 
 func GenerateB64(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+-")
@@ -32,25 +40,19 @@ func GenerateB64(n int) string {
 	return string(id)
 }
 
-func NewSqlite3Store() (*Sqlite3Store, error) {
-	db, err := sql.Open("sqlite3", "api/database/database.sqlite")
+func NewPostgreSQLStore() (*PostgreSQLStore, error) {
+	db, err := sql.Open("postgres",
+		fmt.Sprintf("user=%s password=%s sslmode=disable dbname=%s",
+			os.Getenv("POSTGRES_USER"),
+			os.Getenv("POSTGRES_PASSWORD"),
+			os.Getenv("POSTGRES_DB")))
 	if err != nil {
 		return nil, err
 	}
-
-	f, err := os.ReadFile("api/database/database.sql")
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = db.Exec(string(f))
-	if err != nil {
-		return nil, err
-	}
-	return &Sqlite3Store{db}, nil
+	return &PostgreSQLStore{db}, nil
 }
 
-func (store *Sqlite3Store) RegisterUser(req *models.RegisterRequest) (user models.User, err error) {
+func (store *PostgreSQLStore) RegisterUser(req *models.RegisterRequest) (user models.User, err error) {
 	tx, err := store.BeginTx(req.Ctx, nil)
 	if err != nil {
 		return
@@ -58,7 +60,7 @@ func (store *Sqlite3Store) RegisterUser(req *models.RegisterRequest) (user model
 	defer tx.Rollback()
 
 	var exists bool
-	err = tx.QueryRowContext(req.Ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE email = ?)", req.Email).Scan(&exists)
+	err = tx.QueryRowContext(req.Ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE email = $1);", req.Email).Scan(&exists)
 	if err != nil {
 		return
 	}
@@ -97,7 +99,7 @@ func (store *Sqlite3Store) RegisterUser(req *models.RegisterRequest) (user model
 	user.LastName = req.LastName
 	user.Created = time.Now().UTC()
 
-	_, err = tx.ExecContext(req.Ctx, "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+	_, err = tx.ExecContext(req.Ctx, "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);",
 		user.ID,
 		user.Email,
 		user.Name,
@@ -115,14 +117,14 @@ func (store *Sqlite3Store) RegisterUser(req *models.RegisterRequest) (user model
 	return user, tx.Commit()
 }
 
-func (store *Sqlite3Store) LogUser(req *models.LoginRequest) (user models.User, err error) {
+func (store *PostgreSQLStore) LogUser(req *models.LoginRequest) (user models.User, err error) {
 	tx, err := store.BeginTx(req.Ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return
 	}
 	defer tx.Rollback()
 
-	row := tx.QueryRowContext(req.Ctx, "SELECT * FROM users WHERE email = ?;", req.Email)
+	row := tx.QueryRowContext(req.Ctx, "SELECT * FROM users WHERE email = $1;", req.Email)
 	password := []byte{}
 
 	err = row.Scan(
@@ -147,13 +149,13 @@ func (store *Sqlite3Store) LogUser(req *models.LoginRequest) (user models.User, 
 	return user, bcrypt.CompareHashAndPassword(password, []byte(req.Password))
 }
 
-func (store *Sqlite3Store) GetUsers(ctx context.Context, limit, offset int) (users []models.User, err error) {
+func (store *PostgreSQLStore) GetUsers(ctx context.Context, limit, offset *int) (users []models.User, err error) {
 	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return nil, err
 	}
 	defer tx.Rollback()
-	rows, err := tx.QueryContext(ctx, "SELECT id, email, name, gender, date_of_birth, first_name, last_name, created FROM users ORDER BY created LIMIT ? OFFSET ?;",
+	rows, err := tx.QueryContext(ctx, "SELECT id, email, name, gender, date_of_birth, first_name, last_name, created FROM users ORDER BY created LIMIT $1 OFFSET $2;",
 		limit,
 		offset)
 	if err != nil {
@@ -180,7 +182,7 @@ func (store *Sqlite3Store) GetUsers(ctx context.Context, limit, offset int) (use
 	return users, tx.Commit()
 }
 
-func (store *Sqlite3Store) GetUsersById(ctx context.Context, id string) (*models.User, error) {
+func (store *PostgreSQLStore) GetUsersById(ctx context.Context, id string) (*models.User, error) {
 	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return nil, err
@@ -188,7 +190,7 @@ func (store *Sqlite3Store) GetUsersById(ctx context.Context, id string) (*models
 	defer tx.Rollback()
 	user := new(models.User)
 	err = tx.QueryRowContext(ctx,
-		`SELECT id, email, name, gender,date_of_birth, first_name, last_name, created  FROM users WHERE id = ?;`, id).Scan(
+		`SELECT id, email, name, gender,date_of_birth, first_name, last_name, created  FROM users WHERE id = $1;`, id).Scan(
 		&user.ID,
 		&user.Email,
 		&user.Name,
@@ -205,33 +207,26 @@ func (store *Sqlite3Store) GetUsersById(ctx context.Context, id string) (*models
 	return user, tx.Commit()
 }
 
-func (store *Sqlite3Store) CreatePost(req *models.PostRequest) (post models.Post, err error) {
+func (store *PostgreSQLStore) CreatePost(req *models.PostRequest) (post models.Post, err error) {
 	tx, err := store.BeginTx(req.Ctx, nil)
 	if err != nil {
 		return
 	}
 	defer tx.Rollback()
 
-	if req.Categories == nil {
-		req.Categories = make([]string, 0)
-	}
-
 	post.ID = GenerateB64(5)
 	post.UserID = req.UserID
 	post.Username = req.Username
 	post.Categories = req.Categories
 	post.Content = req.Content
+
+	post.Categories = req.Categories
 	post.Created = time.Now().UTC()
 
-	byteCategories, err := json.Marshal(post.Categories)
-	if err != nil {
-		return
-	}
-
-	_, err = tx.ExecContext(req.Ctx, "INSERT INTO posts VALUES (?, ?, ? ,?, ?);",
+	_, err = tx.ExecContext(req.Ctx, "INSERT INTO posts VALUES ($1, $2, $3 ,$4, $5);",
 		post.ID,
 		post.UserID,
-		byteCategories,
+		post.Categories,
 		post.Content,
 		post.Created,
 	)
@@ -241,7 +236,7 @@ func (store *Sqlite3Store) CreatePost(req *models.PostRequest) (post models.Post
 	return post, tx.Commit()
 }
 
-func (store *Sqlite3Store) GetPosts(ctx context.Context, limit, offset int) (posts []models.Post, err error) {
+func (store *PostgreSQLStore) GetPosts(ctx context.Context, limit, offset *int) (posts []models.Post, err error) {
 	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return nil, err
@@ -252,14 +247,13 @@ func (store *Sqlite3Store) GetPosts(ctx context.Context, limit, offset int) (pos
 
 	rows, err := tx.QueryContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
-			FROM posts JOIN users ON posts.userid = users.id ORDER BY posts.created DESC LIMIT ? OFFSET ?;`,
+			FROM posts JOIN users ON posts.userid = users.id ORDER BY posts.created DESC LIMIT $1 OFFSET $2;`,
 		limit,
 		offset,
 	)
 	if err != nil {
 		return nil, err
 	}
-	byteCategories := []byte{}
 
 	for rows.Next() {
 		post := models.Post{}
@@ -267,21 +261,12 @@ func (store *Sqlite3Store) GetPosts(ctx context.Context, limit, offset int) (pos
 			&post.ID,
 			&post.UserID,
 			&post.Username,
-			&byteCategories,
+			&post.Categories,
 			&post.Content,
 			&post.Created,
 		)
 		if err != nil {
 			return nil, err
-		}
-
-		err = json.Unmarshal(byteCategories, &post.Categories)
-		if err != nil {
-			return nil, err
-		}
-
-		if post.Categories == nil {
-			post.Categories = make([]string, 0)
 		}
 
 		posts = append(posts, post)
@@ -290,22 +275,21 @@ func (store *Sqlite3Store) GetPosts(ctx context.Context, limit, offset int) (pos
 	return posts, tx.Commit()
 }
 
-func (store *Sqlite3Store) GetPostByID(ctx context.Context, id string) (*models.Post, error) {
+func (store *PostgreSQLStore) GetPostByID(ctx context.Context, id string) (*models.Post, error) {
 	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return nil, err
 	}
 	defer tx.Rollback()
 	post := new(models.Post)
-	byteCategories := []byte{}
 	err = tx.QueryRowContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
-			FROM posts JOIN users ON posts.userid = users.id WHERE posts.id = ?;`,
+			FROM posts JOIN users ON posts.userid = users.id WHERE posts.id = $1;`,
 		id).Scan(
 		&post.ID,
 		&post.UserID,
 		&post.Username,
-		&byteCategories,
+		&post.Categories,
 		&post.Content,
 		&post.Created,
 	)
@@ -313,19 +297,10 @@ func (store *Sqlite3Store) GetPostByID(ctx context.Context, id string) (*models.
 		return nil, err
 	}
 
-	err = json.Unmarshal(byteCategories, &post.Categories)
-	if err != nil {
-		return nil, err
-	}
-
-	if post.Categories == nil {
-		post.Categories = make([]string, 0)
-	}
-
 	return post, tx.Commit()
 }
 
-func (store *Sqlite3Store) CreateComment(req *models.CommentRequest) (comment models.Comment, err error) {
+func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment models.Comment, err error) {
 	tx, err := store.BeginTx(req.Ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return
@@ -335,8 +310,8 @@ func (store *Sqlite3Store) CreateComment(req *models.CommentRequest) (comment mo
 	var postExists, userExists bool
 	err = tx.QueryRowContext(req.Ctx,
 		`SELECT
-			EXISTS (SELECT 1 FROM posts WHERE id = ?),
-    		EXISTS (SELECT 1 FROM users WHERE id = ?);`,
+			EXISTS (SELECT 1 FROM posts WHERE id = $1),
+    		EXISTS (SELECT 1 FROM users WHERE id = $2);`,
 		req.PostID,
 		req.UserID).Scan(&postExists, &userExists)
 	if err != nil {
@@ -369,7 +344,7 @@ func (store *Sqlite3Store) CreateComment(req *models.CommentRequest) (comment mo
 		Created: time.Now(),
 	}
 
-	_, err = tx.ExecContext(req.Ctx, "INSERT INTO comments VALUES (?, ?, ?, ?, ?);",
+	_, err = tx.ExecContext(req.Ctx, "INSERT INTO comments VALUES ($1, $2, $3, $4, $5);",
 		comment.ID,
 		comment.PostID,
 		comment.UserID,
@@ -382,7 +357,7 @@ func (store *Sqlite3Store) CreateComment(req *models.CommentRequest) (comment mo
 	return comment, tx.Commit()
 }
 
-func (store *Sqlite3Store) GetCommentsOfID(ctx context.Context, id string, limit, offset int) (comments []models.Comment, err error) {
+func (store *PostgreSQLStore) GetCommentsOfID(ctx context.Context, id string, limit, offset *int) (comments []models.Comment, err error) {
 	comments = []models.Comment{}
 
 	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
@@ -390,7 +365,7 @@ func (store *Sqlite3Store) GetCommentsOfID(ctx context.Context, id string, limit
 		return
 	}
 	defer tx.Rollback()
-	rows, err := tx.QueryContext(ctx, "SELECT * FROM comments WHERE postid = ? LIMIT ? OFFSET ?;", id, limit, offset)
+	rows, err := tx.QueryContext(ctx, "SELECT * FROM comments WHERE postid = $1 LIMIT $2 OFFSET $3;", id, limit, offset)
 	if err != nil {
 		return nil, err
 	}

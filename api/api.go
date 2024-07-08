@@ -15,7 +15,7 @@ import (
 
 type API struct {
 	http.Server
-	Storage  *database.Sqlite3Store
+	Storage  *database.PostgreSQLStore
 	Sessions *database.SessionStore
 }
 
@@ -52,7 +52,7 @@ func NewAPI(addr string) (*API, error) {
 
 	server.Server.Handler = router
 
-	storage, err := database.NewSqlite3Store()
+	storage, err := database.NewPostgreSQLStore()
 	if err != nil {
 		return nil, err
 	}
@@ -62,21 +62,26 @@ func NewAPI(addr string) (*API, error) {
 	return server, nil
 }
 
-func parseRequestLimitAndOffset(request *http.Request) (limit, offset int) {
+func parseRequestLimitAndOffset(request *http.Request) (limit, offset *int) {
 	params := request.URL.Query()
-
-	limit, _ = strconv.Atoi(params.Get("limit"))
-	if limit == 0 {
-		limit = -1
+	if params.Has("limit") {
+		val, err := strconv.Atoi(params.Get("limit"))
+		if err == nil {
+			limit = &val
+		}
 	}
-
-	offset, _ = strconv.Atoi(params.Get("offset"))
+	if params.Has("limit") {
+		val, err := strconv.Atoi(params.Get("limit"))
+		if err == nil {
+			offset = &val
+		}
+	}
 	return limit, offset
 }
-
 func writeJSON(writer http.ResponseWriter, statusCode int, v any) error {
 	writer.Header().Add("Content-Type", "application/json")
 	writer.WriteHeader(statusCode)
+	log.Println(v)
 	return json.NewEncoder(writer).Encode(v)
 }
 
