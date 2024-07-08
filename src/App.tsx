@@ -6,12 +6,12 @@ import {
   Register,
   Login,
   Home,
-  Post,
+  PublishPost,
   Footer,
   User,
   Overview,
   Protected,
-  PublicationPage,
+  GetPost,
 } from "./Imports.ts";
 
 // CSS
@@ -28,21 +28,20 @@ function App() {
           <Route path=":id" element={<User />} />
           <Route path="" element={<Navigate to="/*" />} />
         </Route>
-        <Route path="/publication/">
-          <Route path=":id" element={<PublicationPage />} />
-          <Route path="" element={<Navigate to="/*" />} />
+        <Route path="/post/">
+          <Route path=":id" element={<GetPost />} />
+          <Route
+            path=""
+            element={
+              <Protected>
+                <PublishPost />
+              </Protected>
+            }
+          />
         </Route>
         <Route path="overview" element={<Overview />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route
-          path="post"
-          element={
-            <Protected>
-              <Post />
-            </Protected>
-          }
-        />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<p>Not found</p>} />
       </Routes>

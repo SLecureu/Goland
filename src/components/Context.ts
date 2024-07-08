@@ -12,9 +12,12 @@ export type User = {
 };
 
 export type Post = {
-  id: number;
-  userid: number;
+  id: string;
+  userID: string;
+  username: string;
+  categories: string[];
   content: string;
+  created: string;
 };
 
 type InitialType = {

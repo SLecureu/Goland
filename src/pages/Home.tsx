@@ -1,17 +1,9 @@
 import "./Home.scss";
 import { Link } from "react-router-dom";
 
-import { Icons, Post } from "../Imports";
+import { Icons } from "../Imports";
+import { Post } from "../components/Context";
 import { useEffect, useState } from "react";
-
-type Post = {
-  id: string;
-  userID: string;
-  username: string;
-  categories: string[];
-  content: string;
-  created: string;
-};
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
