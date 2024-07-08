@@ -1,67 +1,73 @@
 @use "../variables";
 
 .home-container {
-    display: grid;
-    grid-template-columns: 350px 1fr 250px;
+  display: grid;
+  grid-template-columns: 350px 1fr 250px;
+  gap: 10px;
+  padding: 10px;
+
+  @for $i from 0 through 2 {
+    .block-#{$i} {
+      background-color: lightsteelblue;
+      overflow: hidden;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .block-0 {
+    display: flex;
+    align-items: start;
+  }
+
+  .inside-block {
+    display: flex;
+    align-items: center;
     gap: 10px;
-    padding: 10px;
+    width: 175px;
+  }
 
-    @for $i from 0 through 2 {
-        .block-#{$i} {
-            background-color: lightsteelblue;
-            overflow: hidden;
-        }
+  .posts {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    overflow-wrap: break-word;
+
+    .post {
+      height: 200px;
+      margin: 10px 0;
+      border-radius: 20px;
+      background-color: green;
+
+      h2 {
+        padding: 10px;
+      }
+
+      p {
+        height: fit-content;
+        padding: 10px;
+        height: calc(100% - width);
+      }
     }
 
-    a {
-        text-decoration: none;
-        color: black;
+    .post:hover {
+      transform: translateY(-2px);
     }
+  }
 
-    .block-0 {
-        display: flex;
-        align-items: start;
+  @media screen and (max-width: variables.$desktop-width) {
+    grid-template-columns: 350px 1fr 0px;
+  }
+
+  @media screen and (max-width: variables.$tablet-width) {
+    grid-template:
+      "1"
+      "2";
+    .block-2 {
+      width: 0px;
     }
-
-    .inside-block {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: 175px;
-    }
-
-    .posts {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        overflow-wrap: break-word;
-
-        .post {
-            height: 200px;
-            margin: 10px 0;
-
-            h2 {
-                padding: 10px;
-            }
-
-            p {
-                height: fit-content;
-                padding: 10px;
-                height: calc(100% - width);
-            }
-        }
-    }
-
-    @media screen and (max-width: variables.$desktop-width) {
-        grid-template-columns: 350px 1fr 0px;
-    }
-
-    @media screen and (max-width: variables.$tablet-width) {
-        grid-template:
-            "1"
-            "2";
-        .block-2 {
-            width: 0px;
-        }
-    }
+  }
 }
