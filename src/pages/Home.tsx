@@ -9,16 +9,6 @@ import Layout from "../components/Layout";
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
-  // for (let index = 0; index < 10; index++) {
-  //     posts.push({
-  //         id: "Foo",
-  //         userID: "Bar",
-  //         username: "John Doe",
-  //         categories: [],
-  //         content: "Baz".repeat(100),
-  //         created: new Date().toString(),
-  //     });
-  // }
 
   useEffect(() => {
     fetch("/api/posts")
