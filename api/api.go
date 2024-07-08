@@ -78,6 +78,7 @@ func parseRequestLimitAndOffset(request *http.Request) (limit, offset *int) {
 	}
 	return limit, offset
 }
+
 func writeJSON(writer http.ResponseWriter, statusCode int, v any) error {
 	writer.Header().Add("Content-Type", "application/json")
 	writer.WriteHeader(statusCode)
@@ -94,7 +95,7 @@ func HandleFunc(fn HandlerFunc) http.HandlerFunc {
 				APIerror{
 					Status:  http.StatusInternalServerError,
 					Error:   "Internal Server Error",
-					Message: "Something went Wrong :/",
+					Message: err.Error(),
 				})
 		}
 	}

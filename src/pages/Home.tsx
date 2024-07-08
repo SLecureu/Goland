@@ -55,9 +55,9 @@ export default function Home() {
         <div className="block-1 posts">
           {posts.map((post, index) => (
             <div key={index} className="post">
-              <Link to={`/user/${post.userID}`}>
-                <h2>{post.username}</h2>
-              </Link>
+              <h2>
+                <Link to={`/user/${post.userID}`}>{post.username} </Link>
+              </h2>
               <p>{post.content}</p>
             </div>
           ))}
