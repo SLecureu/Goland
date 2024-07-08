@@ -38,6 +38,7 @@
     .post {
       height: 200px;
       margin: 10px 0;
+      border-radius: 20px;
       background-color: green;
 
       h2 {
@@ -49,6 +50,10 @@
         height: fit-content;
         text-overflow: ellipsis;
       }
+    }
+
+    .post:hover {
+      transform: translateY(-2px);
     }
   }
 
