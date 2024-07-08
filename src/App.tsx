@@ -10,7 +10,6 @@ import {
   Footer,
   User,
   Overview,
-  Protected,
   GetPost,
 } from "./Imports.ts";
 
@@ -30,14 +29,7 @@ function App() {
         </Route>
         <Route path="/post/">
           <Route path=":id" element={<GetPost />} />
-          <Route
-            path=""
-            element={
-              <Protected>
-                <PublishPost />
-              </Protected>
-            }
-          />
+          <Route path="" element={<PublishPost />} />
         </Route>
         <Route path="overview" element={<Overview />} />
         <Route path="login" element={<Login />} />

@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Post } from "../components/Context";
+import { Protected } from "../Imports";
 
 type Inputs = {
   content: string;
@@ -26,11 +27,13 @@ export function PublishPost() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="content">Post Content</label>
-      <textarea id="content" {...register("content")} />
-      <button type="submit">Post</button>
-    </form>
+    <Protected>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label htmlFor="content">Post Content</label>
+        <textarea id="content" {...register("content")} />
+        <button type="submit">Post</button>
+      </form>
+    </Protected>
   );
 }
 
@@ -56,9 +59,11 @@ export function GetPost() {
       .catch(console.log);
   }, []);
 
-  return (
+  return publication ? (
     <main>
-      <h2>{publication?.content}</h2>
+      <h2>{publication.content}</h2>
     </main>
+  ) : (
+    <Navigate to="/*" />
   );
 }

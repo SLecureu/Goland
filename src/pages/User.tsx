@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { User } from "../components/Context";
 
 function UserPage() {
@@ -23,10 +23,12 @@ function UserPage() {
       .then(setUser)
       .catch(console.log);
   }, []);
-  return (
+  return user ? (
     <main>
-      <h2>{user?.name}</h2>
+      <h2>{user.name}</h2>
     </main>
+  ) : (
+    <Navigate to="/*" />
   );
 }
 
