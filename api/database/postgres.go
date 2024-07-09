@@ -13,7 +13,6 @@ import (
 	"goland/api/models"
 
 	"github.com/gofrs/uuid"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -24,12 +23,12 @@ var ErrConflict = errors.New("Conflict")
 
 type PostgreSQLStore struct{ *sql.DB }
 
-func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Err could not load env file: %s", err)
-	}
-}
+// func init() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatalf("Err could not load env file: %s", err)
+// 	}
+// }
 
 func GenerateB64(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+-")

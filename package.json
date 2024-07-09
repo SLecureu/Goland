@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
-        "start": "sudo docker compose up -d && npm run build && go run .",
+        "start": " npm run build && sudo docker compose up --build",
         "clean": "sudo docker compose down && rm -r dist",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"

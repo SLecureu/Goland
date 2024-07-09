@@ -2,11 +2,27 @@ services:
     database:
         container_name: postgres
         image: postgres
-        ports:
-            - 5432:5432
+        networks:
+            - mynetwork
         env_file:
             - .env
         volumes:
-            - postgres-data:/var/lib/postgresql/data
-volumes:
-    postgres-data:
+            - ./:sql/docker-entrypoint-initdb.d
+        ports:
+            - 5432:5432
+
+    server:
+        image: golang
+        build: .
+        depends_on:
+            - database
+        networks:
+            - mynetwork
+        env_file:
+            - .env
+        ports:
+            - 8080:8080
+
+networks:
+    mynetwork:
+        driver: bridge
