@@ -9,7 +9,7 @@ import {
   User,
   Overview,
   GetPost,
-  Error,
+  ErrorPage,
   Protected,
 } from "./Imports.ts";
 
@@ -37,7 +37,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/" element={<Home />} />
-        <Route path="*" element={<Error errorCode={404} />} />
+        <Route path="*" element={<ErrorPage errorCode={404} />} />
       </Routes>
     </UserContextProvider>
   );
