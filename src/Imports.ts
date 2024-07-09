@@ -4,7 +4,8 @@ import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import { GetPost, PublishPost } from "./pages/Post";
+import { GetPost, PostPage } from "./pages/PostPage.tsx";
+
 import Category from "./pages/Category.tsx";
 import ErrorPage from "./pages/Error";
 import User from "./pages/User";
@@ -38,7 +39,7 @@ export {
     User,
     Overview,
     Protected,
-    PublishPost,
+    PostPage,
     Layout,
     ErrorPage,
     Category,

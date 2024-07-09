@@ -6,7 +6,7 @@ import { PostType } from "../components/Context";
 import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
-import { Post } from "./Post";
+import Post from "../components/Post";
 
 export default function Home() {
     const [posts, setPosts] = useState<PostType[]>([]);

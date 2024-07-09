@@ -5,7 +5,7 @@ import {
     Register,
     Login,
     Home,
-    PublishPost,
+    PostPage,
     User,
     Overview,
     GetPost,
@@ -15,7 +15,7 @@ import {
 } from "./Imports.ts";
 
 // CSS
-import "./App.css";
+import "./App.scss";
 
 import UserContextProvider from "./components/ContextProvider.tsx";
 
@@ -29,7 +29,7 @@ function App() {
                 </Route>
                 <Route path="/post/">
                     <Route path=":id" element={<GetPost />} />
-                    <Route path="" element={<PublishPost />} />
+                    <Route path="" element={<PostPage />} />
                 </Route>
                 <Route path="/category/">
                     <Route path=":id" element={<Category />} />

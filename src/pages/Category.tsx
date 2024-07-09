@@ -4,7 +4,9 @@ import { ErrorPage, Layout } from "../Imports";
 import { PostType } from "../components/Context";
 
 import "./Category.scss";
-import { Post } from "./Post";
+
+import Loader from "../components/Loader";
+import Post from "../components/Post";
 
 function Category() {
     const { id } = useParams();
@@ -20,7 +22,7 @@ function Category() {
             .then(() => setLoading(false));
     }, [id]);
 
-    if (loading) return <>Loading...</>;
+    if (loading) return <Loader />;
     if (posts.length == 0) return <ErrorPage code={404} />;
     return (
         <Layout>
