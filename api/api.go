@@ -42,7 +42,7 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/api/posts", HandleFunc(server.GetPosts))
 	router.HandleFunc("/api/post", server.Protected(server.Post))
 	router.HandleFunc("/api/post/{id}", HandleFunc(server.GetPostByID))
-	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
+	router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

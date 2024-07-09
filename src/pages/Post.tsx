@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import _404 from "./404";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Post } from "../components/Context";
@@ -62,11 +63,13 @@ export function GetPost() {
             .catch(console.log);
     }, []);
 
-    if (!publication) return <Navigate to="/*" />;
+    if (!publication) return <_404 />;
 
     return (
-        <main>
-            <h2>{publication?.content}</h2>
-        </main>
+        <Layout>
+            <main>
+                <h2>{publication?.content}</h2>
+            </main>
+        </Layout>
     );
 }
