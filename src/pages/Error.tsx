@@ -1,22 +1,24 @@
 import Layout from "../components/Layout";
 import "./Error.scss";
 
-const ErrorPage = ({ errorCode }: { errorCode: number }) => {
-  let errorMsg = "";
-  switch (errorCode) {
-    case 404:
-      errorMsg = "Not found";
-      break;
-    default:
-  }
-  return (
-    <Layout>
-      <div className="error-container">
-        <span>{errorCode}:</span>
-        <p>{errorMsg}</p>
-      </div>
-    </Layout>
-  );
+const ErrorPage = ({ code }: { code: number }) => {
+    let msg = "";
+    switch (code) {
+        case 404:
+            msg = "Not Found";
+            break;
+
+        default:
+            break;
+    }
+    return (
+        <Layout>
+            <div className="error-container">
+                <h2>{code}</h2>
+                <p>{msg}</p>
+            </div>
+        </Layout>
+    );
 };
 
 export default ErrorPage;

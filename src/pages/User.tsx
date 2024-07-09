@@ -4,34 +4,34 @@ import { User } from "../components/Context";
 import { Layout, ErrorPage } from "../Imports";
 
 function UserPage() {
-  const { id } = useParams();
-  const [user, setUser] = useState<User | null>(null);
+    const { id } = useParams();
+    const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    fetch(`/api/user/${id}`, {
-      method: `GET`,
-      headers: {
-        "Content-Type": `application/json`,
-      },
-      credentials: "include",
-    })
-      .then((resp) => {
-        if (!resp.ok) return null;
-        return resp.json();
-      })
-      .then(setUser)
-      .catch(console.log);
-  }, []);
+    useEffect(() => {
+        fetch(`/api/user/${id}`, {
+            method: `GET`,
+            headers: {
+                "Content-Type": `application/json`,
+            },
+            credentials: "include",
+        })
+            .then((resp) => {
+                if (!resp.ok) return null;
+                return resp.json();
+            })
+            .then(setUser)
+            .catch(console.log);
+    }, []);
 
-  if (!user) return <ErrorPage errorCode={404} />;
+    if (!user) return <ErrorPage code={404} />;
 
-  return (
-    <Layout>
-      <main>
-        <h2>{user.name}</h2>
-      </main>
-    </Layout>
-  );
+    return (
+        <Layout>
+            <main>
+                <h2>{user.name}</h2>
+            </main>
+        </Layout>
+    );
 }
 
 export default UserPage;
