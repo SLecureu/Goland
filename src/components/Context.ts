@@ -26,10 +26,8 @@ type InitialType = {
     loading: boolean;
 };
 
-const initialValue = {
+export const UserContext = createContext<InitialType>({
     user: null,
     setUser: console.log,
     loading: true,
-};
-
-export const UserContext = createContext<InitialType>(initialValue);
+});

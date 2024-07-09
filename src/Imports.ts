@@ -1,5 +1,4 @@
 import Protected from "./components/Protected";
-import Layout from "./components/Layout";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -10,28 +9,10 @@ import Category from "./pages/Category.tsx";
 import ErrorPage from "./pages/Error";
 import User from "./pages/User";
 import Overview from "./pages/Overview";
-
-import home from "./assets/icons/home.svg";
-import post from "./assets/icons/post.svg";
-import github from "./assets/icons/github.svg";
-import linkedin from "./assets/icons/linkedin.svg";
-import logo from "./assets/icons/logo.svg";
-import logout from "./assets/icons/logout.svg";
-
-export type WrapProps = {
-    wrap: boolean;
-};
-
-const Icons = {
-    home,
-    github,
-    logo,
-    post,
-    linkedin,
-    logout,
-};
+import { Header, Footer } from "./components/Layout.tsx";
 
 export {
+    Header,
     Login,
     Register,
     Home,
@@ -40,8 +21,7 @@ export {
     Overview,
     Protected,
     PostPage,
-    Layout,
     ErrorPage,
     Category,
-    Icons,
+    Footer,
 };

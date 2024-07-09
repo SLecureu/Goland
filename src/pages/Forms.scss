@@ -1,22 +1,3 @@
-// @keyframes Spin {
-//     from {
-//         transform: rotate(360deg);
-//     }
-//     to {
-//         transform: rotate(0deg);
-//     }
-// }
-
-// .spinning-background {
-//     animation: Spin 30s infinite linear;
-//     $size: 800px;
-//     width: $size;
-//     position: absolute;
-//     top: calc(50% - ($size / 2));
-//     left: calc(50% - ($size / 2));
-//     z-index: -1;
-// }
-
 .form {
     margin: 20vh auto;
     width: 400px;

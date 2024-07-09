@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ErrorPage, Layout } from "../Imports";
+import { ErrorPage } from "../Imports";
 import { PostType } from "../components/Context";
 
 import "./Category.scss";
@@ -23,15 +23,14 @@ function Category() {
     }, [id]);
 
     if (loading) return <Loader />;
+
     if (posts.length == 0) return <ErrorPage code={404} />;
     return (
-        <Layout>
-            <main>
-                {posts.map((post, index) => (
-                    <Post post={post} key={index} />
-                ))}
-            </main>
-        </Layout>
+        <main>
+            {posts.map((post, index) => (
+                <Post post={post} key={index} />
+            ))}
+        </main>
     );
 }
 

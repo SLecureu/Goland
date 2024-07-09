@@ -1,7 +1,7 @@
-import { ReactNode, useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "./Context";
 import { Link, useNavigate } from "react-router-dom";
-import { Icons } from "../Imports";
+import { Icons } from "../assets/assets";
 import "./Layout.scss";
 
 function Header() {
@@ -100,14 +100,4 @@ function Footer() {
     );
 }
 
-const Layout = ({ children }: { children: ReactNode }) => {
-    return (
-        <>
-            <Header />
-            {children}
-            <Footer />
-        </>
-    );
-};
-
-export default Layout;
+export { Header, Footer };

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PostType } from "../components/Context";
 import { Protected } from "../Imports";
-import { Layout } from "../Imports";
 
 import "./PostPage.scss";
 
@@ -34,13 +33,11 @@ export function PostPage() {
 
     return (
         <Protected>
-            <Layout>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <label htmlFor="content">Post Content</label>
-                    <textarea id="content" {...register("content")} />
-                    <button type="submit">Post</button>
-                </form>
-            </Layout>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label htmlFor="content">Post Content</label>
+                <textarea id="content" {...register("content")} />
+                <button type="submit">Post</button>
+            </form>
         </Protected>
     );
 }
@@ -68,10 +65,8 @@ export function GetPost() {
     if (!post) return <ErrorPage code={404} />;
 
     return (
-        <Layout>
-            <main>
-                <h2>{post.content}</h2>
-            </main>
-        </Layout>
+        <main>
+            <h2>{post.content}</h2>
+        </main>
     );
 }

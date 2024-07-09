@@ -5,7 +5,6 @@ import { UserContext } from "../components/Context.ts";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import "./Forms.scss";
-// import { Icons } from "../Imports.ts";
 
 type LoginForm = {
     email: string;

@@ -1,4 +1,3 @@
-import Layout from "../components/Layout";
 import "./Error.scss";
 
 const ErrorPage = ({ code }: { code: number }) => {
@@ -12,12 +11,10 @@ const ErrorPage = ({ code }: { code: number }) => {
             break;
     }
     return (
-        <Layout>
-            <div className="error-container">
-                <h2>{code}</h2>
-                <p>{msg}</p>
-            </div>
-        </Layout>
+        <div className="error-container">
+            <h2>{code}</h2>
+            <p>{msg}</p>
+        </div>
     );
 };
 

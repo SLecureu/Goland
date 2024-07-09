@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { User } from "../components/Context";
-import { Layout, ErrorPage } from "../Imports";
+import { ErrorPage } from "../Imports";
 import Loader from "../components/Loader";
 
 function UserPage() {
@@ -26,20 +26,13 @@ function UserPage() {
             .catch(console.log);
     }, [id]);
 
-    if (loading)
-        return (
-            <Layout>
-                <Loader />
-            </Layout>
-        );
+    if (loading) return <Loader />;
     if (!user) return <ErrorPage code={404} />;
 
     return (
-        <Layout>
-            <main>
-                <h2>{user.name}</h2>
-            </main>
-        </Layout>
+        <main>
+            <h2>{user.name}</h2>
+        </main>
     );
 }
 

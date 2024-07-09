@@ -1,7 +1,8 @@
 // Node libraries
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import {
+    Header,
     Register,
     Login,
     Home,
@@ -12,6 +13,7 @@ import {
     Category,
     ErrorPage,
     Protected,
+    Footer,
 } from "./Imports.ts";
 
 // CSS
@@ -22,10 +24,11 @@ import UserContextProvider from "./components/ContextProvider.tsx";
 function App() {
     return (
         <UserContextProvider>
+            <Header />
             <Routes>
                 <Route path="/user/">
                     <Route path=":id" element={<User />} />
-                    <Route path="" element={<Navigate to="/*" />} />
+                    <Route path="" element={<ErrorPage code={404} />} />
                 </Route>
                 <Route path="/post/">
                     <Route path=":id" element={<GetPost />} />
@@ -44,6 +47,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<ErrorPage code={404} />} />
             </Routes>
+            <Footer />
         </UserContextProvider>
     );
 }

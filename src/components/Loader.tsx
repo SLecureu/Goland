@@ -1,4 +1,4 @@
-import { Icons } from "../Imports";
+import { Icons } from "../assets/assets";
 
 import "../pages/Loader.scss";
 
