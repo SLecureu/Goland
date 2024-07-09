@@ -9,6 +9,7 @@ import {
     User,
     Overview,
     GetPost,
+    Category,
     ErrorPage,
     Protected,
 } from "./Imports.ts";
@@ -29,6 +30,10 @@ function App() {
                 <Route path="/post/">
                     <Route path=":id" element={<GetPost />} />
                     <Route path="" element={<PublishPost />} />
+                </Route>
+                <Route path="/category/">
+                    <Route path=":id" element={<Category />} />
+                    <Route path="" element={<ErrorPage code={404} />} />
                 </Route>
                 <Route
                     path="overview"

@@ -1,9 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorPage from "./Error";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Post } from "../components/Context";
+import { PostType } from "../components/Context";
 import { Protected } from "../Imports";
 import { Layout } from "../Imports";
 
@@ -12,12 +12,25 @@ type Inputs = {
     categories: string[];
 };
 
+const HashTagRexExp = /(?<=#)[\w\d\.]+/g;
+
+export function Post({ post, key }: { post: PostType; key: number }) {
+    return (
+        <div className="post" key={key}>
+            <Link to={`/user/${post.userID}`}>
+                <h2>{post.username}</h2>
+            </Link>
+            <p>{post.content}</p>
+        </div>
+    );
+}
+
 export function PublishPost() {
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (!data.content) return;
-        data.categories = data.content.match(/#([a-zA-Z\d-]+)/g) || [];
+        data.categories = data.content.match(HashTagRexExp) || [];
         await fetch("/api/post", {
             credentials: "include",
             method: "POST",
@@ -43,7 +56,7 @@ export function PublishPost() {
 
 export function GetPost() {
     const { id } = useParams();
-    const [post, setPost] = useState<Post | null>(null);
+    const [post, setPost] = useState<PostType | null>(null);
 
     useEffect(() => {
         fetch(`/api/post/${id}`, {
@@ -59,7 +72,7 @@ export function GetPost() {
             })
             .then(setPost)
             .catch(console.log);
-    }, []);
+    }, [id]);
 
     if (!post) return <ErrorPage code={404} />;
 

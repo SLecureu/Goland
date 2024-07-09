@@ -389,3 +389,46 @@ func (store *PostgreSQLStore) GetCommentsOfID(ctx context.Context, id string, li
 
 	return comments, tx.Commit()
 }
+
+func (store *PostgreSQLStore) GetCategory(ctx context.Context, name string, limit, offset *int) (posts []models.Post, err error) {
+	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+
+	posts = []models.Post{}
+
+	rows, err := tx.QueryContext(ctx,
+		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
+			FROM posts JOIN users 
+			ON posts.userid = users.id 
+			WHERE $1 = ANY(posts.categories)
+			ORDER BY posts.created DESC LIMIT $2 OFFSET $3;`,
+		name,
+		limit,
+		offset,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		post := models.Post{}
+		err = rows.Scan(
+			&post.ID,
+			&post.UserID,
+			&post.Username,
+			&post.Categories,
+			&post.Content,
+			&post.Created,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		posts = append(posts, post)
+	}
+
+	return posts, tx.Commit()
+}

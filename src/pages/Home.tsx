@@ -2,13 +2,14 @@ import "./Home.scss";
 import { Link } from "react-router-dom";
 
 import { Icons } from "../Imports";
-import { Post } from "../components/Context";
+import { PostType } from "../components/Context";
 import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
+import { Post } from "./Post";
 
 export default function Home() {
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [posts, setPosts] = useState<PostType[]>([]);
 
     useEffect(() => {
         fetch("/api/posts")
@@ -44,18 +45,7 @@ export default function Home() {
                 </div>
                 <div className="block-1 posts">
                     {posts.map((post, index) => (
-                        <div key={index} className="post">
-                            <h2>
-                                <Link to={`/user/${post.userID}`}>
-                                    <span>{post.username}</span>{" "}
-                                </Link>
-                            </h2>
-                            <p>
-                                <Link to={`/post/${post.id}`}>
-                                    <span>{post.content}</span>
-                                </Link>
-                            </p>
-                        </div>
+                        <Post post={post} key={index} />
                     ))}
                 </div>
                 <div className="block-2 ">Foo</div>

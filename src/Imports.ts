@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import { GetPost, PublishPost } from "./pages/Post";
+import Category from "./pages/Category.tsx";
 import ErrorPage from "./pages/Error";
 import User from "./pages/User";
 import Overview from "./pages/Overview";
@@ -17,28 +18,29 @@ import logo from "./assets/icons/logo.svg";
 import logout from "./assets/icons/logout.svg";
 
 export type WrapProps = {
-  wrap: boolean;
+    wrap: boolean;
 };
 
 const Icons = {
-  home,
-  github,
-  logo,
-  post,
-  linkedin,
-  logout,
+    home,
+    github,
+    logo,
+    post,
+    linkedin,
+    logout,
 };
 
 export {
-  Login,
-  Register,
-  Home,
-  GetPost,
-  User,
-  Overview,
-  Protected,
-  PublishPost,
-  Layout,
-  ErrorPage,
-  Icons,
+    Login,
+    Register,
+    Home,
+    GetPost,
+    User,
+    Overview,
+    Protected,
+    PublishPost,
+    Layout,
+    ErrorPage,
+    Category,
+    Icons,
 };

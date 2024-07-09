@@ -21,7 +21,7 @@ function UserPage() {
             })
             .then(setUser)
             .catch(console.log);
-    }, []);
+    }, [id]);
 
     if (!user) return <ErrorPage code={404} />;
 

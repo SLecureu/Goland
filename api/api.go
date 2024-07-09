@@ -42,8 +42,9 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/api/posts", HandleFunc(server.GetPosts))
 	router.HandleFunc("/api/post", server.Protected(server.Post))
 	router.HandleFunc("/api/post/{id}", HandleFunc(server.GetPostByID))
-	router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
+	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
+	router.HandleFunc("/api/category/{id}", HandleFunc(server.GetCategory))
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "dist/index.html")
@@ -445,4 +446,18 @@ func (server *API) GetCommentsOfID(writer http.ResponseWriter, request *http.Req
 		return err
 	}
 	return writeJSON(writer, http.StatusOK, comments)
+}
+
+func (server *API) GetCategory(writer http.ResponseWriter, request *http.Request) error {
+	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
+	defer cancel()
+	limit, offset := parseRequestLimitAndOffset(request)
+
+	log.Println(limit, offset)
+	posts, err := server.Storage.GetCategory(ctx, request.PathValue("id"), limit, offset)
+	if err != nil {
+		return err
+	}
+
+	return writeJSON(writer, http.StatusOK, posts)
 }
