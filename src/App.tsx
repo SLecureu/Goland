@@ -11,13 +11,12 @@ import {
   GetPost,
 } from "./Imports.ts";
 
-import { Protected } from "./Imports.ts";
+import { Protected, Error } from "./Imports.ts";
 
 // CSS
 import "./App.css";
 
 import UserContextProvider from "./components/ContextProvider.tsx";
-import _404 from "./pages/404.tsx";
 
 function App() {
   return (
@@ -38,7 +37,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/" element={<Home />} />
-        <Route path="*" element={<_404 />} />
+        <Route path="*" element={<Error errorCode={404} />} />
       </Routes>
     </UserContextProvider>
   );

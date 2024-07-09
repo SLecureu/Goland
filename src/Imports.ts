@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import { GetPost, PublishPost } from "./pages/Post";
-import _404 from "./pages/404";
+import Error from "./pages/Error";
 import User from "./pages/User";
 import Overview from "./pages/Overview";
 
@@ -39,5 +39,6 @@ export {
   Protected,
   PublishPost,
   Layout,
+  Error,
   Icons,
 };
