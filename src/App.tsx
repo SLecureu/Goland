@@ -9,9 +9,9 @@ import {
   User,
   Overview,
   GetPost,
+  Error,
+  Protected,
 } from "./Imports.ts";
-
-import { Protected, Error } from "./Imports.ts";
 
 // CSS
 import "./App.css";
