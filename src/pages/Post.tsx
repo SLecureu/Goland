@@ -43,7 +43,7 @@ export function PublishPost() {
 
 export function GetPost() {
     const { id } = useParams();
-    const [publication, setPublication] = useState<Post | null>(null);
+    const [post, setPost] = useState<Post | null>(null);
 
     useEffect(() => {
         fetch(`/api/post/${id}`, {
@@ -54,21 +54,19 @@ export function GetPost() {
             credentials: "include",
         })
             .then((resp) => {
-                if (!resp.ok) {
-                    throw new Error(`Failed to fetch post: ${resp.status}`);
-                }
+                if (!resp.ok) return null;
                 return resp.json();
             })
-            .then(setPublication)
+            .then(setPost)
             .catch(console.log);
     }, []);
 
-    if (!publication) return <ErrorPage code={404} />;
+    if (!post) return <ErrorPage code={404} />;
 
     return (
         <Layout>
             <main>
-                <h2>{publication.content}</h2>
+                <h2>{post.content}</h2>
             </main>
         </Layout>
     );
