@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { User } from "../components/Context";
-import { Layout } from "../Imports";
+import { Layout, _404 } from "../Imports";
 
 function UserPage() {
     const { id } = useParams();
     const [user, setUser] = useState<User | null>(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`/api/user/${id}`, {
@@ -17,22 +16,14 @@ function UserPage() {
             credentials: "include",
         })
             .then((resp) => {
-                if (!resp.ok) {
-                    navigate("/*");
-                    return null;
-                }
+                if (!resp.ok) return null;
                 return resp.json();
             })
             .then(setUser)
             .catch(console.log);
     }, []);
 
-    if (!user)
-        return (
-            <Layout>
-                <div>Loading</div>
-            </Layout>
-        );
+    if (!user) return <_404 />;
 
     return (
         <Layout>

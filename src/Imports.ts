@@ -17,27 +17,28 @@ import logo from "./assets/icons/logo.svg";
 import logout from "./assets/icons/logout.svg";
 
 export type WrapProps = {
-  wrap: boolean;
+    wrap: boolean;
 };
 
 const Icons = {
-  home,
-  github,
-  logo,
-  post,
-  linkedin,
-  logout,
+    home,
+    github,
+    logo,
+    post,
+    linkedin,
+    logout,
 };
 
 export {
-  Login,
-  Register,
-  Home,
-  GetPost,
-  User,
-  Overview,
-  Protected,
-  PublishPost,
-  Layout,
-  Icons,
+    Login,
+    Register,
+    Home,
+    GetPost,
+    User,
+    Overview,
+    Protected,
+    PublishPost,
+    Layout,
+    _404,
+    Icons,
 };
