@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
 import Post from "../components/Post";
+import Loader from "../components/Loader";
 
 export default function Home() {
     const [posts, setPosts] = useState<PostType[]>([]);
@@ -44,9 +45,14 @@ export default function Home() {
                     </Link>
                 </div>
                 <div className="block-1 posts">
-                    {posts.map((post, index) => (
-                        <Post post={post} key={index} />
-                    ))}
+                    {posts.length === 0 ? (
+                        <Loader />
+                    ) : (
+                        posts.map((post, index) => {
+                            setTimeout(() => {}, 1000);
+                            return <Post post={post} key={index} />;
+                        })
+                    )}
                 </div>
                 <div className="block-2 ">Foo</div>
             </main>

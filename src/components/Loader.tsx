@@ -3,7 +3,6 @@ import { Icons } from "../Imports";
 import "../pages/Loader.scss";
 
 function Loader() {
-    console.log("loading...");
     return <img src={Icons.logo} alt="Loading" className="loader" />;
 }
 
