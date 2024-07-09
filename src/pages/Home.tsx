@@ -46,9 +46,15 @@ export default function Home() {
           {posts.map((post, index) => (
             <div key={index} className="post">
               <h2>
-                <Link to={`/user/${post.userID}`}>{post.username} </Link>
+                <Link to={`/user/${post.userID}`}>
+                  <span>{post.username}</span>{" "}
+                </Link>
               </h2>
-              <p>{post.content}</p>
+              <p>
+                <Link to={`/post/${post.id}`}>
+                  <span>{post.content}</span>
+                </Link>
+              </p>
             </div>
           ))}
         </div>
