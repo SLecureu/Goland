@@ -23,6 +23,12 @@
         align-items: start;
     }
 
+    .block-1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .inside-block {
         display: flex;
         align-items: center;
@@ -31,11 +37,6 @@
     }
 
     .posts {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        overflow-wrap: break-word;
-
         .post {
             height: 200px;
             margin: 10px 0;

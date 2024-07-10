@@ -15,3 +15,16 @@
     font-family: Optimistic Display;
     font-weight: 300;
 }
+
+@keyframes Spin {
+    from {
+        rotate: 360deg;
+    }
+    to {
+        rotate: 0deg;
+    }
+}
+
+.loader {
+    animation: Spin 20s linear infinite forwards;
+}

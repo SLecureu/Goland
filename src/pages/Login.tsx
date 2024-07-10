@@ -45,28 +45,34 @@ function Login() {
             );
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-            {/* <img
-                src={Icons.logo}
-                alt="Background Logo"
-                className="spinning-background"
-            /> */}
-            <h2>Login</h2>
-            <span className="form-error">{errors.root?.message}</span>
-            <label htmlFor="email">E-mail</label>
-            <input type="email" placeholder="email" {...register("email")} />
-            <label htmlFor="password">Password</label>
-            <input
-                type="password"
-                placeholder="password"
-                {...register("password")}
-            />
-            <span>
-                or
-                <Link to="/register">Register</Link>
-            </span>
-            <button type="submit">Login</button>
-        </form>
+        <main>
+            <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+                {/* <img
+                    src={Icons.logo}
+                    alt="Background Logo"
+                    className="spinning-background"
+                /> */}
+                <h2>Login</h2>
+                <span className="form-error">{errors.root?.message}</span>
+                <label htmlFor="email">E-mail</label>
+                <input
+                    type="email"
+                    placeholder="email"
+                    {...register("email")}
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    placeholder="password"
+                    {...register("password")}
+                />
+                <span>
+                    or
+                    <Link to="/register">Register</Link>
+                </span>
+                <button type="submit">Login</button>
+            </form>
+        </main>
     );
 }
 
