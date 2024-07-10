@@ -97,12 +97,15 @@ export function GetPost() {
       <div className="banner">
         <nav>
           <ul>
-            {["Post", "Comments", "Data"].map((t, i) => {
+            {["Post", "Comments", "Datas"].map((t, i) => {
               return <Factorize text={t} index={i} />;
             })}
           </ul>
         </nav>
       </div>
+      <div className={classes.c1 ? "chosen-page" : "hide"}>post</div>
+      <div className={classes.c2 ? "chosen-page" : "hide"}>comments</div>
+      <div className={classes.c3 ? "chosen-page" : "hide"}>datas</div>
     </main>
   );
 }

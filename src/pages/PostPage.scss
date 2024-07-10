@@ -2,6 +2,7 @@
   .banner {
     width: 100%;
     height: 50px;
+    background-color: aquamarine;
 
     nav {
       list-style: none;
@@ -24,7 +25,7 @@
       transition: background-color 0.3s ease;
 
       .selected-li {
-        background-color: red;
+        background-color: orangered;
         width: 100%;
         height: 5px;
         margin-top: 14px;
@@ -32,8 +33,16 @@
     }
 
     li:hover {
-      background-color: gray;
+      background-color: hotpink;
       cursor: pointer;
     }
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .chosen-page {
+    display: block;
   }
 }
