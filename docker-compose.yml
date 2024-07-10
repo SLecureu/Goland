@@ -1,4 +1,20 @@
 services:
+    server:
+        build: .
+        image: Goland/golang
+        depends_on:
+            - database
+        networks:
+            - mynetwork
+
+        env_file:
+            - .env
+        environment:
+            - POSTGRES_HOST=database
+
+        ports:
+            - 8080:8080
+
     database:
         container_name: postgres
         image: postgres
@@ -6,23 +22,11 @@ services:
             - mynetwork
         env_file:
             - .env
+
         volumes:
             - ./sql:/docker-entrypoint-initdb.d
         ports:
-            - 5432:5432
-
-    server:
-        image: golang
-        build: .
-        depends_on:
-            - database
-        networks:
-            - mynetwork
-        env_file:
-            - .env
-        ports:
-            - 8080:8080
-
+            - 8081:5432
 networks:
     mynetwork:
         driver: bridge

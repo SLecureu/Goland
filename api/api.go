@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/mail"
 	"strconv"
-	"time"
 
 	"goland/api/database"
 	"goland/api/models"
@@ -58,8 +57,8 @@ func NewAPI(addr string) (*API, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	server.Storage = storage
+
 	server.Sessions = database.NewSessionStore()
 	return server, nil
 }
@@ -84,7 +83,6 @@ func parseRequestLimitAndOffset(request *http.Request) (limit, offset *int) {
 func writeJSON(writer http.ResponseWriter, statusCode int, v any) error {
 	writer.Header().Add("Content-Type", "application/json")
 	writer.WriteHeader(statusCode)
-	time.Sleep(time.Second * 2)
 	return json.NewEncoder(writer).Encode(v)
 }
 

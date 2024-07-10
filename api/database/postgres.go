@@ -23,13 +23,6 @@ var ErrConflict = errors.New("Conflict")
 
 type PostgreSQLStore struct{ *sql.DB }
 
-// func init() {
-// 	err := godotenv.Load()
-// 	if err != nil {
-// 		log.Fatalf("Err could not load env file: %s", err)
-// 	}
-// }
-
 func GenerateB64(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+-")
 	id := make([]rune, n)
@@ -41,9 +34,10 @@ func GenerateB64(n int) string {
 
 func NewPostgreSQLStore() (*PostgreSQLStore, error) {
 	db, err := sql.Open("postgres",
-		fmt.Sprintf("user=%s password=%s sslmode=disable dbname=%s",
+		fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
 			os.Getenv("POSTGRES_USER"),
 			os.Getenv("POSTGRES_PASSWORD"),
+			os.Getenv("POSTGRES_HOST"),
 			os.Getenv("POSTGRES_DB")))
 	if err != nil {
 		return nil, err
