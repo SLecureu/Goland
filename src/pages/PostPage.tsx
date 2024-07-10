@@ -9,103 +9,93 @@ import { Protected } from "../Imports";
 import "./PostPage.scss";
 
 type Inputs = {
-  content: string;
-  categories: string[];
+    content: string;
+    categories: string[];
 };
 
 const HashTagRexExp = /(?<=#)[\w\d\.]+/g;
 
 export function PostPage() {
-  const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (!data.content) return;
-    data.categories = data.content.match(HashTagRexExp) || [];
-    await fetch("/api/post", {
-      credentials: "include",
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then((resp) => {
-      if (!resp.ok) return;
-      navigate("/");
-    });
-  };
+    const navigate = useNavigate();
+    const { register, handleSubmit } = useForm<Inputs>();
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        if (!data.content) return;
+        data.categories = data.content.match(HashTagRexExp) || [];
+        await fetch("/api/post", {
+            credentials: "include",
+            method: "POST",
+            body: JSON.stringify(data),
+        }).then((resp) => {
+            if (!resp.ok) return;
+            navigate("/");
+        });
+    };
 
-  return (
-    <Protected>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="content">Post Content</label>
-        <textarea id="content" {...register("content")} />
-        <button type="submit">Post</button>
-      </form>
-    </Protected>
-  );
+    return (
+        <Protected>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label htmlFor="content">Post Content</label>
+                <textarea id="content" {...register("content")} />
+                <button type="submit">Post</button>
+            </form>
+        </Protected>
+    );
 }
 
 export function GetPost() {
-  const { id } = useParams();
-  const [post, setPost] = useState<PostType | null>(null);
-  const [classes, setClasses] = useState({
-    c1: true,
-    c2: false,
-    c3: false,
-  });
+    const { id } = useParams();
+    const [post, setPost] = useState<PostType | null>({
+        id: "a",
+        userID: "a",
+        username: "a",
+        categories: [],
+        content: "",
+        created: "",
+    });
 
-  useEffect(() => {
-    fetch(`/api/post/${id}`, {
-      method: `GET`,
-      headers: {
-        "Content-Type": `application/json`,
-      },
-      credentials: "include",
-    })
-      .then((resp) => {
-        if (!resp.ok) return null;
-        return resp.json();
-      })
-      .then(setPost)
-      .catch(console.log);
-  }, [id]);
+    useEffect(() => {
+        fetch(`/api/post/${id}`, {
+            method: `GET`,
+            headers: {
+                "Content-Type": `application/json`,
+            },
+            credentials: "include",
+        })
+            .then((resp) => {
+                if (!resp.ok) return null;
+                return resp.json();
+            })
+            .then(setPost)
+            .catch(console.log);
+    }, [id]);
 
-  if (!post) return <ErrorPage code={404} />;
+    if (!post) return <ErrorPage code={404} />;
 
-  const Factorize = ({ text, index }: { text: string; index: number }) => {
+    const [classes, setClasses] = useState([true, false, false]);
+    const fields = ["Post", "Comments", "Datas"];
+
+    const handleClick = (i: number) => () => {
+        const next = [false, false, false];
+        next[i] = true;
+        setClasses(next);
+    };
+
     return (
-      <li
-        onClick={() =>
-          index == 0
-            ? setClasses({ ...classes, c1: true, c2: false, c3: false })
-            : index == 1
-            ? setClasses({ ...classes, c1: false, c2: true, c3: false })
-            : setClasses({ ...classes, c1: false, c2: false, c3: true })
-        }
-      >
-        {text}
-        <div
-          className={
-            (classes as { [key: string]: boolean })[`c${index + 1}`]
-              ? "selected-li"
-              : ""
-          }
-        ></div>
-      </li>
+        <main className="postpage">
+            <div className="banner">
+                <nav>
+                    <ul>
+                        {fields.map((content, index) => (
+                            <li onClick={handleClick(index)}>{content}</li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
+            {fields.map((content, index) => (
+                <div className={classes[index] ? "chosen-page" : "hide"}>
+                    {content}
+                </div>
+            ))}
+        </main>
     );
-  };
-
-  return (
-    <main className="postpage">
-      <div className="banner">
-        <nav>
-          <ul>
-            {["Post", "Comments", "Datas"].map((t, i) => {
-              return <Factorize text={t} index={i} />;
-            })}
-          </ul>
-        </nav>
-      </div>
-      <div className={classes.c1 ? "chosen-page" : "hide"}>post</div>
-      <div className={classes.c2 ? "chosen-page" : "hide"}>comments</div>
-      <div className={classes.c3 ? "chosen-page" : "hide"}>datas</div>
-    </main>
-  );
 }

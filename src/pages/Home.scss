@@ -37,11 +37,15 @@
     }
 
     .posts {
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
         .post {
-            height: 200px;
+            min-height: 200px;
             margin: 10px 0;
             border-radius: 20px;
-            background-color: green;
+            width: 100%;
 
             h2 {
                 padding: 10px;

@@ -47,11 +47,6 @@ function Login() {
     return (
         <main>
             <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-                {/* <img
-                    src={Icons.logo}
-                    alt="Background Logo"
-                    className="spinning-background"
-                /> */}
                 <h2>Login</h2>
                 <span className="form-error">{errors.root?.message}</span>
                 <label htmlFor="email">E-mail</label>

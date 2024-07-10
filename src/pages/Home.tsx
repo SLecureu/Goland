@@ -9,7 +9,16 @@ import Post from "../components/Post";
 import Loader from "../components/Loader";
 
 export default function Home() {
-    const [posts, setPosts] = useState<PostType[]>([]);
+    const [posts, setPosts] = useState<PostType[]>([
+        {
+            id: "0",
+            userID: "0",
+            username: "John",
+            categories: [],
+            content: "",
+            created: "",
+        },
+    ]);
 
     useEffect(() => {
         fetch("/api/posts")
@@ -39,7 +48,7 @@ export default function Home() {
                         <Loader width="100px" height="100px" />
                     ) : (
                         posts.map((post, index) => {
-                            return <Post post={post} key={index} />;
+                            return <Post key={index} post={post} />;
                         })
                     )}
                 </div>
