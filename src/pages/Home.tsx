@@ -35,10 +35,10 @@ export default function Home() {
       </div>
       <div className="block-1 posts">
         {posts.length === 0 ? (
-          <Loader />
+          <Loader /> // JUMPSCARE AT BEST because set timeout IS NOT a time.sleep
         ) : (
           posts.map((post, index) => {
-            setTimeout(() => {}, 1000);
+            setTimeout(() => {}, 1000); // set timeout useless because js DOESNT WORK LIKE THAT
             return <Post post={post} key={index} />;
           })
         )}
