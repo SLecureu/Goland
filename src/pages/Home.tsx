@@ -9,16 +9,7 @@ import Post from "../components/Post";
 import Loader from "../components/Loader";
 
 export default function Home() {
-    const [posts, setPosts] = useState<PostType[]>([
-        {
-            id: "0",
-            userID: "0",
-            username: "John",
-            categories: [],
-            content: "",
-            created: "",
-        },
-    ]);
+    const [posts, setPosts] = useState<PostType[]>([]);
 
     useEffect(() => {
         fetch("/api/posts")
