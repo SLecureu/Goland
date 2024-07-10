@@ -1,9 +1,17 @@
+import { FC, ImgHTMLAttributes } from "react";
 import { Icons } from "../assets/assets";
 
-import "../pages/Loader.scss";
+interface LoaderProps extends ImgHTMLAttributes<HTMLImageElement> {}
 
-function Loader() {
-    return <img src={Icons.logo} alt="Loading" className="loader" />;
-}
+const Loader: FC<LoaderProps> = ({ width, height }) => {
+    return (
+        <img
+            src={Icons.logo}
+            className="loader"
+            width={width}
+            height={height}
+        />
+    );
+};
 
 export default Loader;
