@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../components/Context.ts";
 import "./Forms.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { Icons } from "../Imports.ts";
 
 type RegisterForm = {
     name: string;
@@ -34,7 +33,7 @@ function Register() {
             .then(async (resp) => {
                 if (!resp.ok)
                     return setError("root", {
-                        type: "server",
+                        type: "servr",
                         message: (await resp.json()).message,
                     });
                 navigate("/");
@@ -47,42 +46,52 @@ function Register() {
                         "Sorry, we were unable to log you in. Try again later.",
                 })
             );
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="register-form">
-            {/* <img
-                            src={Icons.logo}
-                            alt="Background Logo"
-                            className="spinning-background"
-                        /> */}
-            <span>{errors.root?.message}</span>
-            <input type="text" placeholder="username" {...register("name")} />
-            <input type="email" placeholder="email" {...register("email")} />
-            <input
-                type="password"
-                placeholder="password"
-                {...register("password")}
-            />
-            <select {...register("gender")}>
-                <option value="M">M</option>
-                <option value="F">F</option>
-                <option value="O">Other</option>
-            </select>
-            <input type="date" placeholder="age" {...register("dateOfBirth")} />
-            <input
-                type="text"
-                placeholder="first name"
-                {...register("firstName")}
-            />
-            <input
-                type="text"
-                placeholder="last name"
-                {...register("lastName")}
-            />
-            <span>
-                Already have an account ?<Link to="/login">Login</Link>
-            </span>
-            <button type="submit">Register</button>
-        </form>
+        <main className="form-container">
+            <form onSubmit={handleSubmit(onSubmit)} className="register-form">
+                <span>{errors.root?.message}</span>
+                <input
+                    type="text"
+                    placeholder="username"
+                    {...register("name")}
+                />
+                <input
+                    type="email"
+                    placeholder="email"
+                    {...register("email")}
+                />
+                <input
+                    type="password"
+                    placeholder="password"
+                    {...register("password")}
+                />
+                <select {...register("gender")}>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                </select>
+                <input
+                    type="date"
+                    placeholder="age"
+                    {...register("dateOfBirth")}
+                />
+                <input
+                    type="text"
+                    placeholder="first name"
+                    {...register("firstName")}
+                />
+                <input
+                    type="text"
+                    placeholder="last name"
+                    {...register("lastName")}
+                />
+                <span>
+                    Already have an account ?<Link to="/login">Login</Link>
+                </span>
+                <button type="submit">Register</button>
+            </form>
+        </main>
     );
 }
 

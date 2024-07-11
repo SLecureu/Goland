@@ -5,9 +5,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "start": "tsc -b && vite build && sudo docker compose up --build",
+        "build": "tsc -b && vite build && sudo docker compose build && sudo docker compose create",
+        "start": "sudo docker compose up -d",
         "stop": "sudo docker compose stop",
-        "clean": "sudo docker compose down && rm -r dist",
+        "clean": "sudo docker compose down -v && rm -r dist",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },

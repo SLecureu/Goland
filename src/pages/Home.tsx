@@ -22,7 +22,7 @@ export default function Home() {
 
     return (
         <main className="home-container">
-            <div className="block-0">
+            <div className="block" id="block-0">
                 <Link to="/post" className="inside-block">
                     <img
                         src={Icons.post}
@@ -33,18 +33,20 @@ export default function Home() {
                     <span>Create a Post</span>
                 </Link>
             </div>
-            <div className="block-1">
+            <div className="block" id="block-1">
                 <div className="posts">
                     {posts.length === 0 ? (
                         <Loader width="100px" height="100px" />
                     ) : (
                         posts.map((post, index) => {
-                            return <Post post={post} key={index} />;
+                            return <Post key={index} post={post} />;
                         })
                     )}
                 </div>
             </div>
-            <div className="block-2 ">Foo</div>
+            <div className="block" id="block-2">
+                Foo
+            </div>
         </main>
     );
 }

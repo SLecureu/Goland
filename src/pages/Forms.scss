@@ -1,15 +1,28 @@
-.form {
-    margin: 20vh auto;
-    width: 400px;
-    height: 600px;
-    display: grid;
-    place-items: center;
-}
+@use "../module";
 
-.login-form {
-    @extend .form;
-}
+.form-container {
+    height: calc(100dvh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.register-form {
-    @extend .form;
+    form {
+        background-color: red;
+        width: 400px;
+        height: 500px;
+    }
+
+    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+        form {
+            width: 500px;
+            height: 600px;
+        }
+    }
+
+    @media screen and (min-width: module.$desktop-width) {
+        form {
+            width: 600px;
+            height: 700px;
+        }
+    }
 }
