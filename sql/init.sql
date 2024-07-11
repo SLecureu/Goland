@@ -18,4 +18,4 @@ CREATE TABLE IF NOT EXISTS posts (
     content TEXT,
     created DATE
 );
-COMMIT
+COMMIT;
