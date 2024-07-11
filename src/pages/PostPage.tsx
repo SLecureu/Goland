@@ -4,7 +4,7 @@ import ErrorPage from "./Error";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PostType } from "../components/Context";
-import { Protected } from "../Imports";
+import { Protected, FormatDate } from "../Imports";
 
 import "./PostPage.scss";
 
@@ -85,15 +85,24 @@ export function GetPost() {
       <div className="banner">
         <nav>
           <ul>
-            {["Post", "Comments", "Datas"].map((t, i) => {
+            {["Post", "Comments", "Other"].map((t, i) => {
               return <Factorize t={t} i={i} />;
             })}
           </ul>
         </nav>
       </div>
-      <div className={classes[0] ? "chosen-page" : "hide"}>post</div>
+      <div className={classes[0] ? "chosen-page" : "hide"}>
+        <p>
+          By {post.username} |&nbsp;
+          {FormatDate({ dateObject: new Date(post.created) })}
+          {post.categories ? ` | ${post.categories}` : ""}
+        </p>
+        <div>{post.content}</div>
+      </div>
       <div className={classes[1] ? "chosen-page" : "hide"}>comments</div>
-      <div className={classes[2] ? "chosen-page" : "hide"}>datas</div>
+      <div className={classes[2] ? "chosen-page" : "hide"}>
+        other post from the same categories / user
+      </div>
     </main>
   );
 }
