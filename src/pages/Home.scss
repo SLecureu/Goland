@@ -1,30 +1,40 @@
 @use "../module";
 
 .home-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 100px calc(100dvh - 240px) 0;
-    gap: 10px 10px;
-    padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px calc(100dvh - 240px) 0;
+  gap: 10px 10px;
+  padding: 10px;
 
-    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
-        grid-template-columns: 350px 1fr 0;
-        grid-template-rows: calc(100dvh - 120px);
-    }
+  @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+    grid-template-columns: 350px 1fr 0;
+    grid-template-rows: calc(100dvh - 120px);
+  }
 
-    @media screen and (min-width: module.$desktop-width) {
-        grid-template-columns: 350px 1fr 350px;
-        grid-template-rows: calc(100dvh - 120px);
-    }
+  @media screen and (min-width: module.$desktop-width) {
+    grid-template-columns: 350px 1fr 350px;
+    grid-template-rows: calc(100dvh - 120px);
+  }
 
-    .block {
-        overflow: hidden;
-        background-color: lightsteelblue;
-    }
+  .block {
+    overflow: hidden;
+    background-color: lightsteelblue;
 
-    #block-1 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .inside-block {
+      width: 50%;
+      height: 60px;
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
     }
+  }
+
+  #block-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
