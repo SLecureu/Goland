@@ -12,8 +12,7 @@ type Inputs = {
     content: string;
     categories: string[];
 };
-
-const HashTagRexExp = /(?<=#)[\w\d\.]+/g;
+const HashTagRexExp = /(?<=#)[\w\d]+/g;
 
 export function PostPage() {
     const navigate = useNavigate();
@@ -44,14 +43,7 @@ export function PostPage() {
 
 export function GetPost() {
     const { id } = useParams();
-    const [post, setPost] = useState<PostType | null>({
-        id: "a",
-        userID: "a",
-        username: "a",
-        categories: [],
-        content: "",
-        created: "",
-    });
+    const [post, setPost] = useState<PostType | null>();
 
     useEffect(() => {
         fetch(`/api/post/${id}`, {

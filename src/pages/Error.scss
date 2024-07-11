@@ -1,8 +1,13 @@
+.error {
+    height: calc(100dvh - 100px);
+}
+
 .error-container {
     margin: auto;
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 400px;
+    height: 400px;
     justify-content: center;
     align-items: center;
 }

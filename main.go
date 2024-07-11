@@ -4,7 +4,16 @@ import (
 	"log"
 
 	"goland/api"
+
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
 
 func main() {
 	server, err := api.NewAPI(":8080")
