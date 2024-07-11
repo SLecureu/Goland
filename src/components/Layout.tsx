@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { UserContext } from "./Context";
 import { Link, useNavigate } from "react-router-dom";
 import { Icons } from "../assets/assets";
-import "./Layout.scss";
 
 function Header() {
     const { user, setUser } = useContext(UserContext);
