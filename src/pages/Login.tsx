@@ -45,10 +45,10 @@ function Login() {
             );
 
     return (
-        <main>
+        <main className="form-container">
             <form onSubmit={handleSubmit(onSubmit)} className="login-form">
                 <h2>Login</h2>
-                <span className="form-error">{errors.root?.message}</span>
+                <div className="form-error">{errors.root?.message}</div>
                 <label htmlFor="email">E-mail</label>
                 <input
                     type="email"
