@@ -24,6 +24,6 @@ func main() {
 	log.Printf("Server up and running on port %s\n", server.Addr)
 	err = server.ListenAndServe()
 	if err != nil {
-		log.Println("Error here")
+		log.Println("Error", err)
 	}
 }

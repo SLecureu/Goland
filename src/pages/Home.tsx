@@ -9,7 +9,16 @@ import Post from "../components/Post";
 import Loader from "../components/Loader";
 
 export default function Home() {
-    const [posts, setPosts] = useState<PostType[]>([]);
+    const [posts, setPosts] = useState<PostType[]>([
+        {
+            id: "",
+            userID: "",
+            username: "shgLJHGLHFGMFgeiuGFIYG",
+            content: "hjgvoshgfishgp<ibvpisbvpisbsbljhbfhbvl<hbvlh<b",
+            created: "",
+            categories: [],
+        },
+    ]);
 
     useEffect(() => {
         fetch("/api/posts")
@@ -24,10 +33,7 @@ export default function Home() {
         <main className="home-container">
             <div className="block" id="block-0">
                 <div className="inside-block">
-                    <Link
-                        to="/post"
-                        style={{ display: "flex", alignItems: "center" }}
-                    >
+                    <Link to="/post">
                         <img
                             src={Icons.post}
                             alt="Post Icon"
