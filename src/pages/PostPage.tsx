@@ -64,19 +64,10 @@ export function GetPost() {
 
   if (!post) return <ErrorPage code={404} />;
 
-  const Factorize = ({ t, i }: { t: string; i: number }) => {
-    return (
-      <li
-        onClick={() => {
-          const next = [false, false, false];
-          next[i] = true;
-          setClasses(next);
-        }}
-      >
-        {t}
-        <div className={classes[i] ? "selected-li" : ""}></div>
-      </li>
-    );
+  const handleClick = (i: number) => () => {
+    const next = [false, false, false];
+    next[i] = true;
+    setClasses(next);
   };
 
   return (
@@ -85,7 +76,12 @@ export function GetPost() {
         <nav>
           <ul>
             {["Post", "Response", "Other"].map((t, i) => {
-              return <Factorize t={t} i={i} />;
+              return (
+                <li onClick={handleClick(i)}>
+                  {t}
+                  <div className={classes[i] ? "selected-li" : ""}></div>
+                </li>
+              );
             })}
           </ul>
         </nav>
