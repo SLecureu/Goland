@@ -85,24 +85,26 @@ export function GetPost() {
       <div className="banner">
         <nav>
           <ul>
-            {["Post", "Comments", "Other"].map((t, i) => {
+            {["Post", "Response", "Other"].map((t, i) => {
               return <Factorize t={t} i={i} />;
             })}
           </ul>
         </nav>
       </div>
-      <div className={classes[0] ? "chosen-page" : "hide"}>
-        <p>
-          By {post.username} |&nbsp;
-          {FormatDate({ dateObject: new Date(post.created) })}
-          {post.categories ? ` | ${post.categories}` : ""}
-        </p>
-        <div>{post.content}</div>
-      </div>
-      <div className={classes[1] ? "chosen-page" : "hide"}>comments</div>
-      <div className={classes[2] ? "chosen-page" : "hide"}>
-        other post from the same categories / user
-      </div>
+      {classes[0] ? (
+        <div>
+          <p>
+            By {post.username} |&nbsp;
+            {FormatDate({ dateObject: new Date(post.created) })}
+            {post.categories[0] ? ` | ${post.categories}` : ""}
+          </p>
+          <div>{post.content}</div>
+        </div>
+      ) : classes[1] ? (
+        <div>response</div>
+      ) : (
+        <div> other post from the same categories / user</div>
+      )}
     </main>
   );
 }
