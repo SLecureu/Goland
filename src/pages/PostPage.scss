@@ -1,8 +1,7 @@
 @use "../module";
 
 .postpage {
-  height: calc(100dvh - (module.$header-height + module.$footer-height));
-  min-height: fit-content;
+  min-height: calc(100dvh - (module.$header-height + module.$footer-height));
 
   .banner {
     width: 100%;
