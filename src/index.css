@@ -28,3 +28,7 @@
 .loader {
     animation: Spin 20s linear infinite forwards;
 }
+
+main {
+    height: calc(100dvh - 100px);
+}

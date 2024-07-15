@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS posts (
     id VARCHAR(5) PRIMARY KEY,
-    userid VARCHAR(40) REFERENCES users(id),
+    userid VARCHAR(36) REFERENCES users(id),
     categories TEXT ARRAY,
     content TEXT,
     created DATE
