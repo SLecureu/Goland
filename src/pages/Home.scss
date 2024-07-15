@@ -19,9 +19,6 @@
     background-color: lightsteelblue;
 
     .inside-block {
-      width: 50%;
-      height: 50px;
-
       a {
         text-decoration: none;
         color: black;
@@ -33,5 +30,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .posts {
+      background-color: aqua;
+    }
   }
 }

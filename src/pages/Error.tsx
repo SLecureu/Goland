@@ -11,7 +11,7 @@ const ErrorPage = ({ code }: { code: number }) => {
             break;
     }
     return (
-        <main>
+        <main className="error">
             <div className="error-container">
                 <h2>{code}</h2>
                 <p>{msg}</p>

@@ -1,19 +1,19 @@
 services:
-  server:
-    build: .
-    image: Goland/golang
-    depends_on:
-      - database
-    networks:
-      - mynetwork
+  # server:
+  #     build: .
+  #     image: Goland/golang
+  #     depends_on:
+  #         - database
+  #     networks:
+  #         - mynetwork
 
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_HOST=database
+  #     env_file:
+  #         - .env
+  #     environment:
+  #         - POSTGRES_HOST=database
 
-    ports:
-      - 8080:8080
+  #     ports:
+  #         - 80:8080
 
   database:
     container_name: postgres

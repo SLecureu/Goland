@@ -45,15 +45,15 @@ func NewPostgreSQLStore() (*PostgreSQLStore, error) {
 	return &PostgreSQLStore{db}, nil
 }
 
-func (store *PostgreSQLStore) RegisterUser(req *models.RegisterRequest) (user models.User, err error) {
-	tx, err := store.BeginTx(req.Ctx, nil)
+func (store *PostgreSQLStore) RegisterUser(ctx context.Context, req *models.RegisterRequest) (user models.User, err error) {
+	tx, err := store.BeginTx(ctx, nil)
 	if err != nil {
 		return
 	}
 	defer tx.Rollback()
 
 	var exists bool
-	err = tx.QueryRowContext(req.Ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE email = $1);", req.Email).Scan(&exists)
+	err = tx.QueryRowContext(ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE email = $1);", req.Email).Scan(&exists)
 	if err != nil {
 		return
 	}
@@ -67,7 +67,7 @@ func (store *PostgreSQLStore) RegisterUser(req *models.RegisterRequest) (user mo
 		return
 	}
 
-	tx, err = store.BeginTx(req.Ctx, nil)
+	tx, err = store.BeginTx(ctx, nil)
 	if err != nil {
 		return
 	}
@@ -91,8 +91,9 @@ func (store *PostgreSQLStore) RegisterUser(req *models.RegisterRequest) (user mo
 	user.FirstName = req.FirstName
 	user.LastName = req.LastName
 	user.Created = time.Now().UTC()
+	user.Posts = []string{}
 
-	_, err = tx.ExecContext(req.Ctx, "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);",
+	_, err = tx.ExecContext(ctx, "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);",
 		user.ID,
 		user.Email,
 		user.Name,
@@ -102,6 +103,7 @@ func (store *PostgreSQLStore) RegisterUser(req *models.RegisterRequest) (user mo
 		user.FirstName,
 		user.LastName,
 		user.Created,
+		user.Posts,
 	)
 	if err != nil {
 		return
@@ -110,14 +112,14 @@ func (store *PostgreSQLStore) RegisterUser(req *models.RegisterRequest) (user mo
 	return user, tx.Commit()
 }
 
-func (store *PostgreSQLStore) LogUser(req *models.LoginRequest) (user models.User, err error) {
-	tx, err := store.BeginTx(req.Ctx, &sql.TxOptions{ReadOnly: true})
+func (store *PostgreSQLStore) LogUser(ctx context.Context, req *models.LoginRequest) (user models.User, err error) {
+	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
 	if err != nil {
 		return
 	}
 	defer tx.Rollback()
 
-	row := tx.QueryRowContext(req.Ctx, "SELECT * FROM users WHERE email = $1;", req.Email)
+	row := tx.QueryRowContext(ctx, "SELECT * FROM users WHERE email = $1;", req.Email)
 	password := []byte{}
 
 	err = row.Scan(
@@ -183,7 +185,9 @@ func (store *PostgreSQLStore) GetUsersById(ctx context.Context, id string) (*mod
 	defer tx.Rollback()
 	user := new(models.User)
 	err = tx.QueryRowContext(ctx,
-		`SELECT id, email, name, gender,date_of_birth, first_name, last_name, created  FROM users WHERE id = $1;`, id).Scan(
+		`SELECT id, email, name, gender,date_of_birth, first_name, last_name, created, posts
+		FROM users
+		WHERE id = $1;`, id).Scan(
 		&user.ID,
 		&user.Email,
 		&user.Name,
@@ -192,6 +196,7 @@ func (store *PostgreSQLStore) GetUsersById(ctx context.Context, id string) (*mod
 		&user.FirstName,
 		&user.LastName,
 		&user.Created,
+		&user.Posts,
 	)
 	if err != nil {
 		return nil, err
@@ -200,8 +205,8 @@ func (store *PostgreSQLStore) GetUsersById(ctx context.Context, id string) (*mod
 	return user, tx.Commit()
 }
 
-func (store *PostgreSQLStore) CreatePost(req *models.PostRequest) (post models.Post, err error) {
-	tx, err := store.BeginTx(req.Ctx, nil)
+func (store *PostgreSQLStore) CreatePost(ctx context.Context, req *models.PostRequest) (post models.Post, err error) {
+	tx, err := store.BeginTx(ctx, nil)
 	if err != nil {
 		return
 	}
@@ -216,7 +221,7 @@ func (store *PostgreSQLStore) CreatePost(req *models.PostRequest) (post models.P
 	post.Categories = req.Categories
 	post.Created = time.Now().UTC()
 
-	_, err = tx.ExecContext(req.Ctx, "INSERT INTO posts VALUES ($1, $2, $3 ,$4, $5);",
+	_, err = tx.ExecContext(ctx, "INSERT INTO posts VALUES ($1, $2, $3 ,$4, $5);",
 		post.ID,
 		post.UserID,
 		post.Categories,
@@ -226,6 +231,17 @@ func (store *PostgreSQLStore) CreatePost(req *models.PostRequest) (post models.P
 	if err != nil {
 		return
 	}
+
+	_, err = tx.ExecContext(ctx,
+		`UPDATE users
+		SET posts = array_append(posts, $1 )
+		WHERE id = $2;`,
+		post.ID,
+		post.UserID)
+	if err != nil {
+		return
+	}
+
 	return post, tx.Commit()
 }
 

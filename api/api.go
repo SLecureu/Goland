@@ -170,10 +170,9 @@ func (server *API) Register(writer http.ResponseWriter, request *http.Request) e
 			})
 	}
 
-	var cancel context.CancelFunc
-	registerReq.Ctx, cancel = context.WithTimeout(request.Context(), database.TransactionTimeout)
+	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
 	defer cancel()
-	user, err := server.Storage.RegisterUser(registerReq)
+	user, err := server.Storage.RegisterUser(ctx, registerReq)
 	if errors.Is(err, database.ErrConflict) {
 		return writeJSON(writer, http.StatusConflict,
 			APIerror{
@@ -231,10 +230,9 @@ func (server *API) Login(writer http.ResponseWriter, request *http.Request) erro
 				Message: "Invalid Email address",
 			})
 	}
-	var cancel context.CancelFunc
-	loginReq.Ctx, cancel = context.WithTimeout(request.Context(), database.TransactionTimeout)
+	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
 	defer cancel()
-	user, err := server.Storage.LogUser(loginReq)
+	user, err := server.Storage.LogUser(ctx, loginReq)
 	if err != nil {
 		return writeJSON(writer, http.StatusBadRequest,
 			APIerror{
@@ -321,7 +319,7 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 			})
 	}
 
-	if postReq.Content == "" {
+	if len(postReq.Content) == 0 {
 		return writeJSON(writer, http.StatusBadRequest,
 			APIerror{
 				Status:  http.StatusBadRequest,
@@ -343,11 +341,10 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 	postReq.UserID = session.User.ID
 	postReq.Username = session.User.Name
 
-	var cancel context.CancelFunc
-	postReq.Ctx, cancel = context.WithTimeout(request.Context(), database.TransactionTimeout)
+	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
 	defer cancel()
 
-	post, err := server.Storage.CreatePost(postReq)
+	post, err := server.Storage.CreatePost(ctx, postReq)
 	if err != nil {
 		return err
 	}

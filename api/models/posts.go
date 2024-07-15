@@ -1,7 +1,6 @@
 package models
 
 import (
-	"context"
 	"time"
 
 	"github.com/lib/pq"
@@ -21,5 +20,4 @@ type PostRequest struct {
 	UserID     string
 	Username   string
 	Categories []string `json:"categories"`
-	Ctx        context.Context
 }

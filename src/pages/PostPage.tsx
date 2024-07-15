@@ -12,8 +12,7 @@ type Inputs = {
   content: string;
   categories: string[];
 };
-
-const HashTagRexExp = /(?<=#)[\w\d\.]+/g;
+const HashTagRexExp = /(?<=#)[\w\d]+/g;
 
 export function PostPage() {
   const navigate = useNavigate();

@@ -8,12 +8,13 @@ CREATE TABLE IF NOT EXISTS users (
     date_of_birth DATE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    created DATE NOT NULL
+    created DATE NOT NULL,
+    posts VARCHAR(5) ARRAY
 );
 
 CREATE TABLE IF NOT EXISTS posts (
     id VARCHAR(5) PRIMARY KEY,
-    userid VARCHAR(40) REFERENCES users(id),
+    userid VARCHAR(36) REFERENCES users(id),
     categories TEXT ARRAY,
     content TEXT,
     created DATE
