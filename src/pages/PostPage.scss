@@ -1,4 +1,9 @@
+@use "../module";
+
 .postpage {
+  height: calc(100dvh - (module.$header-height + module.$footer-height));
+  min-height: fit-content;
+
   .banner {
     width: 100%;
     height: 50px;
@@ -60,5 +65,10 @@
         color: black;
       }
     }
+  }
+
+  .post-content {
+    margin-left: 4vw;
+    margin-right: 4vw;
   }
 }

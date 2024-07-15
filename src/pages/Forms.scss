@@ -1,28 +1,28 @@
 @use "../module";
 
 .form-container {
-    height: calc(100dvh - 100px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: calc(100dvh - 100px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  form {
+    background-color: red;
+    width: 400px;
+    height: 500px;
+  }
+
+  @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
     form {
-        background-color: red;
-        width: 400px;
-        height: 500px;
+      width: 500px;
+      height: 600px;
     }
+  }
 
-    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
-        form {
-            width: 500px;
-            height: 600px;
-        }
+  @media screen and (min-width: module.$desktop-width) {
+    form {
+      width: 600px;
+      height: 700px;
     }
-
-    @media screen and (min-width: module.$desktop-width) {
-        form {
-            width: 600px;
-            height: 700px;
-        }
-    }
+  }
 }

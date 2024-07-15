@@ -101,7 +101,7 @@ export function GetPost() {
               {post.categories[0] ? ` | ${post.categories}` : ""}
             </span>
           </p>
-          <div>{post.content}</div>
+          <div className="post-content">{post.content}</div>
         </div>
       ) : classes[1] ? (
         <div>response</div>

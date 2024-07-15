@@ -1,9 +1,11 @@
+@use "./module";
+
 header {
   display: flex;
   justify-content: space-between;
   padding: 20px;
   background-color: lightsteelblue;
-  height: 100px;
+  height: module.$header-height;
 
   .logo {
     display: flex;
@@ -33,6 +35,7 @@ footer {
   color: black;
   margin-top: auto;
   width: 100%;
+  height: module.$footer-height;
 
   & > .container {
     background-color: lightsteelblue;
