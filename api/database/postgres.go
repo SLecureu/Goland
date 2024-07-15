@@ -91,8 +91,9 @@ func (store *PostgreSQLStore) RegisterUser(ctx context.Context, req *models.Regi
 	user.FirstName = req.FirstName
 	user.LastName = req.LastName
 	user.Created = time.Now().UTC()
+	user.Posts = []string{}
 
-	_, err = tx.ExecContext(ctx, "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);",
+	_, err = tx.ExecContext(ctx, "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);",
 		user.ID,
 		user.Email,
 		user.Name,
@@ -102,6 +103,7 @@ func (store *PostgreSQLStore) RegisterUser(ctx context.Context, req *models.Regi
 		user.FirstName,
 		user.LastName,
 		user.Created,
+		user.Posts,
 	)
 	if err != nil {
 		return

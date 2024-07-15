@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     created DATE NOT NULL,
-    posts TEXT ARRAY
+    posts VARCHAR(5) ARRAY
 );
 
 CREATE TABLE IF NOT EXISTS posts (
