@@ -3,18 +3,15 @@
 .home-container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 100px calc(100dvh - 240px) 0;
   gap: 10px 10px;
   padding: 10px;
 
   @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
     grid-template-columns: 350px 1fr 0;
-    grid-template-rows: calc(100dvh - 120px);
   }
 
   @media screen and (min-width: module.$desktop-width) {
     grid-template-columns: 350px 1fr 350px;
-    grid-template-rows: calc(100dvh - 120px);
   }
 
   .block {
