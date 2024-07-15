@@ -75,14 +75,12 @@ export function GetPost() {
       <div className="banner">
         <nav>
           <ul>
-            {["Post", "Response", "Other"].map((t, i) => {
-              return (
-                <li onClick={handleClick(i)}>
-                  {t}
-                  <div className={classes[i] ? "selected-li" : ""}></div>
-                </li>
-              );
-            })}
+            {["Post", "Response", "Other"].map((t, i) => (
+              <li onClick={handleClick(i)}>
+                {t}
+                <div className={classes[i] ? "selected-li" : ""}></div>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
