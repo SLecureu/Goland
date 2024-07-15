@@ -5,9 +5,7 @@ interface LoaderProps extends ImgHTMLAttributes<HTMLImageElement> {}
 
 const Loader: FC<LoaderProps> = ({ width, height }) => {
   return (
-    <main>
-      <img src={Icons.logo} className="loader" width={width} height={height} />
-    </main>
+    <img src={Icons.logo} className="loader" width={width} height={height} />
   );
 };
 
