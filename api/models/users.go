@@ -1,19 +1,21 @@
 package models
 
 import (
-	"context"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type User struct {
-	ID          string    `json:"id"`
-	Email       string    `json:"email"`
-	Name        string    `json:"name"`
-	Gender      string    `json:"gender"`
-	DateOfBirth time.Time `json:"dateOfBirth"`
-	FirstName   string    `json:"firstName"`
-	LastName    string    `json:"lastName"`
-	Created     time.Time `json:"created"`
+	ID          string         `json:"id"`
+	Email       string         `json:"email"`
+	Name        string         `json:"name"`
+	Gender      string         `json:"gender"`
+	DateOfBirth time.Time      `json:"dateOfBirth"`
+	FirstName   string         `json:"firstName"`
+	LastName    string         `json:"lastName"`
+	Created     time.Time      `json:"created"`
+	Posts       pq.StringArray `json:"posts"`
 }
 
 type RegisterRequest struct {
@@ -24,11 +26,9 @@ type RegisterRequest struct {
 	DateOfBirth string `json:"dateOfBirth"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
-	Ctx         context.Context
 }
 
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	Ctx      context.Context
 }
