@@ -37,4 +37,28 @@
       cursor: pointer;
     }
   }
+
+  .headband {
+    display: inline-block;
+    width: auto;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid black;
+    border-left: none;
+    background-color: azure;
+    border-bottom-right-radius: 15px;
+
+    span {
+      font-size: larger;
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
+    }
+  }
 }

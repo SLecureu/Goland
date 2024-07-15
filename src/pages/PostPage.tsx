@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ErrorPage from "./Error";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { PostType } from "../components/Context";
 import { Protected, FormatDate } from "../Imports";
 
@@ -93,10 +93,13 @@ export function GetPost() {
       </div>
       {classes[0] ? (
         <div>
-          <p>
-            By {post.username} |&nbsp;
-            {FormatDate({ dateObject: new Date(post.created) })}
-            {post.categories[0] ? ` | ${post.categories}` : ""}
+          <p className="headband">
+            <span>
+              By <Link to={`/user/${post.userID}`}>{post.username}</Link>{" "}
+              |&nbsp;
+              {FormatDate({ dateObject: new Date(post.created) })}
+              {post.categories[0] ? ` | ${post.categories}` : ""}
+            </span>
           </p>
           <div>{post.content}</div>
         </div>
