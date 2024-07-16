@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS posts (
     userid VARCHAR(36) REFERENCES users(id),
     categories TEXT ARRAY,
     content TEXT,
-    created DATE
+    created DATE,
+    image_path TEXT
 );
 COMMIT;

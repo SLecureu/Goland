@@ -198,16 +198,18 @@ func (store *PostgreSQLStore) CreatePost(ctx context.Context, req *models.PostRe
 	post.Username = req.Username
 	post.Categories = req.Categories
 	post.Content = req.Content
+	post.Image = req.ImagePath
 
 	post.Categories = req.Categories
 	post.Created = time.Now().UTC()
 
-	_, err = tx.ExecContext(ctx, "INSERT INTO posts VALUES ($1, $2, $3 ,$4, $5);",
+	_, err = tx.ExecContext(ctx, "INSERT INTO posts VALUES ($1, $2, $3 ,$4, $5, $6);",
 		post.ID,
 		post.UserID,
 		post.Categories,
 		post.Content,
 		post.Created,
+		post.Image,
 	)
 	if err != nil {
 		return
