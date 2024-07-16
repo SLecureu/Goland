@@ -104,12 +104,12 @@ export function GetPost() {
                 </nav>
             </div>
             {classes[0] ? (
-                <div>
+                <>
                     <p className="headband">
                         <span>
                             By
                             <Link to={`/user/${post.userID}`}>
-                                {post.username}
+                                {` ${post.username} | `}
                             </Link>
                             {new Date(post.created).toLocaleDateString(
                                 "en-US",
@@ -122,8 +122,14 @@ export function GetPost() {
                             {post.categories[0] && ` | ${post.categories}`}
                         </span>
                     </p>
-                    <div className="post-content">{post.content}</div>
-                </div>
+                    <div className="post-container">
+                        <div className="post-content">{post.content}</div>
+                        <img
+                            className="image-container"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGxgS7ZNnoNjQl1JAhicq2ZAWCGx_rQ6cUw&s"
+                        />
+                    </div>
+                </>
             ) : classes[1] ? (
                 <div>response</div>
             ) : (

@@ -1,102 +1,134 @@
 @use "../module";
 
+$textarea-width-desktop: 850px;
+$textarea-width-tablet: 783px;
+$textarea-width-mobile: 80%;
+
 .postpage {
-  .banner {
-    width: 100%;
-    height: 50px;
-    background-color: aquamarine;
-
-    nav {
-      list-style: none;
-    }
-
-    ul {
-      list-style: none;
-      display: flex;
-    }
-
-    li {
-      display: flex;
-      flex-direction: column;
-      padding-left: 5px;
-      padding-top: 5px;
-      padding-right: 5px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      margin: 5px;
-      transition: background-color 0.3s ease;
-
-      .selected-li {
-        background-color: orangered;
+    .banner {
         width: 100%;
-        height: 5px;
-        margin-top: 14px;
-      }
+        height: 50px;
+        background-color: aquamarine;
+
+        nav {
+            list-style: none;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            padding-left: 5px;
+            padding-top: 5px;
+            padding-right: 5px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+
+            .selected-li {
+                background-color: orangered;
+                width: 100%;
+                height: 5px;
+                margin-top: 14px;
+            }
+        }
+
+        li:hover {
+            background-color: hotpink;
+            cursor: pointer;
+        }
     }
 
-    li:hover {
-      background-color: hotpink;
-      cursor: pointer;
+    .headband {
+        display: inline-block;
+        width: auto;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        padding-left: 25px;
+        padding-right: 15px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        border: 1px solid black;
+        border-left: none;
+        background-color: azure;
+        border-bottom-right-radius: 15px;
+
+        span {
+            font-size: larger;
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        }
     }
-  }
 
-  .headband {
-    display: inline-block;
-    width: auto;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    padding-left: 25px;
-    padding-right: 15px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    border: 1px solid black;
-    border-left: none;
-    background-color: azure;
-    border-bottom-right-radius: 15px;
+    .post-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-    span {
-      font-size: larger;
+        .post-content {
+            padding-bottom: 25px;
+            white-space: break-spaces;
+            width: $textarea-width-mobile;
+            margin-right: 4vw;
+            height: fit-content;
+        }
 
-      a {
-        text-decoration: none;
-        color: black;
-      }
+        .image-container {
+            max-width: 300px;
+            max-height: 300px;
+        }
+
+        @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+            .post-content {
+                width: $textarea-width-tablet;
+            }
+        }
+
+        @media screen and (min-width: module.$desktop-width) {
+            flex-direction: row;
+            justify-content: center;
+
+            .post-content {
+                width: $textarea-width-desktop;
+            }
+        }
     }
-  }
-
-  .post-content {
-    margin-left: 4vw;
-    margin-right: 4vw;
-    padding-bottom: 25px;
-  }
 }
 
 .posting-form {
-  display: grid;
-  grid-template-rows: 1fr;
-  justify-items: center;
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-items: center;
 
-  textarea {
-    resize: none;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    scrollbar-width: none;
-    appearance: none;
-    min-height: 100px;
-    width: 80%;
+    textarea {
+        resize: none;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none;
+        appearance: none;
+        min-height: 100px;
+        width: $textarea-width-mobile;
 
-    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
-      width: 783px;
+        @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+            width: $textarea-width-tablet;
+        }
+
+        @media screen and (min-width: module.$desktop-width) {
+            width: $textarea-width-desktop;
+        }
     }
 
-    @media screen and (min-width: module.$desktop-width) {
-      width: 850px;
+    .submit-button {
+        width: 50px;
     }
-  }
-
-  .submit-button {
-    width: 50px;
-  }
 }
