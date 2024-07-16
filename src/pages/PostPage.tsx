@@ -58,6 +58,7 @@ export function PostPage() {
           ref={textareaRef}
           onChange={handleChange}
         />
+        <input type="file" name="file" accept="image/*, .png, .jpg, .gif" />
         <button className="submit-button" type="submit">
           Post
         </button>
