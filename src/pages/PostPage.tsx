@@ -135,11 +135,10 @@ export function GetPost() {
                         </span>
                     </p>
                     <div className="post-container">
-                        <div className="post-content">{post.content}</div>
-                        <img
-                            className="image-container"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGxgS7ZNnoNjQl1JAhicq2ZAWCGx_rQ6cUw&s"
-                        />
+                        <div className="post-content">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGxgS7ZNnoNjQl1JAhicq2ZAWCGx_rQ6cUw&s" />
+                            <p>{post.content}</p>
+                        </div>
                     </div>
                 </>
             ) : classes[1] ? (

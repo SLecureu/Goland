@@ -70,20 +70,27 @@ $textarea-width-mobile: 80%;
 
     .post-container {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: center;
 
         .post-content {
-            padding-bottom: 25px;
             white-space: break-spaces;
             width: $textarea-width-mobile;
-            margin-right: 4vw;
             height: fit-content;
-        }
+            padding: 1rem;
+            overflow: hidden;
 
-        .image-container {
-            max-width: 300px;
-            max-height: 300px;
+            img {
+                max-width: 150px;
+                max-height: 300px;
+                margin-right: 1rem;
+                margin-bottom: 1rem;
+                float: left;
+            }
+
+            p {
+                display: inline;
+                overflow: hidden;
+            }
         }
 
         @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
@@ -93,9 +100,6 @@ $textarea-width-mobile: 80%;
         }
 
         @media screen and (min-width: module.$desktop-width) {
-            flex-direction: row;
-            justify-content: center;
-
             .post-content {
                 width: $textarea-width-desktop;
             }
