@@ -67,5 +67,28 @@
   .post-content {
     margin-left: 4vw;
     margin-right: 4vw;
+    padding-bottom: 25px;
+  }
+}
+
+.posting-form {
+  display: grid;
+  grid-template-rows: 1fr;
+  justify-items: center;
+
+  textarea {
+    resize: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    appearance: none;
+    min-height: 100px;
+    width: 50%;
+  }
+
+  .submit-button {
+    width: 50px;
   }
 }

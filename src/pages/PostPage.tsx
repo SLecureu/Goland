@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ErrorPage from "./Error";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PostType } from "../components/Context";
 import { Protected, FormatDate } from "../Imports";
@@ -17,6 +17,19 @@ const HashTagRexExp = /(?<=#)[\w\d]+/g;
 export function PostPage() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<Inputs>();
+  const [value, setValue] = useState("");
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${
+        textareaRef.current.scrollHeight + 5
+      }px`;
+    }
+  }, [value]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (!data.content) return;
     data.categories = data.content.match(HashTagRexExp) || [];
@@ -30,12 +43,24 @@ export function PostPage() {
     });
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(event.target.value);
+  };
+
   return (
     <Protected>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="posting-form" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="content">Post Content</label>
-        <textarea id="content" {...register("content")} />
-        <button type="submit">Post</button>
+        <textarea
+          id="content"
+          placeholder="Write your post here..."
+          {...register("content")}
+          ref={textareaRef}
+          onChange={handleChange}
+        />
+        <button className="submit-button" type="submit">
+          Post
+        </button>
       </form>
     </Protected>
   );
