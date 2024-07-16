@@ -85,7 +85,15 @@
     scrollbar-width: none;
     appearance: none;
     min-height: 100px;
-    width: 50%;
+    width: 80%;
+
+    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+      width: 783px;
+    }
+
+    @media screen and (min-width: module.$desktop-width) {
+      width: 850px;
+    }
   }
 
   .submit-button {
