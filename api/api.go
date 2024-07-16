@@ -50,6 +50,7 @@ func NewAPI(addr string) (*API, error) {
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
 	router.HandleFunc("/api/category/{id}", handleFunc(server.GetCategory))
 
+	router.Handle("/api/images/", http.FileServer(http.Dir("")))
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "dist/index.html")
 	})
@@ -330,7 +331,7 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 	switch err {
 	case nil:
 		defer file.Close()
-		dst, internalErr := os.CreateTemp("./api/images/", "*"+filepath.Ext(handler.Filename))
+		dst, internalErr := os.CreateTemp("api/images/", "*"+filepath.Ext(handler.Filename))
 		if internalErr != nil {
 			log.Println("1:", internalErr)
 			return internalErr
@@ -339,11 +340,10 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 
 		_, internalErr = io.Copy(dst, file)
 		if internalErr != nil {
-			log.Println("2:", internalErr)
 			return internalErr
 		}
 
-		p := filepath.Join("api/database/images", dst.Name())
+		p := dst.Name()
 		postReq.ImagePath = &p
 
 	case http.ErrMissingFile:

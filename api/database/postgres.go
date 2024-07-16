@@ -232,7 +232,7 @@ func (store *PostgreSQLStore) GetPosts(ctx context.Context, limit, offset *int) 
 	posts = []models.Post{}
 
 	rows, err := store.QueryContext(ctx,
-		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
+		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created, posts.image_path
 		FROM posts 
 		JOIN users ON posts.userid = users.id
 		ORDER BY posts.created DESC 
@@ -255,6 +255,7 @@ func (store *PostgreSQLStore) GetPosts(ctx context.Context, limit, offset *int) 
 			&post.Categories,
 			&post.Content,
 			&post.Created,
+			&post.Image,
 		)
 		if err != nil {
 			return nil, err
@@ -269,7 +270,7 @@ func (store *PostgreSQLStore) GetPosts(ctx context.Context, limit, offset *int) 
 func (store *PostgreSQLStore) GetPostByID(ctx context.Context, id string) (*models.Post, error) {
 	post := new(models.Post)
 	err := store.QueryRowContext(ctx,
-		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
+		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created, posts.image_path
 			FROM posts JOIN users ON posts.userid = users.id WHERE posts.id = $1;`,
 		id).Scan(
 		&post.ID,
@@ -278,6 +279,7 @@ func (store *PostgreSQLStore) GetPostByID(ctx context.Context, id string) (*mode
 		&post.Categories,
 		&post.Content,
 		&post.Created,
+		&post.Image,
 	)
 	if err != nil {
 		return nil, err
