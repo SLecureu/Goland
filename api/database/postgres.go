@@ -23,7 +23,7 @@ var ErrConflict = errors.New("Conflict")
 
 type PostgreSQLStore struct{ *sql.DB }
 
-func GenerateB64(n int) string {
+func generateB64(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+-")
 	id := make([]rune, n)
 	for i := range id {
@@ -62,16 +62,10 @@ func (store *PostgreSQLStore) RegisterUser(ctx context.Context, req *models.Regi
 		return user, ErrConflict
 	}
 
-	err = tx.Commit()
-	if err != nil {
-		return
-	}
-
 	tx, err = store.BeginTx(ctx, nil)
 	if err != nil {
 		return
 	}
-	defer tx.Rollback()
 
 	id, err := uuid.NewV4()
 	if err != nil {
@@ -113,13 +107,7 @@ func (store *PostgreSQLStore) RegisterUser(ctx context.Context, req *models.Regi
 }
 
 func (store *PostgreSQLStore) LogUser(ctx context.Context, req *models.LoginRequest) (user models.User, err error) {
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return
-	}
-	defer tx.Rollback()
-
-	row := tx.QueryRowContext(ctx, "SELECT * FROM users WHERE email = $1;", req.Email)
+	row := store.QueryRowContext(ctx, "SELECT * FROM users WHERE email = $1;", req.Email)
 	password := []byte{}
 
 	err = row.Scan(
@@ -132,25 +120,23 @@ func (store *PostgreSQLStore) LogUser(ctx context.Context, req *models.LoginRequ
 		&user.FirstName,
 		&user.LastName,
 		&user.Created,
+		&user.Posts,
 	)
 	if err != nil {
 		return
 	}
 
-	err = tx.Commit()
-	if err != nil {
-		return
-	}
 	return user, bcrypt.CompareHashAndPassword(password, []byte(req.Password))
 }
 
 func (store *PostgreSQLStore) GetUsers(ctx context.Context, limit, offset *int) (users []models.User, err error) {
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
-	rows, err := tx.QueryContext(ctx, "SELECT id, email, name, gender, date_of_birth, first_name, last_name, created FROM users ORDER BY created LIMIT $1 OFFSET $2;",
+	rows, err := store.QueryContext(ctx,
+		`SELECT id, email, name, gender, date_of_birth, first_name, last_name, created
+		FROM users 
+		ORDER BY created 
+		LIMIT $1 
+		OFFSET $2;`,
+
 		limit,
 		offset)
 	if err != nil {
@@ -174,17 +160,12 @@ func (store *PostgreSQLStore) GetUsers(ctx context.Context, limit, offset *int) 
 		}
 		users = append(users, user)
 	}
-	return users, tx.Commit()
+	return users, nil
 }
 
 func (store *PostgreSQLStore) GetUsersById(ctx context.Context, id string) (*models.User, error) {
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
 	user := new(models.User)
-	err = tx.QueryRowContext(ctx,
+	err := store.QueryRowContext(ctx,
 		`SELECT id, email, name, gender,date_of_birth, first_name, last_name, created, posts
 		FROM users
 		WHERE id = $1;`, id).Scan(
@@ -202,7 +183,7 @@ func (store *PostgreSQLStore) GetUsersById(ctx context.Context, id string) (*mod
 		return nil, err
 	}
 
-	return user, tx.Commit()
+	return user, nil
 }
 
 func (store *PostgreSQLStore) CreatePost(ctx context.Context, req *models.PostRequest) (post models.Post, err error) {
@@ -212,7 +193,7 @@ func (store *PostgreSQLStore) CreatePost(ctx context.Context, req *models.PostRe
 	}
 	defer tx.Rollback()
 
-	post.ID = GenerateB64(5)
+	post.ID = generateB64(5)
 	post.UserID = req.UserID
 	post.Username = req.Username
 	post.Categories = req.Categories
@@ -246,17 +227,16 @@ func (store *PostgreSQLStore) CreatePost(ctx context.Context, req *models.PostRe
 }
 
 func (store *PostgreSQLStore) GetPosts(ctx context.Context, limit, offset *int) (posts []models.Post, err error) {
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
-
 	posts = []models.Post{}
 
-	rows, err := tx.QueryContext(ctx,
+	rows, err := store.QueryContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
-			FROM posts JOIN users ON posts.userid = users.id ORDER BY posts.created DESC LIMIT $1 OFFSET $2;`,
+		FROM posts 
+		JOIN users ON posts.userid = users.id
+		ORDER BY posts.created DESC 
+		LIMIT $1 
+		OFFSET $2;`,
+
 		limit,
 		offset,
 	)
@@ -281,17 +261,12 @@ func (store *PostgreSQLStore) GetPosts(ctx context.Context, limit, offset *int) 
 		posts = append(posts, post)
 	}
 
-	return posts, tx.Commit()
+	return posts, nil
 }
 
 func (store *PostgreSQLStore) GetPostByID(ctx context.Context, id string) (*models.Post, error) {
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
 	post := new(models.Post)
-	err = tx.QueryRowContext(ctx,
+	err := store.QueryRowContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
 			FROM posts JOIN users ON posts.userid = users.id WHERE posts.id = $1;`,
 		id).Scan(
@@ -306,18 +281,12 @@ func (store *PostgreSQLStore) GetPostByID(ctx context.Context, id string) (*mode
 		return nil, err
 	}
 
-	return post, tx.Commit()
+	return post, nil
 }
 
 func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment models.Comment, err error) {
-	tx, err := store.BeginTx(req.Ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return
-	}
-	defer tx.Rollback()
-
 	var postExists, userExists bool
-	err = tx.QueryRowContext(req.Ctx,
+	err = store.QueryRowContext(req.Ctx,
 		`SELECT
 			EXISTS (SELECT 1 FROM posts WHERE id = $1),
     		EXISTS (SELECT 1 FROM users WHERE id = $2);`,
@@ -334,19 +303,14 @@ func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment
 		return comment, errors.New("user not found")
 	}
 
-	err = tx.Commit()
-	if err != nil {
-		return
-	}
-
-	tx, err = store.BeginTx(req.Ctx, nil)
+	tx, err := store.BeginTx(req.Ctx, nil)
 	if err != nil {
 		return
 	}
 	defer tx.Rollback()
 
 	comment = models.Comment{
-		ID:      GenerateB64(5),
+		ID:      generateB64(5),
 		PostID:  req.PostID,
 		UserID:  req.UserID,
 		Content: req.Content,
@@ -368,13 +332,7 @@ func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment
 
 func (store *PostgreSQLStore) GetCommentsOfID(ctx context.Context, id string, limit, offset *int) (comments []models.Comment, err error) {
 	comments = []models.Comment{}
-
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return
-	}
-	defer tx.Rollback()
-	rows, err := tx.QueryContext(ctx, "SELECT * FROM comments WHERE postid = $1 LIMIT $2 OFFSET $3;", id, limit, offset)
+	rows, err := store.QueryContext(ctx, "SELECT * FROM comments WHERE postid = $1 LIMIT $2 OFFSET $3;", id, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -396,24 +354,19 @@ func (store *PostgreSQLStore) GetCommentsOfID(ctx context.Context, id string, li
 		comments = append(comments, comment)
 	}
 
-	return comments, tx.Commit()
+	return comments, nil
 }
 
 func (store *PostgreSQLStore) GetCategory(ctx context.Context, name string, limit, offset *int) (posts []models.Post, err error) {
-	tx, err := store.BeginTx(ctx, &sql.TxOptions{ReadOnly: true})
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
-
 	posts = []models.Post{}
 
-	rows, err := tx.QueryContext(ctx,
+	rows, err := store.QueryContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
-			FROM posts JOIN users 
-			ON posts.userid = users.id 
-			WHERE $1 = ANY(posts.categories)
-			ORDER BY posts.created DESC LIMIT $2 OFFSET $3;`,
+		FROM posts JOIN users 
+		ON posts.userid = users.id 
+		WHERE $1 = ANY(posts.categories)
+		ORDER BY posts.created DESC LIMIT $2 OFFSET $3;`,
+
 		name,
 		limit,
 		offset,
@@ -438,6 +391,5 @@ func (store *PostgreSQLStore) GetCategory(ctx context.Context, name string, limi
 
 		posts = append(posts, post)
 	}
-
-	return posts, tx.Commit()
+	return posts, nil
 }

@@ -4,7 +4,7 @@ import ErrorPage from "./Error";
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PostType } from "../components/Context";
-import { Protected, FormatDate } from "../Imports";
+import { Protected } from "../Imports";
 
 import "./PostPage.scss";
 
@@ -113,10 +113,14 @@ export function GetPost() {
         <div>
           <p className="headband">
             <span>
-              By <Link to={`/user/${post.userID}`}>{post.username}</Link>{" "}
-              |&nbsp;
-              {FormatDate({ dateObject: new Date(post.created) })}
-              {post.categories[0] ? ` | ${post.categories}` : ""}
+              By
+              <Link to={`/user/${post.userID}`}>{post.username}</Link>
+              {new Date(post.created).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+              {post.categories[0] && ` | ${post.categories}`}
             </span>
           </p>
           <div className="post-content">{post.content}</div>
