@@ -13,6 +13,7 @@ type Post struct {
 	Categories pq.StringArray `json:"categories"`
 	Content    string         `json:"content"`
 	Created    time.Time      `json:"created"`
+	Image      *string
 }
 
 type PostRequest struct {
@@ -20,4 +21,5 @@ type PostRequest struct {
 	UserID     string
 	Username   string
 	Categories []string `json:"categories"`
+	ImagePath  *string
 }

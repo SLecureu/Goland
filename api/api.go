@@ -4,10 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"log"
 	"net/http"
 	"net/mail"
+	"os"
+	"path/filepath"
 	"strconv"
+	"strings"
 
 	"goland/api/database"
 	"goland/api/models"
@@ -308,24 +312,45 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 			})
 	}
 
-	postReq := new(models.PostRequest)
-	err := json.NewDecoder(request.Body).Decode(postReq)
+	err := request.ParseMultipartForm(200 << 50)
 	if err != nil {
-		return writeJSON(writer, http.StatusUnprocessableEntity,
-			APIerror{
-				Status:  http.StatusUnprocessableEntity,
-				Error:   "Unprocessable Entity",
-				Message: "Could not process post request",
-			})
+		log.Println(err)
+		return err
 	}
 
-	if len(postReq.Content) == 0 {
-		return writeJSON(writer, http.StatusBadRequest,
-			APIerror{
-				Status:  http.StatusBadRequest,
-				Error:   "Bad Request",
-				Message: "Post content is required",
-			})
+	postReq := new(models.PostRequest)
+
+	err = json.NewDecoder(strings.NewReader((request.FormValue("json")))).Decode(postReq)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	file, handler, err := request.FormFile("image")
+	switch err {
+	case nil:
+		defer file.Close()
+		dst, internalErr := os.CreateTemp("./api/images/", "*"+filepath.Ext(handler.Filename))
+		if internalErr != nil {
+			log.Println("1:", internalErr)
+			return internalErr
+		}
+		defer dst.Close()
+
+		_, internalErr = io.Copy(dst, file)
+		if internalErr != nil {
+			log.Println("2:", internalErr)
+			return internalErr
+		}
+
+		p := filepath.Join("api/database/images", dst.Name())
+		postReq.ImagePath = &p
+
+	case http.ErrMissingFile:
+		break
+
+	default:
+		return err
 	}
 
 	session, err := server.Sessions.GetSession(request)
@@ -337,9 +362,9 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 				Message: "Unable to retrieve Session",
 			})
 	}
-
 	postReq.UserID = session.User.ID
 	postReq.Username = session.User.Name
+	log.Println(postReq.ImagePath)
 
 	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
 	defer cancel()
@@ -348,7 +373,6 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 	if err != nil {
 		return err
 	}
-
 	return writeJSON(writer, http.StatusCreated, post)
 }
 

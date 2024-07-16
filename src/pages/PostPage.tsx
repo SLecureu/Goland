@@ -11,6 +11,7 @@ import "./PostPage.scss";
 type Inputs = {
     content: string;
     categories: string[];
+    images: FileList;
 };
 const HashTagRexExp = /(?<=#)[\w\d]+/g;
 
@@ -24,12 +25,23 @@ export function PostPage() {
     };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        if (!data.content) return;
         data.categories = data.content.match(HashTagRexExp) || [];
-        await fetch("/api/post", {
+        const formData = new FormData();
+        formData.append(
+            "json",
+            JSON.stringify({
+                content: data.content,
+                categories: data.categories,
+            })
+        );
+
+        if (data.images.length !== 0)
+            formData.append("image", data.images[0], data.images[0].name);
+
+        fetch("/api/post", {
             credentials: "include",
             method: "POST",
-            body: JSON.stringify(data),
+            body: formData,
         }).then((resp) => {
             if (!resp.ok) return;
             navigate("/");
@@ -47,7 +59,7 @@ export function PostPage() {
                 />
                 <input
                     type="file"
-                    name="file"
+                    {...register("images")}
                     accept="image/*, .png, .jpg, .gif"
                 />
                 <button className="submit-button" type="submit">
