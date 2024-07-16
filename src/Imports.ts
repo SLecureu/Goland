@@ -10,20 +10,18 @@ import User from "./pages/User";
 import Overview from "./pages/Overview";
 
 import { Header, Footer } from "./components/Layout.tsx";
-import FormatDate from "./components/Date.ts";
 
 export {
-  Header,
-  Login,
-  Register,
-  Home,
-  GetPost,
-  User,
-  Overview,
-  Protected,
-  PostPage,
-  ErrorPage,
-  Category,
-  Footer,
-  FormatDate,
+    Header,
+    Login,
+    Register,
+    Home,
+    GetPost,
+    User,
+    Overview,
+    Protected,
+    PostPage,
+    ErrorPage,
+    Category,
+    Footer,
 };

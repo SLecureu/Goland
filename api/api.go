@@ -31,20 +31,20 @@ func NewAPI(addr string) (*API, error) {
 
 	router := http.NewServeMux()
 
-	router.HandleFunc("/api/register", HandleFunc(server.Register))
-	router.HandleFunc("/api/login", HandleFunc(server.Login))
+	router.HandleFunc("/api/register", handleFunc(server.Register))
+	router.HandleFunc("/api/login", handleFunc(server.Login))
 	router.HandleFunc("/api/logout", server.Protected(server.Logout))
 
 	router.HandleFunc("/api/auth", server.Protected(server.ReadSession))
 
 	// router.HandleFunc("/api/users", server.Protected(server.GetUsers))
-	router.HandleFunc("/api/user/{id}", HandleFunc(server.GetUsersById))
-	router.HandleFunc("/api/posts", HandleFunc(server.GetPosts))
+	router.HandleFunc("/api/user/{id}", handleFunc(server.GetUsersById))
+	router.HandleFunc("/api/posts", handleFunc(server.GetPosts))
 	router.HandleFunc("/api/post", server.Protected(server.Post))
-	router.HandleFunc("/api/post/{id}", HandleFunc(server.GetPostByID))
+	router.HandleFunc("/api/post/{id}", handleFunc(server.GetPostByID))
 	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
-	router.HandleFunc("/api/category/{id}", HandleFunc(server.GetCategory))
+	router.HandleFunc("/api/category/{id}", handleFunc(server.GetCategory))
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "dist/index.html")
@@ -86,9 +86,9 @@ func writeJSON(writer http.ResponseWriter, statusCode int, v any) error {
 	return json.NewEncoder(writer).Encode(v)
 }
 
-type HandlerFunc func(http.ResponseWriter, *http.Request) error
+type handlerFunc func(http.ResponseWriter, *http.Request) error
 
-func HandleFunc(fn HandlerFunc) http.HandlerFunc {
+func handleFunc(fn handlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := fn(w, r); err != nil {
 			writeJSON(w, http.StatusInternalServerError,
@@ -101,7 +101,7 @@ func HandleFunc(fn HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func (server *API) Protected(fn HandlerFunc) http.HandlerFunc {
+func (server *API) Protected(fn handlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, err := server.Sessions.GetSession(r)
 		if err != nil {

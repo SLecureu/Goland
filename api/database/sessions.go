@@ -52,7 +52,7 @@ type Session struct {
 
 func (store *SessionStore) NewSession(w http.ResponseWriter, r *http.Request) *Session {
 	session := new(Session)
-	session.ID = GenerateB64(5)
+	session.ID = generateB64(5)
 	cookie := http.Cookie{
 		Name:     cookie_name,
 		Value:    session.ID,

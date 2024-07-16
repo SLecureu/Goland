@@ -1,9 +1,8 @@
 package main
 
 import (
-	"log"
-
 	"goland/api"
+	"log"
 
 	"github.com/joho/godotenv"
 )
