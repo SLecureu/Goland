@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ErrorPage from "./Error";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PostType } from "../components/Context";
 import { Protected } from "../Imports";
@@ -17,18 +17,11 @@ const HashTagRexExp = /(?<=#)[\w\d]+/g;
 export function PostPage() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<Inputs>();
-  const [value, setValue] = useState("");
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${
-        textareaRef.current.scrollHeight + 5
-      }px`;
-    }
-  }, [value]);
+  const onChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    event.target.style.height = "auto";
+    event.target.style.height = `${event.target.scrollHeight + 5}px`;
+  };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (!data.content) return;
@@ -43,10 +36,6 @@ export function PostPage() {
     });
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
-  };
-
   return (
     <Protected>
       <form className="posting-form" onSubmit={handleSubmit(onSubmit)}>
@@ -54,11 +43,8 @@ export function PostPage() {
         <textarea
           id="content"
           placeholder="Write your post here..."
-          {...register("content")}
-          ref={textareaRef}
-          onChange={handleChange}
+          {...register("content", { onChange })}
         />
-        <input type="file" name="file" accept="image/*, .png, .jpg, .gif" />
         <button className="submit-button" type="submit">
           Post
         </button>
