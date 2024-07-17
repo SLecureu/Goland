@@ -10,23 +10,20 @@ import Loader from "../components/Loader";
 
 export default function Home() {
     const [posts, setPosts] = useState<PostType[]>([
-        {
-            id: "",
-            userID: "",
-            username: "shgLJHGLHFGMFgeiuGFIYG",
-            content: "hjgvoshgfishgp<ibvpisbvpisbsbljhbfhbvl<hbvlh<b",
-            created: "",
-            categories: [],
-            image: null,
-        },
+        // {
+        //     id: "",
+        //     userID: "",
+        //     username: "shgLJHGLHFGMFgeiuGFIYG",
+        //     content: "hjgvoshgfishgp<ibvpisbvpisbsbljhbfhbvl<hbvlh<b",
+        //     created: "",
+        //     categories: [],
+        //     image: null,
+        // },
     ]);
 
     useEffect(() => {
         fetch("/api/posts")
-            .then((resp) => {
-                if (resp.ok) return resp.json();
-                return [];
-            })
+            .then((resp) => (resp.ok ? resp.json() : []))
             .then(setPosts);
     }, []);
 

@@ -6,25 +6,17 @@ function UserContextProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        try {
-            fetch(`/api/auth`, {
-                method: `GET`,
-                headers: {
-                    "Content-Type": `application/json`,
-                },
-                credentials: "include",
-            })
-                .then((resp) => {
-                    if (!resp.ok) return null;
-                    return resp.json();
-                })
-                .then((data) => {
-                    setUser(data);
-                })
-                .then(() => setLoading(false));
-        } catch (reason) {
-            console.log(reason);
-        }
+        fetch(`/api/auth`, {
+            method: `GET`,
+            headers: {
+                "Content-Type": `application/json`,
+            },
+            credentials: "include",
+        })
+            .then((resp) => (resp.ok ? resp.json() : null))
+            .then(setUser)
+            .then(() => setLoading(false))
+            .catch(console.error);
     }, []);
 
     return (

@@ -14,10 +14,7 @@ function Category() {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetch(`/api/category/${id}`)
-            .then((resp) => {
-                if (!resp.ok) return [];
-                return resp.json();
-            })
+            .then((resp) => (resp.ok ? resp.json() : []))
             .then(setPosts)
             .then(() => setLoading(false));
     }, [id]);
@@ -25,6 +22,7 @@ function Category() {
     if (loading) return <Loader />;
 
     if (posts.length == 0) return <ErrorPage code={404} />;
+
     return (
         <main>
             {posts.map((post, index) => (

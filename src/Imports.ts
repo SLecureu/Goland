@@ -1,5 +1,3 @@
-import Protected from "./components/Protected";
-
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -19,7 +17,6 @@ export {
     GetPost,
     User,
     Overview,
-    Protected,
     PostPage,
     ErrorPage,
     Category,

@@ -1,21 +1,23 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import ErrorPage from "./Error";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import { PostType } from "../components/Context";
-import { Protected } from "../Imports";
+import { PostType, UserContext } from "../components/Context";
 
 import "./PostPage.scss";
 
 type Inputs = {
     content: string;
-    categories: string[];
     images: FileList;
 };
 const HashTagRexExp = /(?<=#)[\w\d]+/g;
 
 export function PostPage() {
+    const { user, loading } = useContext(UserContext);
+    if (loading) return <main>Loading...</main>;
+    if (!user) return <Navigate to="/login" replace />;
+
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm<Inputs>();
 
@@ -25,13 +27,13 @@ export function PostPage() {
     };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        data.categories = data.content.match(HashTagRexExp) || [];
+        const categories = data.content.match(HashTagRexExp) || [];
         const formData = new FormData();
         formData.append(
             "json",
             JSON.stringify({
                 content: data.content,
-                categories: data.categories,
+                categories,
             })
         );
 
@@ -49,7 +51,7 @@ export function PostPage() {
     };
 
     return (
-        <Protected>
+        <main>
             <form className="posting-form" onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="content">Post Content</label>
                 <textarea
@@ -66,7 +68,7 @@ export function PostPage() {
                     Post
                 </button>
             </form>
-        </Protected>
+        </main>
     );
 }
 
@@ -82,21 +84,18 @@ export function GetPost() {
             },
             credentials: "include",
         })
-            .then((resp) => {
-                if (!resp.ok) return null;
-                return resp.json();
-            })
+            .then((resp) => (resp.ok ? resp.json() : null))
             .then(setPost)
-            .catch(console.log);
+            .catch(console.error);
     }, [id]);
 
     if (!post) return <ErrorPage code={404} />;
 
-    const [classes, setClasses] = useState([true, false, false]);
+    const [windows, setWindows] = useState([true, false, false]);
     const handleClick = (i: number) => () => {
         const next = [false, false, false];
         next[i] = true;
-        setClasses(next);
+        setWindows(next);
     };
 
     return (
@@ -104,18 +103,18 @@ export function GetPost() {
             <div className="banner">
                 <nav>
                     <ul>
-                        {["Post", "Response", "Other"].map((t, i) => (
+                        {["Post", "Comments", "Other"].map((title, i) => (
                             <li onClick={handleClick(i)}>
-                                <span>{t}</span>
+                                <span>{title}</span>
                                 <div
-                                    className={classes[i] ? "selected-li" : ""}
+                                    className={windows[i] ? "selected-li" : ""}
                                 ></div>
                             </li>
                         ))}
                     </ul>
                 </nav>
             </div>
-            {classes[0] ? (
+            {windows[0] ? (
                 <>
                     <p className="headband">
                         <span>
@@ -141,8 +140,8 @@ export function GetPost() {
                         </div>
                     </div>
                 </>
-            ) : classes[1] ? (
-                <div>response</div>
+            ) : windows[1] ? (
+                <div>Comments</div>
             ) : (
                 <div> other post from the same categories / user</div>
             )}

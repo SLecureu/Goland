@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { UserContext } from "../components/Context";
-import ErrorPage from "./Error";
 import "./Overview.scss";
+import { Navigate } from "react-router-dom";
 
 function Overview() {
-    const { user } = useContext(UserContext);
-    if (!user) return <ErrorPage code={401} />;
+    const { user, loading } = useContext(UserContext);
+    if (loading) return <main>Loading</main>;
+    if (!user) return <Navigate to="/login" replace />;
     return (
         <main className="overview">
             <h1>Overview</h1>

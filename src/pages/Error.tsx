@@ -1,20 +1,15 @@
 import "./Error.scss";
 
 const ErrorPage = ({ code }: { code: number }) => {
-    let msg = "";
-    switch (code) {
-        case 404:
-            msg = "Not Found";
-            break;
-
-        default:
-            break;
-    }
+    const messages: { [k: number]: string } = {
+        401: "You are unauthorized to access this ressource.",
+        404: "Not found.",
+    };
     return (
         <main className="error">
             <div className="error-container">
                 <h2>{code}</h2>
-                <p>{msg}</p>
+                <p>{messages[code]}</p>
             </div>
         </main>
     );
