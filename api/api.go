@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -313,7 +314,7 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 			})
 	}
 
-	err := request.ParseMultipartForm(200 << 50)
+	err := request.ParseMultipartForm(20 << 20)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -333,7 +334,6 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 		defer file.Close()
 		dst, internalErr := os.CreateTemp("api/images/", "*"+filepath.Ext(handler.Filename))
 		if internalErr != nil {
-			log.Println("1:", internalErr)
 			return internalErr
 		}
 		defer dst.Close()
@@ -343,7 +343,7 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 			return internalErr
 		}
 
-		p := dst.Name()
+		p := fmt.Sprintf("/%s", dst.Name())
 		postReq.ImagePath = &p
 
 	case http.ErrMissingFile:
@@ -364,7 +364,6 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 	}
 	postReq.UserID = session.User.ID
 	postReq.Username = session.User.Name
-	log.Println(postReq.ImagePath)
 
 	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
 	defer cancel()

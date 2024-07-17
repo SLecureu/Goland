@@ -73,7 +73,6 @@ export function PostPage() {
 export function GetPost() {
     const { id } = useParams();
     const [post, setPost] = useState<PostType | null>(null);
-    const [classes, setClasses] = useState([true, false, false]);
 
     useEffect(() => {
         fetch(`/api/post/${id}`, {
@@ -93,6 +92,7 @@ export function GetPost() {
 
     if (!post) return <ErrorPage code={404} />;
 
+    const [classes, setClasses] = useState([true, false, false]);
     const handleClick = (i: number) => () => {
         const next = [false, false, false];
         next[i] = true;
@@ -106,7 +106,7 @@ export function GetPost() {
                     <ul>
                         {["Post", "Response", "Other"].map((t, i) => (
                             <li onClick={handleClick(i)}>
-                                {t}
+                                <span>{t}</span>
                                 <div
                                     className={classes[i] ? "selected-li" : ""}
                                 ></div>
@@ -136,7 +136,7 @@ export function GetPost() {
                     </p>
                     <div className="post-container">
                         <div className="post-content">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGxgS7ZNnoNjQl1JAhicq2ZAWCGx_rQ6cUw&s" />
+                            {post.image && <img src={post.image} />}
                             <p>{post.content}</p>
                         </div>
                     </div>

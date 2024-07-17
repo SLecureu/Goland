@@ -1,38 +1,37 @@
 @use "../module";
 
 .home-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px 10px;
-  padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px 10px;
+    padding: 10px;
 
-  @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
-    grid-template-columns: 350px 1fr 0;
-  }
-
-  @media screen and (min-width: module.$desktop-width) {
-    grid-template-columns: 350px 1fr 350px;
-  }
-
-  .block {
-    overflow: hidden;
-    background-color: lightsteelblue;
-
-    .inside-block {
-      a {
-        text-decoration: none;
-        color: black;
-      }
+    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+        grid-template-columns: 350px 1fr 0;
     }
-  }
 
-  #block-1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .posts {
-      background-color: aqua;
+    @media screen and (min-width: module.$desktop-width) {
+        grid-template-columns: 350px 1fr 350px;
     }
-  }
+
+    .block {
+        overflow: hidden;
+        background-color: lightsteelblue;
+
+        .inside-block {
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+    }
+
+    #block-1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .posts {
+        }
+    }
 }
