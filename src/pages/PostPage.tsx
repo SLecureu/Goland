@@ -75,6 +75,12 @@ export function PostPage() {
 export function GetPost() {
     const { id } = useParams();
     const [post, setPost] = useState<PostType | null>(null);
+    const [windows, setWindows] = useState([true, false, false]);
+    const handleClick = (i: number) => () => {
+        const next = [false, false, false];
+        next[i] = true;
+        setWindows(next);
+    };
 
     useEffect(() => {
         fetch(`/api/post/${id}`, {
@@ -90,13 +96,6 @@ export function GetPost() {
     }, [id]);
 
     if (!post) return <ErrorPage code={404} />;
-
-    const [windows, setWindows] = useState([true, false, false]);
-    const handleClick = (i: number) => () => {
-        const next = [false, false, false];
-        next[i] = true;
-        setWindows(next);
-    };
 
     return (
         <main className="postpage">
