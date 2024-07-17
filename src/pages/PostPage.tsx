@@ -27,7 +27,10 @@ export function PostPage() {
     };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const categories = data.content.match(HashTagRexExp) || [];
+        const categories = Array.from(
+            new Set(data.content.match(HashTagRexExp)) || []
+        );
+
         const formData = new FormData();
         formData.append(
             "json",
@@ -98,14 +101,31 @@ export function GetPost() {
 
     const [comments, setComments] = useState<CommentType[]>([]);
 
-    const { register, handleSubmit } = useForm<CommentForm>();
+    const { register, handleSubmit, resetField } = useForm<CommentForm>();
 
     const onSubmit: SubmitHandler<CommentForm> = async (data) =>
+        id &&
+        user &&
         fetch(`/api/post/${id}/comment`, {
             method: "POST",
             credentials: "include",
             headers: { "COntent-Type": "application/json" },
             body: JSON.stringify(data),
+        }).then((resp) => {
+            if (resp.ok) {
+                resetField("content");
+                setComments([
+                    ...comments,
+                    {
+                        id: "",
+                        userid: user.id,
+                        postid: id,
+                        username: user.name,
+                        content: data.content,
+                        created: new Date().toString(),
+                    },
+                ]);
+            }
         });
 
     useEffect(() => {
@@ -159,7 +179,7 @@ export function GetPost() {
                                     day: "numeric",
                                 }
                             )}
-                            {post.categories[0] && ` | ${post.categories}`}
+                            {post.categories.join(" | ")}
                         </span>
                     </div>
                     <div className="post-container">

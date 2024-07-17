@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 export type User = {
-    id: number;
+    id: string;
     email: string;
     name: string;
     gender: "male" | "female" | "other";
