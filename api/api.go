@@ -47,7 +47,7 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/api/posts", handleFunc(server.GetPosts))
 	router.HandleFunc("/api/post", server.Protected(server.Post))
 	router.HandleFunc("/api/post/{id}", handleFunc(server.GetPostByID))
-	router.HandleFunc("/api/post/{id}/comment", handleFunc(server.Comment))
+	router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
 	router.HandleFunc("/api/post/{id}/comments", handleFunc(server.GetCommentsOfID))
 	router.HandleFunc("/api/category/{id}", handleFunc(server.GetCategory))
 
@@ -97,6 +97,7 @@ type handlerFunc func(http.ResponseWriter, *http.Request) error
 func handleFunc(fn handlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := fn(w, r); err != nil {
+			log.Println(err)
 			writeJSON(w, http.StatusInternalServerError,
 				APIerror{
 					Status:  http.StatusInternalServerError,
@@ -120,6 +121,7 @@ func (server *API) Protected(fn handlerFunc) http.HandlerFunc {
 			return
 		}
 		if err := fn(w, r); err != nil {
+			log.Println(err)
 			writeJSON(w, http.StatusInternalServerError,
 				APIerror{
 					Status:  http.StatusInternalServerError,
@@ -409,9 +411,18 @@ func (server *API) Comment(writer http.ResponseWriter, request *http.Request) er
 				Message: "Method not allowed: Only POST is supported",
 			})
 	}
+	session, err := server.Sessions.GetSession(request)
+	if err != nil {
+		return writeJSON(writer, http.StatusInternalServerError,
+			APIerror{
+				Status:  http.StatusServiceUnavailable,
+				Error:   "Service Unavailable",
+				Message: "Unable to retrieve Session",
+			})
+	}
 
 	commentReq := new(models.CommentRequest)
-	err := json.NewDecoder(request.Body).Decode(commentReq)
+	err = json.NewDecoder(request.Body).Decode(commentReq)
 	if err != nil {
 		return writeJSON(writer, http.StatusUnprocessableEntity,
 			APIerror{
@@ -430,25 +441,15 @@ func (server *API) Comment(writer http.ResponseWriter, request *http.Request) er
 			})
 	}
 
-	session, err := server.Sessions.GetSession(request)
-	if err != nil {
-		return writeJSON(writer, http.StatusInternalServerError,
-			APIerror{
-				Status:  http.StatusServiceUnavailable,
-				Error:   "Service Unavailable",
-				Message: "Unable to retrieve Session",
-			})
-	}
 	commentReq.UserID = session.User.ID
+	commentReq.Username = session.User.Name
 	commentReq.PostID = request.PathValue("id")
 
-	var cancel context.CancelFunc
-	commentReq.Ctx, cancel = context.WithTimeout(request.Context(), database.TransactionTimeout)
+	ctx, cancel := context.WithTimeout(request.Context(), database.TransactionTimeout)
 	defer cancel()
 
-	comment, err := server.Storage.CreateComment(commentReq)
+	comment, err := server.Storage.CreateComment(ctx, commentReq)
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 

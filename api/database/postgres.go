@@ -53,7 +53,7 @@ func (store *PostgreSQLStore) RegisterUser(ctx context.Context, req *models.Regi
 	defer tx.Rollback()
 
 	var exists bool
-	err = tx.QueryRowContext(ctx, "SELECT EXISTS(SELECT 1 FROM users WHERE email = $1);", req.Email).Scan(&exists)
+	err = tx.QueryRowContext(ctx, "SELECT EXISTS (SELECT 1 FROM users WHERE email = $1);", req.Email).Scan(&exists)
 	if err != nil {
 		return
 	}
@@ -288,14 +288,21 @@ func (store *PostgreSQLStore) GetPostByID(ctx context.Context, id string) (*mode
 	return post, nil
 }
 
-func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment models.Comment, err error) {
+func (store *PostgreSQLStore) CreateComment(ctx context.Context, req *models.CommentRequest) (comment models.Comment, err error) {
+	tx, err := store.BeginTx(ctx, nil)
+	if err != nil {
+		return
+	}
+	defer tx.Rollback()
 	var postExists, userExists bool
-	err = store.QueryRowContext(req.Ctx,
+	err = tx.QueryRowContext(ctx,
 		`SELECT
 			EXISTS (SELECT 1 FROM posts WHERE id = $1),
     		EXISTS (SELECT 1 FROM users WHERE id = $2);`,
 		req.PostID,
-		req.UserID).Scan(&postExists, &userExists)
+		req.UserID,
+	).Scan(&postExists, &userExists)
+
 	if err != nil {
 		return
 	}
@@ -307,24 +314,22 @@ func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment
 		return comment, errors.New("user not found")
 	}
 
-	tx, err := store.BeginTx(req.Ctx, nil)
-	if err != nil {
-		return
-	}
-	defer tx.Rollback()
-
 	comment = models.Comment{
-		ID:      generateB64(5),
-		PostID:  req.PostID,
-		UserID:  req.UserID,
-		Content: req.Content,
-		Created: time.Now(),
+		ID:       generateB64(5),
+		PostID:   req.PostID,
+		UserID:   req.UserID,
+		Username: req.Username,
+		Content:  req.Content,
+		Created:  time.Now(),
 	}
 
-	_, err = tx.ExecContext(req.Ctx, "INSERT INTO comments VALUES ($1, $2, $3, $4, $5);",
+	log.Println(comment)
+
+	_, err = tx.ExecContext(ctx, "INSERT INTO comments VALUES ($1, $2, $3, $4, $5, $6);",
 		comment.ID,
 		comment.UserID,
 		comment.PostID,
+		comment.Username,
 		comment.Content,
 		comment.Created,
 	)
@@ -347,6 +352,7 @@ func (store *PostgreSQLStore) GetCommentsOfID(ctx context.Context, id string, li
 			&comment.ID,
 			&comment.UserID,
 			&comment.PostID,
+			&comment.Username,
 			&comment.Content,
 			&comment.Created,
 		)

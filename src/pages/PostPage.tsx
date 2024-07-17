@@ -76,8 +76,9 @@ type CommentType = {
     id: string;
     userid: string;
     postid: string;
+    username: string;
     content: string;
-    created: Date;
+    created: string;
 };
 
 type CommentForm = {
@@ -86,6 +87,7 @@ type CommentForm = {
 
 export function GetPost() {
     const { id } = useParams();
+    const { user } = useContext(UserContext);
     const [post, setPost] = useState<PostType | null>(null);
     const [windows, setWindows] = useState([true, false, false]);
     const handleClick = (i: number) => () => {
@@ -171,7 +173,11 @@ export function GetPost() {
                 <>
                     <div className="comments">{JSON.stringify(comments)}</div>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <input type="text" {...register("content")} />
+                        <input
+                            type="text"
+                            {...register("content")}
+                            disabled={!user}
+                        />
                         <button type="submit">Post comment</button>
                     </form>
                 </>

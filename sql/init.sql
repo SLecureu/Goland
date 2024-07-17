@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS comments(
     id VARCHAR(5) PRIMARY KEY,
     userid VARCHAR(36) REFERENCES users(id),
     postid VARCHAR(5) REFERENCES posts(id),
+    username VARCHAR(50),
     content TEXT NOT NULL,
     created DATE NOT NULL
 );
