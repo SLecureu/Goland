@@ -72,6 +72,18 @@ export function PostPage() {
     );
 }
 
+type CommentType = {
+    id: string;
+    userid: string;
+    postid: string;
+    content: string;
+    created: Date;
+};
+
+type CommentForm = {
+    content: string;
+};
+
 export function GetPost() {
     const { id } = useParams();
     const [post, setPost] = useState<PostType | null>(null);
@@ -81,6 +93,18 @@ export function GetPost() {
         next[i] = true;
         setWindows(next);
     };
+
+    const [comments, setComments] = useState<CommentType[]>([]);
+
+    const { register, handleSubmit } = useForm<CommentForm>();
+
+    const onSubmit: SubmitHandler<CommentForm> = async (data) =>
+        fetch(`/api/post/${id}/comment`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "COntent-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
 
     useEffect(() => {
         fetch(`/api/post/${id}`, {
@@ -93,6 +117,10 @@ export function GetPost() {
             .then((resp) => (resp.ok ? resp.json() : null))
             .then(setPost)
             .catch(console.error);
+
+        fetch(`/api/post/${id}/comments`)
+            .then((resp) => (resp.ok ? resp.json() : []))
+            .then(setComments); //factor this string
     }, [id]);
 
     if (!post) return <ErrorPage code={404} />;
@@ -115,7 +143,7 @@ export function GetPost() {
             </div>
             {windows[0] ? (
                 <>
-                    <p className="headband">
+                    <div className="headband">
                         <span>
                             By
                             <Link to={`/user/${post.userID}`}>
@@ -131,7 +159,7 @@ export function GetPost() {
                             )}
                             {post.categories[0] && ` | ${post.categories}`}
                         </span>
-                    </p>
+                    </div>
                     <div className="post-container">
                         <div className="post-content">
                             {post.image && <img src={post.image} />}
@@ -140,7 +168,13 @@ export function GetPost() {
                     </div>
                 </>
             ) : windows[1] ? (
-                <div>Comments</div>
+                <>
+                    <div className="comments">{JSON.stringify(comments)}</div>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <input type="text" {...register("content")} />
+                        <button type="submit">Post comment</button>
+                    </form>
+                </>
             ) : (
                 <div> other post from the same categories / user</div>
             )}

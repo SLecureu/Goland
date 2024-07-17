@@ -323,8 +323,8 @@ func (store *PostgreSQLStore) CreateComment(req *models.CommentRequest) (comment
 
 	_, err = tx.ExecContext(req.Ctx, "INSERT INTO comments VALUES ($1, $2, $3, $4, $5);",
 		comment.ID,
-		comment.PostID,
 		comment.UserID,
+		comment.PostID,
 		comment.Content,
 		comment.Created,
 	)

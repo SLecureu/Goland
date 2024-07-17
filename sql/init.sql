@@ -16,8 +16,16 @@ CREATE TABLE IF NOT EXISTS posts (
     id VARCHAR(5) PRIMARY KEY,
     userid VARCHAR(36) REFERENCES users(id),
     categories TEXT ARRAY,
-    content TEXT,
-    created DATE,
+    content TEXT NOT NULL,
+    created DATE NOT NULL,
     image_path TEXT
+);
+
+CREATE TABLE IF NOT EXISTS comments(
+    id VARCHAR(5) PRIMARY KEY,
+    userid VARCHAR(36) REFERENCES users(id),
+    postid VARCHAR(5) REFERENCES posts(id),
+    content TEXT NOT NULL,
+    created DATE NOT NULL
 );
 COMMIT;

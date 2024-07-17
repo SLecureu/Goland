@@ -47,8 +47,8 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/api/posts", handleFunc(server.GetPosts))
 	router.HandleFunc("/api/post", server.Protected(server.Post))
 	router.HandleFunc("/api/post/{id}", handleFunc(server.GetPostByID))
-	// router.HandleFunc("/api/post/{id}/comment", server.Protected(server.Comment))
-	// router.HandleFunc("/api/post/{id}/comments", server.Protected(server.GetCommentsOfID))
+	router.HandleFunc("/api/post/{id}/comment", handleFunc(server.Comment))
+	router.HandleFunc("/api/post/{id}/comments", handleFunc(server.GetCommentsOfID))
 	router.HandleFunc("/api/category/{id}", handleFunc(server.GetCategory))
 
 	router.Handle("/api/images/", http.FileServer(http.Dir("")))
