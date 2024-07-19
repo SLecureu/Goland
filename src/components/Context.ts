@@ -4,11 +4,12 @@ export type User = {
     id: string;
     email: string;
     name: string;
-    gender: "male" | "female" | "other";
+    gender: "M" | "F" | "O";
     age: number;
     firstName: string;
     lastName: string;
-    created: Date;
+    created: string;
+    posts: string[];
 };
 
 export type PostType = {

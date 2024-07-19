@@ -28,3 +28,9 @@
 .loader {
     animation: Spin 20s linear infinite forwards;
 }
+
+main.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

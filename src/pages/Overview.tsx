@@ -8,16 +8,18 @@ function Overview() {
     const { user, loading } = useContext(UserContext);
     if (loading)
         return (
-            <main>
-                <Loader />
+            <main className="loading">
+                <Loader width="150px" />
             </main>
         );
 
     if (!user) return <Navigate to="/login" replace />;
     return (
         <main className="overview">
-            <h1>Overview</h1>
-            <h2>{user.name}</h2>
+            <h1 className="title">Overview</h1>
+            <div className="stats">
+                <h2>{user.name}</h2>
+            </div>
         </main>
     );
 }

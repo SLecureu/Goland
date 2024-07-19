@@ -22,7 +22,7 @@ function Category() {
 
     if (loading)
         return (
-            <main>
+            <main className="loading">
                 <Loader />
             </main>
         );

@@ -17,6 +17,17 @@ function UserContextProvider({ children }: { children: ReactNode }) {
             .then(setUser)
             .then(() => setLoading(false))
             .catch(console.error);
+        // setUser({
+        //     id: "0001",
+        //     name: "John",
+        //     email: "john@mail.com",
+        //     gender: "M",
+        //     age: 18,
+        //     firstName: "John",
+        //     lastName: "Doe",
+        //     created: "now",
+        // });
+        // setLoading(false);
     }, []);
 
     return (
