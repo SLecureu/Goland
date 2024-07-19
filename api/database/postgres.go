@@ -301,7 +301,10 @@ func (store *PostgreSQLStore) CreateComment(ctx context.Context, req *models.Com
     		EXISTS (SELECT 1 FROM users WHERE id = $2);`,
 		req.PostID,
 		req.UserID,
-	).Scan(&postExists, &userExists)
+	).Scan(
+		&postExists,
+		&userExists,
+	)
 
 	if err != nil {
 		return
@@ -322,8 +325,6 @@ func (store *PostgreSQLStore) CreateComment(ctx context.Context, req *models.Com
 		Content:  req.Content,
 		Created:  time.Now(),
 	}
-
-	log.Println(comment)
 
 	_, err = tx.ExecContext(ctx, "INSERT INTO comments VALUES ($1, $2, $3, $4, $5, $6);",
 		comment.ID,

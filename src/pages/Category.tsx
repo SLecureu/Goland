@@ -13,13 +13,19 @@ function Category() {
     const [posts, setPosts] = useState<PostType[]>([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        fetch(`/api/category/${id}`)
-            .then((resp) => (resp.ok ? resp.json() : []))
-            .then(setPosts)
-            .then(() => setLoading(false));
+        id &&
+            fetch(`/api/category/${id}`)
+                .then((resp) => (resp.ok ? resp.json() : []))
+                .then(setPosts)
+                .then(() => setLoading(false));
     }, [id]);
 
-    if (loading) return <Loader />;
+    if (loading)
+        return (
+            <main>
+                <Loader />
+            </main>
+        );
 
     if (posts.length == 0) return <ErrorPage code={404} />;
 

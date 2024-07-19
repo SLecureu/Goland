@@ -473,7 +473,6 @@ func (server *API) GetCategory(writer http.ResponseWriter, request *http.Request
 	defer cancel()
 	limit, offset := parseRequestLimitAndOffset(request)
 
-	log.Println(limit, offset)
 	posts, err := server.Storage.GetCategory(ctx, request.PathValue("id"), limit, offset)
 	if err != nil {
 		return err

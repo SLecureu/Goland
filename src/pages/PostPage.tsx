@@ -129,16 +129,17 @@ export function GetPost() {
         });
 
     useEffect(() => {
-        fetch(`/api/post/${id}`, {
-            method: `GET`,
-            headers: {
-                "Content-Type": `application/json`,
-            },
-            credentials: "include",
-        })
-            .then((resp) => (resp.ok ? resp.json() : null))
-            .then(setPost)
-            .catch(console.error);
+        id &&
+            fetch(`/api/post/${id}`, {
+                method: `GET`,
+                headers: {
+                    "Content-Type": `application/json`,
+                },
+                credentials: "include",
+            })
+                .then((resp) => (resp.ok ? resp.json() : null))
+                .then(setPost)
+                .catch(console.error);
 
         fetch(`/api/post/${id}/comments`)
             .then((resp) => (resp.ok ? resp.json() : []))
