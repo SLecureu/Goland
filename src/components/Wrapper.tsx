@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { UserContext } from "./Context";
 import { Link, useNavigate } from "react-router-dom";
 import { Icons } from "../assets/assets";
@@ -81,7 +81,7 @@ function Footer() {
                                 title="SLecureu"
                             />
                         </a>
-                        <a>
+                        <a href="https://www.linkedin.com/in/simon-lecureux-1545bb318/">
                             <img
                                 src={Icons.linkedin}
                                 alt="linkedin logo"
@@ -99,4 +99,12 @@ function Footer() {
     );
 }
 
-export { Header, Footer };
+export default function Wrapper({ children }: { children: ReactNode }) {
+    return (
+        <>
+            <Header />
+            {children}
+            <Footer />
+        </>
+    );
+}
