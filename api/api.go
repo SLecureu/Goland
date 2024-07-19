@@ -51,7 +51,7 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/api/post/{id}/comments", handleFunc(server.GetCommentsOfID))
 	router.HandleFunc("/api/category/{id}", handleFunc(server.GetCategory))
 
-	router.Handle("/api/images/", http.FileServer(http.Dir("")))
+	router.Handle("/api/images/", http.StripPrefix("/api/images/", http.FileServer(http.Dir("api/images"))))
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "dist/index.html")
 	})
