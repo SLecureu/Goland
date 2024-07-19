@@ -370,13 +370,14 @@ func (store *PostgreSQLStore) GetCommentsOfID(ctx context.Context, id string, li
 
 func (store *PostgreSQLStore) GetCategory(ctx context.Context, name string, limit, offset *int) (posts []models.Post, err error) {
 	posts = []models.Post{}
-
 	rows, err := store.QueryContext(ctx,
 		`SELECT posts.id, users.id, users.name, posts.categories, posts.content, posts.created 
 		FROM posts JOIN users 
 		ON posts.userid = users.id 
 		WHERE $1 = ANY(posts.categories)
-		ORDER BY posts.created DESC LIMIT $2 OFFSET $3;`,
+		ORDER BY posts.created DESC 
+		LIMIT $2 
+		OFFSET $3;`,
 
 		name,
 		limit,

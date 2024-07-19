@@ -3,13 +3,16 @@ import { PostType } from "./Context";
 
 export default function Post({ post }: { post: PostType }) {
     return (
-        <div className="post">
+        <a className="post" href={`/post/${post.id}`}>
             <h2>
                 <Link to={`/user/${post.userID}`}>{post.username}</Link>
             </h2>
-            <p>
-                <Link to={`/post/${post.id}`}>{post.content}</Link>
-            </p>
-        </div>
+            {post.content && (
+                <p>
+                    <Link to={`/post/${post.id}`}>{post.content}</Link>
+                </p>
+            )}
+            {post.image && <img src={post.image} />}
+        </a>
     );
 }

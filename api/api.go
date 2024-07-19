@@ -112,6 +112,7 @@ func (server *API) Protected(fn handlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, err := server.Sessions.GetSession(r)
 		if err != nil {
+			log.Println(err)
 			writeJSON(w, http.StatusUnauthorized,
 				APIerror{
 					Status:  http.StatusUnauthorized,
@@ -318,7 +319,6 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 
 	err := request.ParseMultipartForm(20 << 20)
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 
@@ -326,7 +326,6 @@ func (server *API) Post(writer http.ResponseWriter, request *http.Request) error
 
 	err = json.NewDecoder(strings.NewReader((request.FormValue("json")))).Decode(postReq)
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 

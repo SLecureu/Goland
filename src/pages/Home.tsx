@@ -19,6 +19,15 @@ export default function Home() {
         //     categories: [],
         //     image: null,
         // },
+        // {
+        //     id: "",
+        //     userID: "",
+        //     username: "1234",
+        //     content: "",
+        //     created: "",
+        //     categories: [],
+        //     image: null,
+        // },
     ]);
 
     useEffect(() => {
@@ -43,15 +52,15 @@ export default function Home() {
                 </div>
             </div>
             <div className="block" id="block-1">
-                <div className="posts">
-                    {posts.length === 0 ? (
-                        <Loader width="100px" height="100px" />
-                    ) : (
-                        posts.map((post, index) => (
+                {posts.length === 0 ? (
+                    <Loader width="100px" height="100px" />
+                ) : (
+                    <div className="posts">
+                        {posts.map((post, index) => (
                             <Post key={index} post={post} />
-                        ))
-                    )}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
             <div className="block" id="block-2"></div>
         </main>
