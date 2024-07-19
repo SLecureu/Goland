@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import { PostType, UserContext } from "../components/Context";
 
 import "./PostPage.scss";
+import Loader from "../components/Loader";
 
 type Inputs = {
     content: string;
@@ -15,11 +16,17 @@ const HashTagRexExp = /(?<=#)[\w\d]+/g;
 
 export function PostPage() {
     const { user, loading } = useContext(UserContext);
-    if (loading) return <main>Loading...</main>;
-    if (!user) return <Navigate to="/login" replace />;
-
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm<Inputs>();
+
+    if (loading)
+        return (
+            <main className="loading">
+                <Loader width="150px" />
+            </main>
+        );
+
+    if (!user) return <Navigate to="/login" replace />;
 
     const onChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         event.target.style.height = "auto";
@@ -47,10 +54,7 @@ export function PostPage() {
             credentials: "include",
             method: "POST",
             body: formData,
-        }).then((resp) => {
-            if (!resp.ok) return;
-            navigate("/");
-        });
+        }).then((resp) => resp.ok && navigate("/"));
     };
 
     return (

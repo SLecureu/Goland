@@ -27,7 +27,7 @@ function UserPage() {
     if (loading)
         return (
             <main className="loading">
-                <Loader />
+                <Loader width="150px" />
             </main>
         );
 

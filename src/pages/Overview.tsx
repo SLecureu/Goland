@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { UserContext } from "../components/Context";
-import "./Overview.scss";
 import { Navigate } from "react-router-dom";
 import Loader from "../components/Loader";
+
+import "./Overview.scss";
 
 function Overview() {
     const { user, loading } = useContext(UserContext);
