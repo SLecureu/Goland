@@ -7,10 +7,10 @@ import ErrorPage from "./pages/Error";
 import User from "./pages/User";
 import Overview from "./pages/Overview";
 
-import { Header, Footer } from "./components/Layout.tsx";
+import Wrapper from "./components/Wrapper.tsx";
 
 export {
-    Header,
+    Wrapper,
     Login,
     Register,
     Home,
@@ -20,5 +20,4 @@ export {
     PostPage,
     ErrorPage,
     Category,
-    Footer,
 };
