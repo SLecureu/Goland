@@ -14,4 +14,4 @@ const Icons = {
     logout,
 };
 
-export { Icons };
+export default Icons;

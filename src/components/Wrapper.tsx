@@ -1,7 +1,7 @@
 import { ReactNode, useContext } from "react";
 import { UserContext } from "./Context";
 import { Link, useNavigate } from "react-router-dom";
-import { Icons } from "../assets/assets";
+import Icons from "../assets/assets";
 
 function Header() {
     const { user, setUser } = useContext(UserContext);
@@ -61,14 +61,14 @@ function Footer() {
                         <a href="https://github.com/cramanan">
                             <img
                                 src={Icons.github}
-                                alt="github logo"
+                                alt="Github Logo"
                                 title="Cramanan"
                             />
                         </a>
                         <a href="https://www.linkedin.com/in/cyril-ramananjaona-837555304/">
                             <img
                                 src={Icons.linkedin}
-                                alt="linkedin logo"
+                                alt="Linkedin Logo"
                                 title="Cramanan"
                             />
                         </a>
@@ -77,14 +77,14 @@ function Footer() {
                         <a href="https://github.com/SLecureu">
                             <img
                                 src={Icons.github}
-                                alt="github logo"
+                                alt="Github Logo"
                                 title="SLecureu"
                             />
                         </a>
                         <a href="https://www.linkedin.com/in/simon-lecureux-1545bb318/">
                             <img
                                 src={Icons.linkedin}
-                                alt="linkedin logo"
+                                alt="Linkedin Logo"
                                 title="SLecureu"
                             />
                         </a>

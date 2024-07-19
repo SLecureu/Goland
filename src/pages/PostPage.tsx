@@ -12,6 +12,7 @@ type Inputs = {
     content: string;
     images: FileList;
 };
+
 const HashTagRexExp = /(?<=#)[\w\d]+/g;
 
 export function PostPage() {
@@ -34,9 +35,8 @@ export function PostPage() {
     };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const categories = Array.from(
-            new Set(data.content.match(HashTagRexExp)) || []
-        );
+        const categories =
+            Array.from(new Set(data.content.match(HashTagRexExp))) || [];
 
         const formData = new FormData();
         formData.append(
@@ -94,6 +94,9 @@ type CommentForm = {
 
 export function GetPost() {
     const { id } = useParams();
+
+    if (!id) return <ErrorPage code={404} />;
+
     const { user } = useContext(UserContext);
     const [post, setPost] = useState<PostType | null>(null);
     const [windows, setWindows] = useState([true, false, false]);
@@ -104,16 +107,14 @@ export function GetPost() {
     };
 
     const [comments, setComments] = useState<CommentType[]>([]);
-
     const { register, handleSubmit, resetField } = useForm<CommentForm>();
 
     const onSubmit: SubmitHandler<CommentForm> = async (data) =>
-        id &&
         user &&
         fetch(`/api/post/${id}/comment`, {
             method: "POST",
             credentials: "include",
-            headers: { "COntent-Type": "application/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         }).then((resp) => {
             if (resp.ok) {
@@ -133,21 +134,20 @@ export function GetPost() {
         });
 
     useEffect(() => {
-        id &&
-            fetch(`/api/post/${id}`, {
-                method: `GET`,
-                headers: {
-                    "Content-Type": `application/json`,
-                },
-                credentials: "include",
-            })
-                .then((resp) => (resp.ok ? resp.json() : null))
-                .then(setPost)
-                .catch(console.error);
+        fetch(`/api/post/${id}`, {
+            method: `GET`,
+            headers: {
+                "Content-Type": `application/json`,
+            },
+            credentials: "include",
+        })
+            .then((resp) => (resp.ok ? resp.json() : null))
+            .then(setPost)
+            .catch(console.error);
 
         fetch(`/api/post/${id}/comments`)
             .then((resp) => (resp.ok ? resp.json() : []))
-            .then(setComments); //factor this string
+            .then(setComments);
     }, [id]);
 
     if (!post) return <ErrorPage code={404} />;

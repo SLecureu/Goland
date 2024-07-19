@@ -1,11 +1,3 @@
-@font-face {
-    font-family: Optimistic Display;
-    src: url(https://react.dev/fonts/Optimistic_Display_W_Md.woff2)
-        format("woff2");
-    font-style: normal;
-    font-display: swap;
-}
-
 *,
 *::before,
 *::after {
@@ -14,6 +6,14 @@
     box-sizing: border-box;
     font-family: Optimistic Display;
     font-weight: 300;
+}
+
+@font-face {
+    font-family: Optimistic Display;
+    src: url(https://react.dev/fonts/Optimistic_Display_W_Md.woff2)
+        format("woff2");
+    font-style: normal;
+    font-display: swap;
 }
 
 @keyframes Spin {
@@ -26,7 +26,7 @@
 }
 
 .loader {
-    animation: Spin 20s linear infinite forwards;
+    animation: Spin 10s linear infinite forwards;
 }
 
 main.loading {

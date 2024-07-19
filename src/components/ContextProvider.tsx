@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { UserContext, User } from "./Context.ts";
+import { UserContext, User } from "./Context";
 
 function UserContextProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);

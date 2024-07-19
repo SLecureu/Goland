@@ -15,6 +15,7 @@ function Overview() {
         );
 
     if (!user) return <Navigate to="/login" replace />;
+
     return (
         <main className="overview">
             <h1 className="title">Overview</h1>

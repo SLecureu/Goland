@@ -1,5 +1,5 @@
 import { FC, ImgHTMLAttributes } from "react";
-import { Icons } from "../assets/assets";
+import Icons from "../assets/assets";
 
 interface LoaderProps extends ImgHTMLAttributes<HTMLImageElement> {}
 

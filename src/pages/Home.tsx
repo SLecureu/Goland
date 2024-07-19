@@ -1,7 +1,7 @@
 import "./Home.scss";
 import { Link } from "react-router-dom";
 
-import { Icons } from "../assets/assets";
+import Icons from "../assets/assets";
 import { PostType } from "../components/Context";
 import { useEffect, useState } from "react";
 
