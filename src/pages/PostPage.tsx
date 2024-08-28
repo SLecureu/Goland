@@ -184,6 +184,7 @@ export function GetPost() {
                                     day: "numeric",
                                 }
                             )}
+                            {post.categories.length !== 0 ? " | " : ""}
                             {post.categories.join(" | ")}
                         </span>
                     </div>

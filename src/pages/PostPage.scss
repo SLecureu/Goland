@@ -3,8 +3,12 @@
 $textarea-width-desktop: 850px;
 $textarea-width-tablet: 783px;
 $textarea-width-mobile: 80%;
+$color-second-background: #ececec;
+$box-shadow-classic: 10px 0px 20px 10px rgba(0, 0, 0, 0.2);
 
 .postpage {
+    background-color: #ddd;
+
     .banner {
         width: 100%;
         height: 50px;
@@ -38,7 +42,7 @@ $textarea-width-mobile: 80%;
         }
 
         li:hover {
-            background-color: hotpink;
+            background-color: #d3d1d1;
             cursor: pointer;
         }
     }
@@ -48,13 +52,15 @@ $textarea-width-mobile: 80%;
         width: auto;
         margin-top: 25px;
         margin-bottom: 15px;
+        margin-right: 10px;
         padding-left: 25px;
         padding-right: 15px;
         padding-top: 3px;
         padding-bottom: 3px;
         border: 1px solid black;
         border-left: none;
-        background-color: azure;
+        background-color: $color-second-background;
+        box-shadow: $box-shadow-classic;
         border-bottom-right-radius: 15px;
 
         span {
@@ -70,8 +76,14 @@ $textarea-width-mobile: 80%;
     .post-container {
         display: flex;
         justify-content: center;
+        padding-bottom: 20px;
 
         .post-content {
+            border: solid 1px black;
+            border-radius: 50px;
+            background-color: $color-second-background;
+            box-shadow: $box-shadow-classic;
+
             white-space: break-spaces;
             width: $textarea-width-mobile;
             height: fit-content;
