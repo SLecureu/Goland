@@ -150,6 +150,11 @@ export function GetPost() {
             .then(setComments);
     }, [id]);
 
+    const onChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        event.target.style.height = "auto";
+        event.target.style.height = `${event.target.scrollHeight + 5}px`;
+    };
+
     if (!post) return <ErrorPage code={404} />;
 
     return (
@@ -197,15 +202,31 @@ export function GetPost() {
                 </>
             ) : windows[1] ? (
                 <>
-                    <div className="comments">{JSON.stringify(comments)}</div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <input
-                            type="text"
-                            {...register("content")}
-                            disabled={!user}
-                        />
-                        <button type="submit">Post comment</button>
-                    </form>
+                    <div className="comments-container">
+                        <form
+                            className="posting-form"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
+                            <textarea
+                                id="content"
+                                placeholder="Write your comment here..."
+                                {...register("content", { onChange })}
+                                disabled={!user}
+                            />
+                            <button className="submit-button" type="submit">
+                                Post
+                            </button>
+                        </form>
+
+                        {comments.map((comment) => (
+                            <div className="comment-content">
+                                <span className="username">
+                                    {comment.username} :{" "}
+                                </span>
+                                <p>{comment.content}</p>
+                            </div>
+                        ))}
+                    </div>
                 </>
             ) : (
                 <div> other post from the same categories / user</div>
