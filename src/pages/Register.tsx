@@ -48,9 +48,10 @@ function Register() {
             );
 
     return (
-        <main className="form-container">
-            <form onSubmit={handleSubmit(onSubmit)} className="register-form">
-                <span>{errors.root?.message}</span>
+        <main className="form-page">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <h2>Register</h2>
+                <div className="form-error">{errors.root?.message}</div>
                 <input
                     type="text"
                     placeholder="username"
@@ -86,10 +87,9 @@ function Register() {
                     placeholder="last name"
                     {...register("lastName")}
                 />
-                <span>
-                    Already have an account ?<Link to="/login">Login</Link>
-                </span>
                 <button type="submit">Register</button>
+                <span>Already have an account ?</span>
+                <Link to="/login">Login</Link>
             </form>
         </main>
     );

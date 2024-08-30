@@ -45,27 +45,25 @@ function Login() {
             );
 
     return (
-        <main className="form-container">
-            <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+        <main className="form-page">
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <h2>Login</h2>
                 <div className="form-error">{errors.root?.message}</div>
-                <label htmlFor="email">E-mail</label>
+                <label htmlFor="email">E-mail: </label>
                 <input
                     type="email"
                     placeholder="email"
                     {...register("email")}
                 />
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Password: </label>
                 <input
                     type="password"
                     placeholder="password"
                     {...register("password")}
                 />
-                <span>
-                    or
-                    <Link to="/register">Register</Link>
-                </span>
                 <button type="submit">Login</button>
+                or
+                <Link to="/register">Register</Link>
             </form>
         </main>
     );

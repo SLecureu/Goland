@@ -103,16 +103,25 @@ $box-shadow-classic: 10px 0px 20px 10px rgba(0, 0, 0, 0.2);
             margin-right: 1rem;
             margin-bottom: 1rem;
             float: left;
+            border-radius: 15px;
         }
 
         p {
             display: inline;
             overflow: hidden;
         }
+    }
 
+    .comment-content {
         .username {
             font-weight: bold;
             font-size: larger;
+        }
+
+        .date {
+            font-weight: lighter;
+            font-size: smaller;
+            color: rgb(34, 33, 33);
         }
     }
 

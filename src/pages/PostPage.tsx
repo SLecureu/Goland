@@ -221,7 +221,19 @@ export function GetPost() {
                         {comments.map((comment) => (
                             <div className="comment-content">
                                 <span className="username">
-                                    {comment.username} :{" "}
+                                    {comment.username}
+                                </span>
+                                <span className="date">
+                                    {" "}
+                                    /
+                                    {new Date(
+                                        comment.created
+                                    ).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
+                                    /{" "}
                                 </span>
                                 <p>{comment.content}</p>
                             </div>

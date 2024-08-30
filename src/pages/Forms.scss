@@ -1,27 +1,35 @@
 @use "../module";
 
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.form-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
 
-  form {
-    background-color: red;
-    width: 400px;
-    height: 500px;
-  }
-
-  @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
     form {
-      width: 500px;
-      height: 600px;
-    }
-  }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-color: red;
+        padding: 30px;
+        margin: 15px;
 
-  @media screen and (min-width: module.$desktop-width) {
-    form {
-      width: 600px;
-      height: 700px;
+        border: solid 1px black;
+        border-radius: 20px;
+        background-color: #ececec;
+        box-shadow: 10px 0px 20px 10px rgba(0, 0, 0, 0.2);
+
+        input,
+        select,
+        .form-error {
+            margin-bottom: 10px;
+        }
     }
-  }
+
+    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
+    }
+
+    @media screen and (min-width: module.$desktop-width) {
+    }
 }
