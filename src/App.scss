@@ -1,82 +1,83 @@
 @use "./module";
 
 header {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: lightsteelblue;
-  height: module.$header-height;
-
-  .logo {
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
+    justify-content: space-between;
+    padding: 20px;
+    background-color: lightsteelblue;
+    height: module.$header-height;
 
-  .user-box {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 200px;
-
-    .logout {
-      cursor: pointer;
+    .logo {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
     }
-  }
 
-  a {
-    text-decoration: none;
-    color: black;
-  }
+    .user-box {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 200px;
+
+        .logout {
+            cursor: pointer;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
 }
 
 footer {
-  text-align: center;
-  color: black;
-  margin-top: auto;
-  width: 100%;
-  height: module.$footer-height;
-
-  & > .container {
-    background-color: lightsteelblue;
-    margin: auto;
-
-    & > .text {
-      display: flex;
-      justify-content: center;
-      padding: 10px;
-
-      & > p {
-        width: 80%;
-      }
-    }
-
-    & > .icons {
-      display: flex;
-
-      div {
-        margin: auto;
-      }
-
-      a {
-        width: 0px;
-      }
-
-      img {
-        width: 40px;
-        height: 40px;
-        margin: 10px;
-      }
-    }
-  }
-
-  & > .copyright {
     text-align: center;
-    padding: 5px;
-    background-color: lightsteelblue;
-  }
+    color: black;
+    margin-top: auto;
+    width: 100%;
+    height: module.$footer-height;
+
+    & > .container {
+        background-color: lightsteelblue;
+        margin: auto;
+
+        & > .text {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+
+            & > p {
+                width: 80%;
+            }
+        }
+
+        & > .icons {
+            display: flex;
+
+            div {
+                margin: auto;
+            }
+
+            a {
+                width: 0px;
+            }
+
+            img {
+                width: 40px;
+                height: 40px;
+                margin: 10px;
+            }
+        }
+    }
+
+    & > .copyright {
+        text-align: center;
+        padding: 5px;
+        background-color: lightsteelblue;
+    }
 }
 
 main {
-  min-height: calc(100dvh - (module.$header-height + module.$footer-height));
+    min-height: calc(100dvh - (module.$header-height + module.$footer-height));
+    background-color: #ddd;
 }

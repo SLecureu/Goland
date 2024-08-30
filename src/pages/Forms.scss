@@ -4,14 +4,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ddd;
 
     form {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        background-color: red;
         padding: 30px;
         margin: 15px;
 
@@ -25,11 +23,5 @@
         .form-error {
             margin-bottom: 10px;
         }
-    }
-
-    @media screen and (min-width: module.$tablet-width) and (max-width: module.$desktop-width) {
-    }
-
-    @media screen and (min-width: module.$desktop-width) {
     }
 }

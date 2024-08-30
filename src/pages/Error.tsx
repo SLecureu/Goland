@@ -6,7 +6,7 @@ const ErrorPage = ({ code }: { code: number }) => {
         404: "Not found.",
     };
     return (
-        <main className="error">
+        <main className="error-page">
             <div className="error-container">
                 <h2>{code}</h2>
                 <p>{messages[code]}</p>

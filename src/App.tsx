@@ -9,7 +9,6 @@ import {
     User,
     Overview,
     GetPost,
-    Category,
     ErrorPage,
     Wrapper,
 } from "./Imports.ts";
@@ -31,10 +30,6 @@ function App() {
                     <Route path="/post/">
                         <Route path=":id" element={<GetPost />} />
                         <Route path="" element={<PostPage />} />
-                    </Route>
-                    <Route path="/category/">
-                        <Route path=":id" element={<Category />} />
-                        <Route path="" element={<ErrorPage code={404} />} />
                     </Route>
                     <Route path="overview" element={<Overview />} />
                     <Route path="login" element={<Login />} />

@@ -1,9 +1,19 @@
-.error-container {
-    margin: auto;
+.error-page {
     display: flex;
-    flex-direction: column;
-    width: 400px;
-    height: 400px;
     justify-content: center;
     align-items: center;
+
+    .error-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 30px;
+        margin: 15px;
+
+        border: solid 1px black;
+        border-radius: 20px;
+        background-color: #ececec;
+        box-shadow: 10px 0px 20px 10px rgba(0, 0, 0, 0.2);
+    }
 }
