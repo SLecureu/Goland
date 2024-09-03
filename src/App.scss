@@ -4,7 +4,7 @@ header {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: lightsteelblue;
+    background-color: #cea2a2;
     height: module.$header-height;
 
     .logo {
@@ -38,7 +38,7 @@ footer {
     height: module.$footer-height;
 
     & > .container {
-        background-color: lightsteelblue;
+        background-color: #cea2a2;
         margin: auto;
 
         & > .text {
