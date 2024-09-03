@@ -29,22 +29,18 @@
 
     #block-1 {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column;
 
-        .posts {
-            width: 100%;
-            height: 100%;
+        .post {
+            display: block;
+            padding: 10px;
+            max-height: 295px;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
-            .post {
-                display: block;
-                padding: 10px;
-                max-height: 300px;
-
-                a {
-                    text-decoration: none;
-                    color: black;
-                }
+            a {
+                text-decoration: none;
+                color: black;
             }
         }
     }

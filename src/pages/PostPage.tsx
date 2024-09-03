@@ -221,7 +221,9 @@ export function GetPost() {
                         {comments.map((comment) => (
                             <div className="comment-content">
                                 <span className="username">
-                                    {comment.username}
+                                    <Link to={`/user/${comment.userid}`}>
+                                        {comment.username}
+                                    </Link>
                                 </span>
                                 <span className="date">
                                     {" "}

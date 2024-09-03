@@ -12,7 +12,6 @@ export default function Post({ post }: { post: PostType }) {
                     <Link to={`/post/${post.id}`}>{post.content}</Link>
                 </p>
             )}
-            {post.image && <img src={post.image} />}
         </a>
     );
 }
