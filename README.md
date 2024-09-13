@@ -1,3 +1,5 @@
+# This project is NOT FINISHED and it won't be. Another similar project has been launch, this one becoming irrelevant ! See [social-network](https://github.com/cramanan/Social-Network-01)  
+
 <div align="center">
     <div align="center">
         <h1>GOLAND</h1>
